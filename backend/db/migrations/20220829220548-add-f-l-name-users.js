@@ -32,12 +32,14 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-    return queryInterface.sequelize.transaction(t => {
-      return Promise.all([
-        queryInterface.removeColumn('Users', 'firstName', { transaction: t}),
-        queryInterface.removeColumn('Users', 'lastName', {transaction: t})
-      ])
+    // return queryInterface.sequelize.transaction(t => {
+    //   return Promise.all([
+    //     queryInterface.removeColumn('Users', 'firstName', { transaction: t}),
+    //     queryInterface.removeColumn('Users', 'lastName', {transaction: t})
+    //   ])
 
-    })
+    // })
+    return Promise.resolve();
   }
 };
+
