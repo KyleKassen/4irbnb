@@ -53,6 +53,10 @@ router.post('/', validateSignup, async (req, res) => {
     if (dbEmail) errors.email = "User with that email already exists";
     if (dbUsername) errors.username = "User with that username already exists";
 
+    console.log(dbEmail);
+    console.log(dbUsername);
+    console.log(errors);
+
     if (Object.keys(errors)) {
       res.status(403);
       return res.json({
