@@ -8,20 +8,21 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateSignup = [
-    check('firstName')
-      .exists({ checkFalsy: true})
-      .withMessage('Please provide a first name.'),
-    check('lasttName')
-      .exists({ checkFalsy: true})
-      .withMessage('Please provide a last name.'),
-    check('email')
-      .exists({ checkFalsy: true })
-      .isEmail()
-      .withMessage('Please provide a valid email.'),
+  check('email')
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage('Invalid email'),
     check('username')
-      .exists({ checkFalsy: true })
-      .isLength({ min: 4 })
-      .withMessage('Please provide a username with at least 4 characters.'),
+    .exists({ checkFalsy: true })
+    .isLength({ min: 4 })
+    // .withMessage('Please provide a username with at least 4 characters.'),
+    .withMessage('Username is required'),
+  check('firstName')
+    .exists({ checkFalsy: true})
+    .withMessage('First Name is required'),
+  check('lastName')
+    .exists({ checkFalsy: true})
+    .withMessage('Last Name is required'),
     check('username')
       .not()
       .isEmail()
@@ -36,12 +37,43 @@ const validateSignup = [
 // Sign up
 router.post('/', validateSignup, async (req, res) => {
     const { firstName, lastName, email, password, username } = req.body;
-    const user = await User.signup({ firstName, lastName, email, username, password });
+    let errors = {};
 
-    await setTokenCookie(res, user);
+    const dbEmail = await User.findOne({
+      where: {
+        email: email
+      }
+    });
+    const dbUsername = await User.findOne({
+      where: {
+        username: username
+      }
+    })
+
+    if (dbEmail) errors.email = "User with that email already exists";
+    if (dbUsername) errors.username = "User with that username already exists";
+
+    if (Object.keys({})) {
+      res.status(403);
+      return res.json({
+        message: "User already exists",
+        statusCode: res.statusCode,
+        errors
+      })
+    }
+
+
+    let user = await User.signup({ firstName, lastName, email, username, password });
+
+    const token = await setTokenCookie(res, user);
+
+    user = user.toJSON()
+    delete user.createdAt;
+    delete user.updatedAt;
+    user.token = token;
 
     return res.json({
-        user
+        ...user
     });
 }
 );
