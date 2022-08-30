@@ -57,7 +57,7 @@ router.post('/', validateSignup, async (req, res) => {
     console.log(dbUsername);
     console.log(errors);
 
-    if (Object.keys(errors)) {
+    if (Object.keys(errors).length) {
       res.status(403);
       return res.json({
         message: "User already exists",
