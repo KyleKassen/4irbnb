@@ -45,6 +45,15 @@ router.post('/', validateLogin, async (req, res, next) => {
 }
 );
 
+// Get current user
+router.get('/', async (req, res, next) => {
+    // let answer = await restoreUser;
+    const currUser = req.user.toJSON();
+    delete currUser.createdAt;
+    delete currUser.updatedAt;
+    return res.json(currUser);
+})
+
 // Log out
 router.delete('/', (_req, res) => {
     res.clearCookie('token');
