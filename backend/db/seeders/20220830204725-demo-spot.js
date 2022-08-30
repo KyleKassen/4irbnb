@@ -48,7 +48,7 @@ module.exports = {
         description: 'Beutiful Mansion',
         price: 150
       }
-    ])
+    ], {})
   },
 
   async down(queryInterface, Sequelize) {
