@@ -164,4 +164,59 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     });
 });
 
+router.get('/current', requireAuth, async (req, res, next) => {
+    // const currSpots = await Spot.findAll({
+    //     where: {
+    //         ownerId: req.user.id
+    //     }
+    // })
+
+    const spots = await Spot.findAll({
+        where: {
+            ownerId: req.user.id
+        },
+        include: [
+            {
+                model: Review,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                as: 'previewImage',
+                attributes: ['url'],
+                where: {
+                    preview: true
+                },
+                required: false,
+            }
+        ],
+        // attributes: [...spotAttributes, [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]],
+        // attributes: {
+        //     include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]]
+        // },
+        attributes: {
+            include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
+        },
+        group: ['Spot.id', 'previewImage.id']
+    });
+
+    for (let i = 0; i < spots.length; i++) {
+        let newSpot = spots[i].toJSON()
+        // console.log(newSpot)
+        if (newSpot.previewImage[0]) {
+            let url = ''
+            console.log(newSpot.previewImage[0].url)
+            url = newSpot.previewImage[0].url
+            newSpot.previewImage = url;
+        }
+        if (newSpot.avgRating) newSpot.avgRating = parseFloat(newSpot.avgRating);
+
+        spots[i] = newSpot
+    }
+
+    res.json({
+        Spots: spots
+    });
+})
+
 module.exports = router;
