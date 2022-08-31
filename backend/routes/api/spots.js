@@ -50,6 +50,7 @@ router.get('/', async (req, res, next) => {
             url = newSpot.previewImage[0].url
             newSpot.previewImage = url;
         }
+        if (newSpot.avgRating) newSpot.avgRating = parseFloat(newSpot.avgRating);
 
         spots[i] = newSpot
     }

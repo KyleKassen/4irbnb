@@ -35,14 +35,14 @@ module.exports = (sequelize, DataTypes) => {
     lat: {
       type: DataTypes.DECIMAL,
       get() {
-        const value = this.getDataValue('price');
+        const value = this.getDataValue('lat');
         return value === null ? null : parseFloat(value);
       }
     },
     lng: {
       type: DataTypes.DECIMAL,
       get() {
-        const value = this.getDataValue('price');
+        const value = this.getDataValue('lng');
         return value === null ? null : parseFloat(value);
       }
     },
@@ -53,6 +53,26 @@ module.exports = (sequelize, DataTypes) => {
       get() {
         const value = this.getDataValue('price');
         return value === null ? null : parseFloat(value);
+      }
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      get() {
+        let date = JSON.stringify(this.getDataValue('createdAt'));
+        date = date.replace('T', ' ');
+        const index = date.indexOf('.');
+        date = date.slice(1, index);
+        return date;
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get() {
+        let date = JSON.stringify(this.getDataValue('createdAt'));
+        date = date.replace('T', ' ');
+        const index = date.indexOf('.');
+        date = date.slice(1, index);
+        return date;
       }
     }
   }, {
