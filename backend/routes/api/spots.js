@@ -100,6 +100,7 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
 
     const newSpot = await Spot.create({
+        ownerId: req.user.toJSON().id,
         address,
         city,
         state,
@@ -113,5 +114,54 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 
     return res.json(newSpot);
 })
+
+// Add Image to Spot based on Spot id
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+
+    let { url, preview } = req.body;
+
+    const spot = await Spot.findByPk(req.params.spotId);
+
+    let error = false;
+
+    // Error handling
+    if (!spot) {
+        error = true
+    } else if (req.user.id !== spot.ownerId) {
+        error = true
+    }
+
+    if (error) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    // if preview is true we need to set preview to false for the old one
+    if (preview) {
+        const previewImage = await SpotImage.findOne({
+            where: {
+                preview: true
+            }
+        });
+        if (previewImage) {
+            previewImage.preview = false;
+            await previewImage.save();
+        };
+    } else preview = false;
+
+    const newSpotImage = await SpotImage.create({
+        url,
+        preview
+    })
+
+    res.json({
+        id: newSpotImage.id,
+        url: newSpotImage.url,
+        preview: newSpotImage.preview
+    });
+});
 
 module.exports = router;
