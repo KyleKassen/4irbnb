@@ -34,14 +34,14 @@ module.exports = (sequelize, DataTypes) => {
     country: DataTypes.STRING,
     lat: {
       type: DataTypes.DECIMAL,
-      set() {
+      get() {
         const value = this.getDataValue('price');
         return value === null ? null : parseFloat(value);
       }
     },
     lng: {
       type: DataTypes.DECIMAL,
-      set() {
+      get() {
         const value = this.getDataValue('price');
         return value === null ? null : parseFloat(value);
       }
@@ -50,7 +50,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     price: {
       type: DataTypes.DECIMAL,
-      set() {
+      get() {
         const value = this.getDataValue('price');
         return value === null ? null : parseFloat(value);
       }
