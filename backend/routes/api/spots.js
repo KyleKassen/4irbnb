@@ -44,6 +44,16 @@ const validateSpot = [
     handleValidationErrors
 ];
 
+const validateReview = [
+    check('review')
+        .exists({ checkFalsy: true })
+        .withMessage('Review text is required'),
+    check('stars')
+        .isIn([1, 2, 3, 4, 5])
+        .withMessage('Stars must be an integer from 1 to 5'),
+    handleValidationErrors
+]
+
 // Get all Spots
 router.get('/', async (req, res, next) => {
 
@@ -293,7 +303,29 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
     });
 
     return res.json(oldSpot)
+});
 
-})
+// Create a Review for a Spot
+router.post('/:spotId/reviews', requireAuth, validateReview, async(req, res, next) => {
+    const { review, stars } = req.body;
+
+    const currSpot = await Spot.findByPk(req.params.spotId);
+
+    if (!currSpot) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    const newReview = await currSpot.createReview({
+        userId: currSpot.ownerId,
+        review,
+        stars
+    })
+
+    return res.json(newReview);
+});
 
 module.exports = router;
