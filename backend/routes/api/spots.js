@@ -9,6 +9,40 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
+const validateSpot = [
+    check('address')
+        .exists({ checkFalsy: true })
+        .withMessage('Street address is required'),
+    check('city')
+        .exists({ checkFalsy: true })
+        .withMessage('City is required'),
+    check('state')
+        .exists({ checkFalsy: true })
+        .withMessage('State is required'),
+    check('country')
+        .exists({ checkFalsy: true })
+        .withMessage('Country is required'),
+    check('lat')
+        // .exists({ checkFalsy: true })
+        .matches(/^[0-9\.\-]+$/)
+        .withMessage('Latitude is not valid'),
+    check('lng')
+        // .exists({ checkFalsy: true })
+        .matches(/^[0-9\.\-]+$/)
+        .withMessage('Longitude is not valid'),
+    check('name')
+        .exists({ checkFalsy: true })
+        .withMessage('Name is required')
+        .isLength({ max: 50 })
+        .withMessage('Name must be less than 50 characters'),
+    check('description')
+        .exists({ checkFalsy: true })
+        .withMessage('Description is required'),
+    check('price')
+        .exists({ checkFalsy: true })
+        .withMessage('Price per day is required'),
+    handleValidationErrors
+];
 
 // Get all Spots
 router.get('/', async (req, res, next) => {
@@ -41,7 +75,7 @@ router.get('/', async (req, res, next) => {
         group: ['Spot.id', 'previewImage.id']
     });
 
-    for(let i = 0; i < spots.length; i++) {
+    for (let i = 0; i < spots.length; i++) {
         let newSpot = spots[i].toJSON()
         // console.log(newSpot)
         if (newSpot.previewImage[0]) {
@@ -58,6 +92,26 @@ router.get('/', async (req, res, next) => {
     return res.json({
         Spots: spots
     })
+})
+
+// Create a Spot
+router.post('/', requireAuth, validateSpot, async (req, res, next) => {
+    // requireAuth(req)
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+    const newSpot = await Spot.create({
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+    });
+
+    return res.json(newSpot);
 })
 
 module.exports = router;
