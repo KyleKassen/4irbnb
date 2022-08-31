@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, Review, sequelize, SpotImage, Sequelize } = require('../../db/models');
+const { Spot, Review, sequelize, SpotImage, User, Sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -153,6 +153,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     } else preview = false;
 
     const newSpotImage = await SpotImage.create({
+        spotId: req.params.spotId,
         url,
         preview
     })
@@ -163,5 +164,99 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         preview: newSpotImage.preview
     });
 });
+
+router.get('/current', requireAuth, async (req, res, next) => {
+
+    const spots = await Spot.findAll({
+        where: {
+            ownerId: req.user.id
+        },
+        include: [
+            {
+                model: Review,
+                attributes: []
+            },
+            {
+                model: SpotImage,
+                as: 'previewImage',
+                attributes: ['url'],
+                where: {
+                    preview: true
+                },
+                required: false,
+            }
+        ],
+        attributes: {
+            include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
+        },
+        group: ['Spot.id', 'previewImage.id']
+    });
+
+    for (let i = 0; i < spots.length; i++) {
+        let newSpot = spots[i].toJSON()
+        // console.log(newSpot)
+        if (newSpot.previewImage[0]) {
+            let url = ''
+            console.log(newSpot.previewImage[0].url)
+            url = newSpot.previewImage[0].url
+            newSpot.previewImage = url;
+        }
+        if (newSpot.avgRating) newSpot.avgRating = parseFloat(newSpot.avgRating);
+
+        spots[i] = newSpot
+    }
+
+    res.json({
+        Spots: spots
+    });
+})
+
+router.get('/:spotId', async (req, res, next) => {
+    let spot = await Spot.findOne({
+        where: {
+            id: req.params.spotId
+        },
+        include: [
+            {
+                model: Review,
+                attributes: []
+            }
+        ],
+        attributes: {
+            include: [
+                [sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"],
+                [sequelize.fn("COUNT", sequelize.col("Reviews.id")), "numReviews"]
+            ]
+        },
+        group: ['Spot.id']
+    });
+
+    // Error handling
+    if (!spot) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    const images = await SpotImage.findAll({
+        where: {
+            spotId: req.params.spotId
+        }
+    });
+
+    const spotOwner = await spot.getUser({
+        attributes: ['id', 'firstName', 'lastName']
+    });
+
+    spot = spot.toJSON()
+    spot.SpotImages = images;
+    spot.Owner = spotOwner;
+
+    res.json({
+        Spots: spot
+    });
+})
 
 module.exports = router;
