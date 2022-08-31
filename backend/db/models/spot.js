@@ -68,7 +68,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: {
       type: DataTypes.DATE,
       get() {
-        let date = JSON.stringify(this.getDataValue('createdAt'));
+        let date = JSON.stringify(this.getDataValue('updatedAt'));
         date = date.replace('T', ' ');
         const index = date.indexOf('.');
         date = date.slice(1, index);
