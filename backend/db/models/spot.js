@@ -32,8 +32,20 @@ module.exports = (sequelize, DataTypes) => {
     city: DataTypes.STRING,
     state: DataTypes.STRING,
     country: DataTypes.STRING,
-    lat: DataTypes.DECIMAL,
-    lng: DataTypes.DECIMAL,
+    lat: {
+      type: DataTypes.DECIMAL,
+      set() {
+        const value = this.getDataValue('price');
+        return value === null ? null : parseFloat(value);
+      }
+    },
+    lng: {
+      type: DataTypes.DECIMAL,
+      set() {
+        const value = this.getDataValue('price');
+        return value === null ? null : parseFloat(value);
+      }
+    },
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     price: {
