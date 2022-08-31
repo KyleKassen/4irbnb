@@ -44,11 +44,13 @@ router.get('/', async (req, res, next) => {
             url = newSpot.previewImage[0].url
             newSpot.previewImage = url;
         }
-        
+
         spots[i] = newSpot
     }
 
-    return res.json(spots)
+    return res.json({
+        Spots: spots
+    })
 })
 
 module.exports = router;
