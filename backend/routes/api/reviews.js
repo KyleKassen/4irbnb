@@ -130,9 +130,11 @@ router.get('/current', requireAuth, async (req, res, next) => {
             },
             {
                 model: Spot,
+                attributes: {exclude: ['createdAt', 'updatedAt', 'description']},
                 include: {
                     model: SpotImage,
                     as: 'previewImage',
+                    attributes: ['url'],
                     where: {
                         preview: true
                     },
@@ -149,7 +151,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     // Format the previewImage for Spot section
     for (let i = 0; i < currReviews.length; i++) {
         let currReview = currReviews[i].toJSON();
-        currReview.Spot.previewImage = currReview.Spot.previewImage[0];
+        currReview.Spot.previewImage = currReview.Spot.previewImage[0].url;
         currReviews[i] = currReview
     }
 
