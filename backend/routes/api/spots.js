@@ -60,4 +60,9 @@ router.get('/', async (req, res, next) => {
     })
 })
 
+// Create a Spot
+router.post('/', async (req, res, next) => {
+
+})
+
 module.exports = router;
