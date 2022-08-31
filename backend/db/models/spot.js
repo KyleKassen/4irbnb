@@ -36,7 +36,13 @@ module.exports = (sequelize, DataTypes) => {
     lng: DataTypes.DECIMAL,
     name: DataTypes.STRING,
     description: DataTypes.STRING,
-    price: DataTypes.DECIMAL
+    price: {
+      type: DataTypes.DECIMAL,
+      get() {
+        const value = this.getDataValue('price');
+        return value === null ? null : parseFloat(value);
+      }
+    }
   }, {
     sequelize,
     modelName: 'Spot',
