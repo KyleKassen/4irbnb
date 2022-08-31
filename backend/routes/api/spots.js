@@ -158,7 +158,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         preview
     })
 
-    res.json({
+    return res.json({
         id: newSpotImage.id,
         url: newSpotImage.url,
         preview: newSpotImage.preview
@@ -206,11 +206,12 @@ router.get('/current', requireAuth, async (req, res, next) => {
         spots[i] = newSpot
     }
 
-    res.json({
+    return res.json({
         Spots: spots
     });
 })
 
+// Get Details of Spot by Id
 router.get('/:spotId', async (req, res, next) => {
     let spot = await Spot.findOne({
         where: {
@@ -243,7 +244,8 @@ router.get('/:spotId', async (req, res, next) => {
     const images = await SpotImage.findAll({
         where: {
             spotId: req.params.spotId
-        }
+        },
+        attributes: ['id', 'url', 'preview']
     });
 
     const spotOwner = await spot.getUser({
@@ -254,9 +256,39 @@ router.get('/:spotId', async (req, res, next) => {
     spot.SpotImages = images;
     spot.Owner = spotOwner;
 
-    res.json({
+    return res.json({
         Spots: spot
     });
+})
+
+router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
+
+    const { address, city, state, country, lat, lng, name, description, price } = req.body;
+
+    const oldSpot = await Spot.findByPk(req.params.spotId);
+
+    if (!oldSpot) {
+        res.status(404);
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    };
+
+    oldSpot.update({
+        address,
+        city,
+        state,
+        country,
+        lat,
+        lng,
+        name,
+        description,
+        price
+    });
+
+    return res.json(oldSpot)
+
 })
 
 module.exports = router;
