@@ -13,7 +13,7 @@ const router = express.Router();
 // Get all Spots
 router.get('/', async (req, res, next) => {
 
-    const spotAttributes = ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt']
+    // const spotAttributes = ['id', 'ownerId', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price', 'createdAt', 'updatedAt']
 
     const spots = await Spot.findAll({
         include: [
@@ -31,10 +31,13 @@ router.get('/', async (req, res, next) => {
                 required: false,
             }
         ],
-        attributes: [...spotAttributes, [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]],
+        // attributes: [...spotAttributes, [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]],
         // attributes: {
         //     include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]]
         // },
+        attributes: {
+            include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
+        },
         group: ['Spot.id', 'previewImage.id']
     });
 
