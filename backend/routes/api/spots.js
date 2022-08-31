@@ -111,6 +111,8 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
         price
     });
 
+    newSpot.ownerId = req.user.toJSON().id;
+
     return res.json(newSpot);
 })
 
