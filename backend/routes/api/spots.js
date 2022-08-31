@@ -267,13 +267,18 @@ router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
 
     const oldSpot = await Spot.findByPk(req.params.spotId);
 
+    let error = false
     if (!oldSpot) {
+        error = true
+    } else if (req.user.id !== oldSpot.ownerId) error = true;
+
+    if (error) {
         res.status(404);
         return res.json({
             message: "Spot couldn't be found",
             statusCode: res.statusCode
         })
-    };
+    }
 
     oldSpot.update({
         address,
