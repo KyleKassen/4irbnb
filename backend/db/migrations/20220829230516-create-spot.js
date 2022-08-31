@@ -40,7 +40,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       price: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.DECIMAL,
+        get() {
+          const value = this.getDataValue('price');
+          return value === null ? null : parseFloat(value);
+        }
       },
       createdAt: {
         allowNull: false,
