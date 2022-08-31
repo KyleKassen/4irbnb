@@ -116,14 +116,46 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
 
 });
 
+// Get Reviews of Current User
 router.get('/current', requireAuth, async (req, res, next) => {
+
     const currReviews = await Review.findAll({
         where: {
             userId: req.user.id
-        }
-    })
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Spot,
+                include: {
+                    model: SpotImage,
+                    as: 'previewImage',
+                    where: {
+                        preview: true
+                    },
+                    required: false
+                }
+            },
+            {
+                model: ReviewImage,
+                attributes: ['id', 'url']
+            }
+        ]
+    });
 
-    res.json(currReviews)
+    // Format the previewImage for Spot section
+    for (let i = 0; i < currReviews.length; i++) {
+        let currReview = currReviews[i].toJSON();
+        currReview.Spot.previewImage = currReview.Spot.previewImage[0];
+        currReviews[i] = currReview
+    }
+
+    res.json({
+        Reviews: currReviews
+    })
 })
 
 module.exports = router;
