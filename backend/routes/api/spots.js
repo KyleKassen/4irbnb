@@ -35,7 +35,7 @@ router.get('/', async (req, res, next) => {
         // attributes: {
         //     include: [[sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgRating"]]
         // },
-        group: 'Spot.id'
+        group: ['Spot.id', 'previewImage.id']
     });
 
     for(let i = 0; i < spots.length; i++) {
