@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.STRING,
     price: {
       type: DataTypes.DECIMAL,
-      get() {
+      set() {
         const value = this.getDataValue('price');
         return value === null ? null : parseFloat(value);
       }
