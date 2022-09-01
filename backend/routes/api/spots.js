@@ -1,7 +1,7 @@
 const express = require('express');
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { Spot, Review, sequelize, SpotImage, User, ReviewImage, Sequelize } = require('../../db/models');
+const { Spot, Review, sequelize, SpotImage, User, ReviewImage, Booking, Sequelize } = require('../../db/models');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
@@ -53,6 +53,7 @@ const validateReview = [
         .withMessage('Stars must be an integer from 1 to 5'),
     handleValidationErrors
 ]
+
 
 // Get all Spots
 router.get('/', async (req, res, next) => {
@@ -371,6 +372,33 @@ router.get('/:spotId/reviews', async (req, res, next) => {
     }
 
     return res.json(spotReviews);
+})
+
+// Create a Booking Based on a Spot id
+router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
+
+    const { startDate, endDate } = req.body;
+    const {spotId} = req.params;
+
+    const currSpot = await Spot.findByPk(spotId);
+
+    if(!currSpot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    //Require proper authorization implementation
+    if(req.user.id === currSpot.ownerId) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
 })
 
 module.exports = router;
