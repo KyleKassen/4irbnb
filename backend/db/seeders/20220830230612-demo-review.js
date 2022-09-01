@@ -8,6 +8,12 @@ const reviewData = [
     stars: 5
   },
   {
+    spotId: 1,
+    userId: 2,
+    review: 'Beautiful homeeeeaasdfas love it',
+    stars: 2
+  },
+  {
     spotId: 2,
     userId: 2,
     review: 'Absolute beut of a home.',

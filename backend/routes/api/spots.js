@@ -163,9 +163,18 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
     });
 
     for (let i = 0; i < spots.length; i++) {
-        const sumRating = await Review.sum('stars')
-        const numRating = await Review.count();
-        const avgRating = sumRating / numRating;
+
+        // Get the average rating for each spot
+        const avg = await Review.findAll({
+            where: {
+                spotId: spots[i].id
+            },
+            attributes: {
+                include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
+            }
+        })
+
+        // Format the previewImage to have a value of a string instead of an object with a string
         let newSpot = spots[i].toJSON()
         if (newSpot.previewImage[0]) {
             let url = ''
@@ -173,8 +182,8 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
             url = newSpot.previewImage[0].url
             newSpot.previewImage = url;
         }
-        if (newSpot.avgRating) newSpot.avgRating = avgRating;
 
+        newSpot.avgRating = avg[0].toJSON().avgRating;
         spots[i] = newSpot
     }
 
