@@ -44,4 +44,9 @@ router.get('/current', requireAuth, async (req, res, next) => {
     res.json(currBookings);
 })
 
+// Edit a booking
+router.put('/:bookingId', requireAuth, async(req, res, next) => {
+
+})
+
 module.exports = router;
