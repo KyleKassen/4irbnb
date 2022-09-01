@@ -26,31 +26,26 @@ const validateBooking = [
 // Delete a Spot Image
 router.delete('/:imageId', requireAuth, async(req, res, next) => {
 
-    const oldImage = await SpotImage.findOne({
+    const oldImage = await ReviewImage.findOne({
         where: {
             id: req.params.imageId
         },
         include: {
-            model: Spot,
-            as: 'previewImage',
+            model: Review
         }
     });
-
-    // console.log(req.params.imageId)
 
     // Error handling
     if(!oldImage) {
         res.status(404)
         return res.json({
-            message: "Spot Image couldn't be found",
+            message: "Review Image couldn't be found",
             statusCode: res.statusCode
         })
     }
 
-    // return res.json(oldImage)
-
     //Require proper authorization implementation
-    if(req.user.id !== oldImage.previewImage.ownerId) {
+    if(req.user.id !== oldImage.Review.userId) {
         res.status(403)
         return res.json({
             message: "Forbidden",
@@ -58,9 +53,7 @@ router.delete('/:imageId', requireAuth, async(req, res, next) => {
         })
     }
 
-    // const deleteReturn = await oldImage.destroy();
-
-    // console.log(deleteReturn)
+    await oldImage.destroy();
 
     res.status(200);
     return res.json({

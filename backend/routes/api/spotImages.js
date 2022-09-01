@@ -36,8 +36,6 @@ router.delete('/:imageId', requireAuth, async(req, res, next) => {
         }
     });
 
-    // console.log(req.params.imageId)
-
     // Error handling
     if(!oldImage) {
         res.status(404)
@@ -46,8 +44,6 @@ router.delete('/:imageId', requireAuth, async(req, res, next) => {
             statusCode: res.statusCode
         })
     }
-
-    // return res.json(oldImage)
 
     //Require proper authorization implementation
     if(req.user.id !== oldImage.previewImage.ownerId) {
@@ -58,9 +54,7 @@ router.delete('/:imageId', requireAuth, async(req, res, next) => {
         })
     }
 
-    // const deleteReturn = await oldImage.destroy();
-
-    // console.log(deleteReturn)
+    await oldImage.destroy();
 
     res.status(200);
     return res.json({
