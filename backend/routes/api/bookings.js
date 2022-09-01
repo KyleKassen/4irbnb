@@ -148,28 +148,30 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
 })
 
 // Delete a Booking
-router.delete('/:bookingId', requireAuth, async(req, res, next) => {
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
 
-    const oldImage = await Booking.findOne({
+    const oldBooking = await Booking.findOne({
         where: {
             id: req.params.bookingId
         },
-        include: {
-            model: Review
-        }
+        include: [
+            {
+                model: Spot
+            }
+        ]
     });
 
     // Error handling
-    if(!oldImage) {
+    if (!oldBooking) {
         res.status(404)
         return res.json({
-            message: "Review Image couldn't be found",
+            message: "Booking couldn't be found",
             statusCode: res.statusCode
         })
     }
 
     //Require proper authorization implementation
-    if(req.user.id !== oldImage.Review.userId) {
+    if (!(req.user.id !== oldBooking.Spot.ownerId || req.user.id !== oldBooking.userId)) {
         res.status(403)
         return res.json({
             message: "Forbidden",
@@ -177,7 +179,17 @@ router.delete('/:bookingId', requireAuth, async(req, res, next) => {
         })
     }
 
-    await oldImage.destroy();
+    // Bookings that have been started can't be deleted
+    if (Date.parse(oldBooking.startDate) < Date.now()) {
+        res.status(403)
+        return res.json({
+            message: "Bookings that have been started can't be deleted",
+            statusCode: res.statusCode
+        })
+    }
+
+
+    await oldBooking.destroy();
 
     res.status(200);
     return res.json({
