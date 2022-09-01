@@ -23,7 +23,7 @@ const validateBooking = [
     handleValidationErrors
 ]
 
-// Delete a Spot Image
+// Delete a Review Image
 router.delete('/:imageId', requireAuth, async(req, res, next) => {
 
     const oldImage = await ReviewImage.findOne({

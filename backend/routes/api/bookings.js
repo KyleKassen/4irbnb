@@ -147,4 +147,43 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
     return res.json(newBooking);
 })
 
+// Delete a Booking
+router.delete('/:bookingId', requireAuth, async(req, res, next) => {
+
+    const oldImage = await Booking.findOne({
+        where: {
+            id: req.params.bookingId
+        },
+        include: {
+            model: Review
+        }
+    });
+
+    // Error handling
+    if(!oldImage) {
+        res.status(404)
+        return res.json({
+            message: "Review Image couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    //Require proper authorization implementation
+    if(req.user.id !== oldImage.Review.userId) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden",
+            statusCode: res.statusCode
+        })
+    }
+
+    await oldImage.destroy();
+
+    res.status(200);
+    return res.json({
+        message: "Successfully deleted",
+        statausCode: 200
+    })
+})
+
 module.exports = router;
