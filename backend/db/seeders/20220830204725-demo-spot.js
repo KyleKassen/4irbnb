@@ -13,7 +13,7 @@ module.exports = {
     */
     await queryInterface.bulkInsert('Spots', [
       {
-        ownerId: 3,
+        ownerId: 1,
         address: "1744 Lone Star Blvd",
         city: 'Forney',
         state: 'TX',
@@ -25,7 +25,7 @@ module.exports = {
         price: 1500.50
       },
       {
-        ownerId: 1,
+        ownerId: 2,
         address: "6517 Renewal Rd",
         city: 'Plano',
         state: 'TX',
@@ -37,7 +37,7 @@ module.exports = {
         price: 950
       },
       {
-        ownerId: 1,
+        ownerId: 3,
         address: "130 Ridge Crest",
         city: 'College Station',
         state: 'TX',

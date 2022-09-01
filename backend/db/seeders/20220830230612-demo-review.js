@@ -14,7 +14,7 @@ const reviewData = [
     stars: 4
   },
   {
-    spotId: 2,
+    spotId: 3,
     userId: 3,
     review: 'Worst Home there is',
     stars: 1
