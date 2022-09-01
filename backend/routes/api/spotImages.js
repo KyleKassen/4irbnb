@@ -25,7 +25,36 @@ const validateBooking = [
 
 // Delete a Spot Image
 router.delete('./:imageId', requireAuth, async(req, res, next) => {
-    
+
+    const oldImage = await SpotImage.findByPk(req.params.imageId);
+
+    // Error handling
+    if(!oldImage) {
+        res.status(404)
+        return res.json({
+            message: "Spot Image couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    //Require proper authorization implementation
+    if(req.user.id === currSpot.ownerId) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden",
+            statusCode: res.statusCode
+        })
+    }
+
+    const deleteReturn = await oldImage.destroy();
+
+    console.log(deleteReturn)
+
+    res.status(200);
+    return res.json({
+        message: "Successfully deleted",
+        statausCode: 200
+    })
 })
 
 
