@@ -499,7 +499,6 @@ router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
             required: false
         }
     });
-    // return res.json(await Booking.findAll())
 
     const notOwnerBooking = await Booking.findAll({
         where: {
@@ -508,14 +507,6 @@ router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
         attributes: ['spotId', 'startDate', 'endDate']
     })
 
-
-    // if(!currBookings.length) {
-    //     res.status(404)
-    //     return res.json({
-    //         message: "Spot couldn't be found",
-    //         statusCode: res.statusCode
-    //     })
-    // }
 
     if (req.user.id !== spotId) {
         return res.json({

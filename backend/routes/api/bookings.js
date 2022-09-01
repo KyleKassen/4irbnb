@@ -69,7 +69,7 @@ router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) =
     const updateBooking = await Booking.findByPk(bookingId);
 
     // Error handling
-    if (!bookingId) {
+    if (!updateBooking) {
         res.status(404)
         return res.json({
             message: "Booking couldn't be found",
