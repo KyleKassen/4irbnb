@@ -403,26 +403,6 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         }
     })
 
-
-
-    //Require proper authorization implementation
-    if(req.user.id === currSpot.ownerId) {
-        res.status(403)
-        return res.json({
-            message: "Forbidden",
-            statusCode: res.statusCode
-        })
-    }
-
-    // Error handling
-    if(!currSpot) {
-        res.status(404)
-        return res.json({
-            message: "Spot couldn't be found",
-            statusCode: res.statusCode
-        })
-    }
-
     // Booking Conflict
 
     let startDateConflict = false;
@@ -438,11 +418,15 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
         let booking = allBookings[i].toJSON();
         let bookStart = Date.parse(booking.startDate);
         let bookEnd = Date.parse(booking.endDate);
+        let startDateTime = Date.parse(startDate);
+        let endDateTime = Date.parse(endDate);
 
-        if (startDate >= bookStart && startDate <= bookEnd) {
+        if (startDateTime >= bookStart && startDateTime <= bookEnd) {
+            console.log('true')
             startDateConflict = true;
         }
-        if (endDate >= bookStart && endDate <= bookEnd) {
+        if (endDateTime >= bookStart && endDateTime <= bookEnd) {
+            console.log('true')
             endDateConflict = true;
         }
     }
@@ -459,6 +443,26 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
             errors
         })
     }
+
+    // Error handling
+    if(!currSpot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    //Require proper authorization implementation
+    if(req.user.id === currSpot.ownerId) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden",
+            statusCode: res.statusCode
+        })
+    }
+
+
 
     // Done with error handling, do the task
     const newBooking = await currSpot.createBooking({
@@ -486,6 +490,7 @@ router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
             required: false
         }
     });
+    // return res.json(await Booking.findAll())
 
     const notOwnerBooking = await Booking.findAll({
         where: {
@@ -506,7 +511,9 @@ router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
         return res.json({
             Bookings: notOwnerBooking
         })
-    } else return currBookings;
+    } else return res.json({
+        Bookings: currBookings
+    });
 
 })
 

@@ -9,6 +9,20 @@ const { Op } = require('sequelize');
 
 const router = express.Router();
 
+const validateBooking = [
+    check('endDate')
+        .custom((value,{req}) => {
+            console.log(Date.parse(value))
+            console.log(Date.parse(req.body.endDate))
+            if(Date.parse(value) <= Date.parse(req.body.startDate)) {
+                throw new Error()
+            }
+            return true;
+        })
+        .withMessage('endDate cannot be on or before startDate'),
+    handleValidationErrors
+]
+
 // Get All Current User's Bookings
 router.get('/current', requireAuth, async (req, res, next) => {
     const currBookings = await Booking.findAll({
@@ -41,11 +55,40 @@ router.get('/current', requireAuth, async (req, res, next) => {
         }
     };
 
-    res.json(currBookings);
+    res.json({
+        Bookings: currBookings
+    });
 })
 
 // Edit a booking
-router.put('/:bookingId', requireAuth, async(req, res, next) => {
+router.put('/:bookingId', requireAuth, validateBooking, async(req, res, next) => {
+
+    const {bookingId} = req.params;
+    const {startDate, endDate} = req.body;
+
+    const updateBooking = await Booking.findByPk(bookingId);
+
+    // Error handling
+    if (!bookingId) {
+        res.status(404)
+        return res.json({
+            message: "Booking couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    // Past booking cant be edited
+    console.log(Date.now())
+
+    //Require proper authorization implementation
+    if(req.user.id !== updateBooking.userId) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden",
+            statusCode: res.statusCode
+        })
+    }
+
 
 })
 
