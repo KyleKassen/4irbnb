@@ -6,6 +6,7 @@ const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
 const { Op } = require('sequelize');
+const { response } = require('../../app');
 
 const router = express.Router();
 
@@ -398,6 +399,45 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
             statusCode: res.statusCode
         })
     }
+
+})
+
+
+// Get All Bookings for a Spot By Id
+router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
+    const {spotId} = req.params;
+
+    const currBookings = await Booking.findAll({
+        where: {
+            spotId
+        },
+        include: {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName'],
+            required: false
+        }
+    });
+
+    const notOwnerBooking = await Booking.findAll({
+        where: {
+            spotId
+        },
+        attributes: ['spotId', 'startDate', 'endDate']
+    })
+
+    if(!currBookings.length) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
+
+    if (req.user.id !== spotId) {
+        return res.json({
+            Bookings: notOwnerBooking
+        })
+    } else return currBookings;
 
 })
 

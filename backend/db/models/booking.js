@@ -23,7 +23,27 @@ module.exports = (sequelize, DataTypes) => {
     spotId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     startDate: DataTypes.STRING,
-    endDate: DataTypes.STRING
+    endDate: DataTypes.STRING,
+    createdAt: {
+      type: DataTypes.DATE,
+      get() {
+        let date = JSON.stringify(this.getDataValue('createdAt'));
+        date = date.replace('T', ' ');
+        const index = date.indexOf('.');
+        date = date.slice(1, index);
+        return date;
+      }
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      get() {
+        let date = JSON.stringify(this.getDataValue('updatedAt'));
+        date = date.replace('T', ' ');
+        const index = date.indexOf('.');
+        date = date.slice(1, index);
+        return date;
+      }
+    }
   }, {
     sequelize,
     modelName: 'Booking',
