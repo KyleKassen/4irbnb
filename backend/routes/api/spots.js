@@ -5,7 +5,7 @@ const { Spot, Review, sequelize, SpotImage, User, ReviewImage, Booking, Sequeliz
 const { check, query } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-const { Op } = require('sequelize');
+const { Op, operatorsAliases, literal } = require('sequelize');
 const { response } = require('../../app');
 
 const router = express.Router();
@@ -111,7 +111,33 @@ const validateBooking = [
 // Get all Spots
 router.get('/', validateGetAllSpot, async (req, res, next) => {
 
-    const { page, size, maxLat, minLat, maxLng, minLng, maxPrice, minPrice } = req.query;
+    const { maxLat, minLat, maxLng, minLng, maxPrice, minPrice } = req.query;
+
+    const page = req.query.page === undefined ? 0 : parseInt(req.query.page);
+    const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
+
+    let queryParams = {};
+
+    queryParams.limit = size
+    queryParams.offset = page > 0 ? size * (page - 1) : 0
+
+    if (maxLat || minLat || maxLng || minLng || maxPrice || minPrice) {
+        queryParams.where = {}
+        if (maxLat && minLat) queryParams.where.at = { [Op.between]: [minLat, maxLat] };
+        else if (maxLat) queryParams.where.lat = { [Op.lte]: maxLat };
+        else if (minLat) queryParams.where.lat = { [Op.gte]: minLat };
+
+        if (maxLng && minLng) queryParams.where.at = { [Op.between]: [minLng, maxLng] };
+        else if (maxLng) queryParams.where.lng = { [Op.lte]: maxLng };
+        else if (minLng) queryParams.where.lng = { [Op.gte]: minLng };
+
+        if (maxPrice && minPrice) queryParams.where.at = { [Op.between]: [minPrice, maxPrice] };
+        else if (maxPrice) queryParams.where.price = { [Op.lte]: maxPrice };
+        else if (minPrice) queryParams.where.price = { [Op.gte]: minPrice };
+    }
+    console.log(queryParams)
+
+    // return res.json(queryParams);
 
     const spots = await Spot.findAll({
         include: [
@@ -129,29 +155,33 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
                 required: false,
             }
         ],
-
-        attributes: {
-            include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
-        },
-        group: ['Spot.id', 'previewImage.id']
+        // attributes: {
+        //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
+        // },
+        group: ['Spot.id'],
+        ...queryParams
     });
 
     for (let i = 0; i < spots.length; i++) {
+        const sumRating = await Review.sum('stars')
+        const numRating = await Review.count();
+        const avgRating = sumRating / numRating;
         let newSpot = spots[i].toJSON()
-        // console.log(newSpot)
         if (newSpot.previewImage[0]) {
             let url = ''
             console.log(newSpot.previewImage[0].url)
             url = newSpot.previewImage[0].url
             newSpot.previewImage = url;
         }
-        if (newSpot.avgRating) newSpot.avgRating = parseFloat(newSpot.avgRating);
+        if (newSpot.avgRating) newSpot.avgRating = avgRating;
 
         spots[i] = newSpot
     }
 
     return res.json({
-        Spots: spots
+        Spots: spots,
+        page: page,
+        size: size
     })
 })
 
@@ -183,22 +213,23 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId);
 
-    let error = false;
-
-    // Error handling
     if (!spot) {
-        error = true
-    } else if (req.user.id !== spot.ownerId) {
-        error = true
-    }
-
-    if (error) {
         res.status(404);
         return res.json({
             message: "Spot couldn't be found",
             statusCode: res.statusCode
         })
     }
+
+    // Error handling
+    if (req.user.id !== spot.ownderId) {
+        res.status(403)
+        return res.json({
+            message: "Forbidden",
+            statusCode: res.statusCode
+        })
+    }
+
 
     // if preview is true we need to set preview to false for the old one
     if (preview) {
@@ -255,7 +286,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
     for (let i = 0; i < spots.length; i++) {
         let newSpot = spots[i].toJSON()
-        // console.log(newSpot)
+
         if (newSpot.previewImage[0]) {
             let url = ''
             console.log(newSpot.previewImage[0].url)
@@ -268,7 +299,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     }
 
     return res.json({
-        Spots: spots
+        Spots: spots,
     });
 })
 
