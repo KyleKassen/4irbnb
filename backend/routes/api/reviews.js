@@ -47,10 +47,10 @@ router.post('/:reviewId/images', requireAuth, async (req, res, next) => {
     }
 
     // Require Proper authorization error
-    if ( currReview.userId !== req.user.id) {
-        res.status(404);
+    if (currReview.userId !== req.user.id) {
+        res.status(403)
         return res.json({
-            message: "Review couldn't be found",
+            message: "Forbidden",
             statusCode: res.statusCode
         })
     }
@@ -95,7 +95,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             },
             {
                 model: Spot,
-                attributes: {exclude: ['createdAt', 'updatedAt', 'description']},
+                attributes: { exclude: ['createdAt', 'updatedAt', 'description'] },
                 include: {
                     model: SpotImage,
                     as: 'previewImage',
@@ -131,13 +131,13 @@ router.get('/current', requireAuth, async (req, res, next) => {
 
 
 // Edit a Review
-router.put('/:reviewId', requireAuth, validateReview, async(req, res, next) => {
+router.put('/:reviewId', requireAuth, validateReview, async (req, res, next) => {
 
     const { review, stars } = req.body;
 
     const oldReview = await Review.findByPk(req.params.reviewId);
 
-    if(!oldReview) {
+    if (!oldReview) {
         res.status(404)
         return res.json({
             message: "Review couldn't be found",
@@ -147,9 +147,9 @@ router.put('/:reviewId', requireAuth, validateReview, async(req, res, next) => {
 
     //Require proper authorization implimintation
     if (req.user.id !== oldReview.userId) {
-        res.status(404)
+        res.status(403)
         return res.json({
-            message: "Review couldn't be found",
+            message: "Forbidden",
             statusCode: res.statusCode
         })
     };
@@ -163,13 +163,13 @@ router.put('/:reviewId', requireAuth, validateReview, async(req, res, next) => {
 });
 
 // Delete a Review
-router.delete('/:reviewId', requireAuth, async(req, res, next) => {
+router.delete('/:reviewId', requireAuth, async (req, res, next) => {
 
 
     const oldReview = await Review.findByPk(req.params.reviewId)
 
     // Error handling
-    if(!oldReview) {
+    if (!oldReview) {
         res.status(404)
         return res.json({
             message: "Review couldn't be found",
@@ -178,7 +178,7 @@ router.delete('/:reviewId', requireAuth, async(req, res, next) => {
     }
 
     //Require proper authorization implementation
-    if(req.user.id !== oldReview.userId) {
+    if (req.user.id !== oldReview.userId) {
         res.status(403)
         return res.json({
             message: "Forbidden",
