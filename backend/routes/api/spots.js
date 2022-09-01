@@ -480,7 +480,14 @@ router.post('/:spotId/bookings', requireAuth, validateBooking, async (req, res, 
 router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
     const {spotId} = req.params;
 
-    return res.json(await Booking.findAll())
+    const bookingSpot = await Spot.findByPk(spotId);
+    if(!bookingSpot) {
+        res.status(404)
+        return res.json({
+            message: "Spot couldn't be found",
+            statusCode: res.statusCode
+        })
+    }
 
     const currBookings = await Booking.findAll({
         where: {
@@ -501,13 +508,14 @@ router.get('/:spotId/bookings', requireAuth, async(req, res, next) => {
         attributes: ['spotId', 'startDate', 'endDate']
     })
 
-    if(!currBookings.length) {
-        res.status(404)
-        return res.json({
-            message: "Spot couldn't be found",
-            statusCode: res.statusCode
-        })
-    }
+
+    // if(!currBookings.length) {
+    //     res.status(404)
+    //     return res.json({
+    //         message: "Spot couldn't be found",
+    //         statusCode: res.statusCode
+    //     })
+    // }
 
     if (req.user.id !== spotId) {
         return res.json({

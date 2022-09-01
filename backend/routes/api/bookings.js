@@ -11,10 +11,10 @@ const router = express.Router();
 
 const validateBooking = [
     check('endDate')
-        .custom((value,{req}) => {
+        .custom((value, { req }) => {
             console.log(Date.parse(value))
             console.log(Date.parse(req.body.endDate))
-            if(Date.parse(value) <= Date.parse(req.body.startDate)) {
+            if (Date.parse(value) <= Date.parse(req.body.startDate)) {
                 throw new Error()
             }
             return true;
@@ -47,7 +47,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     // Format the previewImage for Spot section
     for (let i = 0; i < currBookings.length; i++) {
         let currBooking = currBookings[i].toJSON();
-        if(currBooking.Spot.previewImage[0]) {
+        if (currBooking.Spot.previewImage[0]) {
             currBooking.Spot.previewImage = currBooking.Spot.previewImage[0].url;
             currBookings[i] = currBooking
         } else {
@@ -61,10 +61,10 @@ router.get('/current', requireAuth, async (req, res, next) => {
 })
 
 // Edit a booking
-router.put('/:bookingId', requireAuth, validateBooking, async(req, res, next) => {
+router.put('/:bookingId', requireAuth, validateBooking, async (req, res, next) => {
 
-    const {bookingId} = req.params;
-    const {startDate, endDate} = req.body;
+    const { bookingId } = req.params;
+    const { startDate, endDate } = req.body;
 
     const updateBooking = await Booking.findByPk(bookingId);
 
@@ -78,10 +78,19 @@ router.put('/:bookingId', requireAuth, validateBooking, async(req, res, next) =>
     }
 
     // Past booking cant be edited
-    console.log(Date.now())
+    const bookingStart = updateBooking.toJSON().startDate;
+    const bookingEnd = updateBooking.toJSON().endDate;
+
+    if (Date.parse(bookingEnd) < Date.now()) {
+        res.status(403)
+        return res.json({
+            message: "Past bookings can't be modified",
+            statusCode: res.statusCode
+        })
+    }
 
     //Require proper authorization implementation
-    if(req.user.id !== updateBooking.userId) {
+    if (req.user.id !== updateBooking.userId) {
         res.status(403)
         return res.json({
             message: "Forbidden",
@@ -89,7 +98,53 @@ router.put('/:bookingId', requireAuth, validateBooking, async(req, res, next) =>
         })
     }
 
+    // Booking Conflict
 
+    let startDateConflict = false;
+    let endDateConflict = false;
+
+    const allBookings = await Booking.findAll({
+        where: {
+            spotId: updateBooking.toJSON().spotId
+        }
+    })
+
+    for (let i = 0; i < allBookings.length; i++) {
+        let booking = allBookings[i].toJSON();
+        let bookStart = Date.parse(booking.startDate);
+        let bookEnd = Date.parse(booking.endDate);
+        let startDateTime = Date.parse(startDate);
+        let endDateTime = Date.parse(endDate);
+
+        if (startDateTime >= bookStart && startDateTime <= bookEnd) {
+            console.log('true')
+            startDateConflict = true;
+        }
+        if (endDateTime >= bookStart && endDateTime <= bookEnd) {
+            console.log('true')
+            endDateConflict = true;
+        }
+    }
+
+    let errors = {};
+    if (startDateConflict) errors.startDate = "Start date conflicts with an existing booking";
+    if (endDateConflict) errors.endDate = "End date conflicts with an existing booking";
+
+    if (startDateConflict || endDateConflict) {
+        res.status(403);
+        return res.json({
+            message: "Sorry, this spot is already booked for the specified dates",
+            statusCode: res.statusCode,
+            errors
+        })
+    }
+
+    const newBooking = await updateBooking.update({
+        startDate,
+        endDate
+    })
+
+    return res.json(newBooking);
 })
 
 module.exports = router;
