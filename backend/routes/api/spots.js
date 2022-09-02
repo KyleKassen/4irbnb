@@ -181,7 +181,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
             console.log(newSpot.previewImage[0].url)
             url = newSpot.previewImage[0].url
             newSpot.previewImage = url;
-        }
+        } else newSpot.previewImage = null;
 
         newSpot.avgRating = avg[0].toJSON().avgRating;
         spots[i] = newSpot
@@ -301,7 +301,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
             console.log(newSpot.previewImage[0].url)
             url = newSpot.previewImage[0].url
             newSpot.previewImage = url;
-        }
+        } else newSpot.previewImage = null;
         if (newSpot.avgRating) newSpot.avgRating = parseFloat(newSpot.avgRating);
 
         spots[i] = newSpot
