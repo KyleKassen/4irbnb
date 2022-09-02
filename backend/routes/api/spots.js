@@ -231,7 +231,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     }
 
     // Error handling
-    if (req.user.id !== spot.ownderId) {
+    if (req.user.id !== spot.ownerId) {
         res.status(403)
         return res.json({
             message: "Forbidden",
@@ -239,7 +239,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
         })
     }
 
-
+    let itsId = 0;
     // if preview is true we need to set preview to false for the old one
     if (preview) {
         const previewImage = await SpotImage.findOne({
@@ -357,9 +357,7 @@ router.get('/:spotId', async (req, res, next) => {
     spot.SpotImages = images;
     spot.Owner = spotOwner;
 
-    return res.json({
-        Spots: spot
-    });
+    return res.json(spot);
 })
 
 router.put('/:spotId', requireAuth, validateSpot, async (req, res, next) => {
@@ -461,7 +459,9 @@ router.get('/:spotId/reviews', async (req, res, next) => {
         })
     }
 
-    return res.json(spotReviews);
+    return res.json({
+        Reviews: spotReviews
+    });
 })
 
 // Create a Booking Based on a Spot id
