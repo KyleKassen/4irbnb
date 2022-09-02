@@ -582,8 +582,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         attributes: ['spotId', 'startDate', 'endDate']
     })
 
-
-    if (req.user.id !== spotId) {
+    if (req.user.id !== bookingSpot.ownerId) {
         return res.json({
             Bookings: notOwnerBooking
         })

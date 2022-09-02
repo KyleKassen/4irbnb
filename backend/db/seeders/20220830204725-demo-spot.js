@@ -47,6 +47,18 @@ module.exports = {
         name: 'Trailer Park Shenanigans',
         description: 'Beutiful Mansion',
         price: 150
+      },
+      {
+        ownerId: 3,
+        address: "130 asdfRidge Crest",
+        city: 'College asdfStation',
+        state: 'TX',
+        country: 'Uniasdfted States',
+        lat: 30.562280,
+        lng: -96.316510,
+        name: 'Trailer sdfPark Shenanigans',
+        description: 'Beutasdfiful Mansion',
+        price: 1540
       }
     ], {})
   },
