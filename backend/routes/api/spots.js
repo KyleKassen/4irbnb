@@ -169,10 +169,18 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
             where: {
                 spotId: spots[i].id
             },
-            attributes: {
-                include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
-            }
+            // attributes: {
+            //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("stars")), 1), "avgRating"]]
+            // }
         })
+
+        let avgRating = null;
+        if (avg.length) {
+            for(let i = 0; i < avg.length; i++) {
+                avgRating += avg[i].toJSON().stars
+            }
+            avgRating = avgRating / avg.length;
+        }
 
         // Format the previewImage to have a value of a string instead of an object with a string
         let newSpot = spots[i].toJSON()
@@ -183,7 +191,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
             newSpot.previewImage = url;
         } else newSpot.previewImage = null;
 
-        newSpot.avgRating = avg[0].toJSON().avgRating;
+        newSpot.avgRating = avgRating;
         spots[i] = newSpot
     }
 
@@ -244,7 +252,8 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     if (preview) {
         const previewImage = await SpotImage.findOne({
             where: {
-                preview: true
+                preview: true,
+                spotId: req.params.spotId
             }
         });
         if (previewImage) {
