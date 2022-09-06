@@ -116,7 +116,7 @@ router.get('/current', requireAuth, async (req, res, next) => {
     // Format the previewImage for Spot section
     for (let i = 0; i < currReviews.length; i++) {
         let currReview = currReviews[i].toJSON();
-        if (currReview.Spot.previewImage) {
+        if (currReview.Spot.previewImage[0]) {
             currReview.Spot.previewImage = currReview.Spot.previewImage[0].url;
             currReviews[i] = currReview
         } else {
