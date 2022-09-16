@@ -6,6 +6,7 @@ import './Navigation.css';
 
 function Navigation({ isLoaded }){
   const sessionUser = useSelector(state => state.session.user);
+  console.log('This is the sessionUser ',sessionUser)
 
   let sessionLinks;
   if (sessionUser) {
@@ -25,6 +26,7 @@ function Navigation({ isLoaded }){
     <ul>
       <li>
         <NavLink exact to="/">Home</NavLink>
+        {console.log('isLoaded is = ', isLoaded)}
         {isLoaded && sessionLinks}
       </li>
     </ul>
