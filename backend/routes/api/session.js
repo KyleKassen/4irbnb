@@ -49,7 +49,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 router.get('/', async (req, res, next) => {
     // let answer = await restoreUser;
     // console.log(req.user)
-    // if (req.user === null) return null;
+    if (req.user === null) return res.json(null);
     const currUser = req.user.toJSON();
     delete currUser.createdAt;
     delete currUser.updatedAt;
