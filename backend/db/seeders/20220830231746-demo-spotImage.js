@@ -15,6 +15,11 @@ const spotImageData = [
     spotId: 3,
     url: 'https://photos.zillowstatic.com/fp/6223d1988a478676ec5bb2e14b696b1c-uncropped_scaled_within_1536_1152.webp',
     preview: true,
+  },
+  {
+    spotId: 4,
+    url: 'https://photos.zillowstatic.com/fp/6223d1988a478676ec5bb2e14b696b1c-uncropped_scaled_within_1536_1152.webp',
+    preview: true,
   }
 ]
 

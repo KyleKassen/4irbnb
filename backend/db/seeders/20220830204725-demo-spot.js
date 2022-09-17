@@ -49,7 +49,7 @@ module.exports = {
         price: 150
       },
       {
-        ownerId: 3,
+        ownerId: 4,
         address: "130 asdfRidge Crest",
         city: 'College asdfStation',
         state: 'TX',
