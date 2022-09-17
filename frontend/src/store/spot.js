@@ -1,7 +1,9 @@
+import { bindActionCreators } from "redux";
 import { csrfFetch } from "./csrf";
 
 const LOAD_SPOTS = "spot/loadSpots";
 const ADD_SPOT = "spot/addSpot";
+const UPDATE_SPOT = "spot/updateSpot";
 
 export const loadSpots = (spots) => {
   console.log("Loading All Spots");
@@ -12,12 +14,20 @@ export const loadSpots = (spots) => {
 };
 
 export const addSpot = (spot) => {
-  console.log('addSpot Action Creating Invoked')
+  console.log("addSpot Action Creator Invoked");
   return {
     type: ADD_SPOT,
-    payload: spot
-  }
-}
+    payload: spot,
+  };
+};
+
+export const updateSpot = (spot) => {
+  console.log("updateSpot Action Creator Invoked");
+  return {
+    type: UPDATE_SPOT,
+    payload: spot,
+  };
+};
 
 // Thunk Action Creator for Getting all Spots
 export const getAllSpots = () => async (dispatch) => {
@@ -33,27 +43,66 @@ export const getAllSpots = () => async (dispatch) => {
 };
 
 // Thunk Action Creator for Adding a Spot
-export const createSpot = (spot) => async dispatch => {
-  console.log('POSTING/CREATING SPOT TO DATABASE')
-  const {address, city, state, country, lat, lng, name, description, price} = spot;
+export const createSpot = (spot) => async (dispatch) => {
+  console.log("POSTING/CREATING SPOT TO DATABASE");
   const response = await csrfFetch("/api/spots", {
-    method: 'POST',
-    headers: 'application/json',
-    body: JSON.stringify({
-
-    })
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(spot),
   });
 
   if (response.ok) {
-    console.log('RESPONSE FROM SERVER IS OK DURING SPOT CREATION')
-    const returnedSpot = response.json();
+    console.log("RESPONSE FROM SERVER IS OK DURING SPOT CREATION");
+    const returnedSpot = await response.json();
     dispatch(addSpot(returnedSpot));
     return returnedSpot;
   }
 
   // Test with the following fetch in browser
-  
-}
+  // window.store.dispatch(
+  //   window.spotActions.createSpot({
+  //     address: "123 Disney Lane",
+  //     city: "San Francisco",
+  //     state: "California",
+  //     country: "United States of America",
+  //     lat: 37.7645358,
+  //     lng: -122.4730327,
+  //     name: "App Academy",
+  //     description: "Place where web developers are created",
+  //     price: 123,
+  //   })
+  // );
+};
+
+export const updateOneSpot = (spot) => async (dispatch) => {
+  console.log("PUT/UPDATING SPOT IN DATABASE");
+  const { address, city, state, country, lat, lng, name, description, price } =
+    spot;
+  const response = await csrfFetch(`/api/spots/${spot.id}`, {
+    method: "PUT",
+    header: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    }),
+  });
+
+  if (response.ok) {
+    console.log("RESPONSE FROM SERVER IS OK WHEN UPDATING SPOT");
+    const updatedSpot = await response.json();
+    dispatch(updateSpot(updatedSpot));
+    return updatedSpot;
+  }
+};
 
 const initialState = { allSpots: { order: [] }, singleSpot: null };
 
@@ -67,11 +116,29 @@ export const spotReducer = (state = initialState, action) => {
       // Normalize data and add to order array
       spotsArray.forEach((spot) => {
         spots[spot.id] = spot;
-        state.allSpots.order.push(spot.id)
+        state.allSpots.order.push(spot.id);
       });
       loadObj.allSpots = { ...state.allSpots, ...spots };
 
       return loadObj;
+
+    case ADD_SPOT:
+      const addObj = { ...state };
+
+      addObj.allSpots = { ...state.allSpots };
+      addObj.order = [...state.allSpots.order];
+      addObj.allSpots[action.payload.id] = action.payload;
+      addObj.order.push(action.payload.id);
+
+      return addObj;
+
+    case UPDATE_SPOT:
+      const updateObj = { ...state };
+
+      updateObj.allSpots = { ...state.allSpots };
+      updateObj.allSpots[action.payload.id] = action.payload;
+
+      return updateObj;
     default:
       return state;
   }
