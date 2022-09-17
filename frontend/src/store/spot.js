@@ -1,34 +1,75 @@
 import { csrfFetch } from "./csrf";
 
 const LOAD_SPOTS = "spot/loadSpots";
+const ADD_SPOT = "spot/addSpot";
 
 export const loadSpots = (spots) => {
+  console.log("Loading All Spots");
   return {
     type: LOAD_SPOTS,
     payload: spots,
   };
 };
 
+export const addSpot = (spot) => {
+  console.log('addSpot Action Creating Invoked')
+  return {
+    type: ADD_SPOT,
+    payload: spot
+  }
+}
+
 // Thunk Action Creator for Getting all Spots
 export const getAllSpots = () => async (dispatch) => {
+  console.log("GETTING ALL SPOTS FROM SERVER");
   const response = await csrfFetch("/api/spots");
 
   if (response.ok) {
+    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO loadSpots");
     const spots = await response.json();
     dispatch(loadSpots(spots));
     return spots;
   }
 };
 
-const initialState = { allSpots: { order: null }, singleSpot: null };
+// Thunk Action Creator for Adding a Spot
+export const createSpot = (spot) => async dispatch => {
+  console.log('POSTING/CREATING SPOT TO DATABASE')
+  const {address, city, state, country, lat, lng, name, description, price} = spot;
+  const response = await csrfFetch("/api/spots", {
+    method: 'POST',
+    headers: 'application/json',
+    body: JSON.stringify({
+
+    })
+  });
+
+  if (response.ok) {
+    console.log('RESPONSE FROM SERVER IS OK DURING SPOT CREATION')
+    const returnedSpot = response.json();
+    dispatch(addSpot(returnedSpot));
+    return returnedSpot;
+  }
+
+  // Test with the following fetch in browser
+  
+}
+
+const initialState = { allSpots: { order: [] }, singleSpot: null };
 
 export const spotReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
       const loadObj = { ...state };
-      const spots = action.payload;
+      const spotsArray = action.payload.Spots;
+      const spots = {};
 
-      loadObj.allSpots = { ...state.allSpots, spots };
+      // Normalize data and add to order array
+      spotsArray.forEach((spot) => {
+        spots[spot.id] = spot;
+        state.allSpots.order.push(spot.id)
+      });
+      loadObj.allSpots = { ...state.allSpots, ...spots };
 
       return loadObj;
     default:
