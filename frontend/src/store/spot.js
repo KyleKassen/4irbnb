@@ -114,6 +114,7 @@ export const spotReducer = (state = initialState, action) => {
       const spots = {};
 
       // Normalize data and add to order array
+      state.allSpots.order = [];
       spotsArray.forEach((spot) => {
         spots[spot.id] = spot;
         state.allSpots.order.push(spot.id);
