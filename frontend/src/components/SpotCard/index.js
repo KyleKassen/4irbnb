@@ -6,10 +6,12 @@ function SpotCard({ spot }) {
   // console.log('Spot card is running', props)
   return (
     <div className="spotcard_container">
-      <img src={spot.previewImage}/>
-      <p>{spot.name}</p>
-      <p>{spot.address}</p>
-      <p>{`$${spot.price} night`}</p>
+      <div className="spotcard_image_container">
+       <img src={spot.previewImage}/>
+      </div>
+      <p className="spotcard_name">{spot.name}</p>
+      <p className="spotcard_address">{spot.address}</p>
+      <p className="spotcard_price">{`$${spot.price} night`}</p>
     </div>
   );
 }

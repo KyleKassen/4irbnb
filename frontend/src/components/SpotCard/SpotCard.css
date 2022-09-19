@@ -1,10 +1,17 @@
 .spotcard_container {
-    height: 360px;
-    width: 280px;
+    /* height: 360px;
+    width: 280px; */
+    overflow: hidden;
 }
 
-.spotcard_container>img {
-    object-fit: contain;
+.spotcard_image_container > img {
+    object-fit:cover;
     width: 100%;
-    border-radius: 10px;;
+    height: 12vw;
+    max-height: 287px;
+    border-radius: 10px;
+}
+
+.spotcard_name {
+    
 }
