@@ -1,6 +1,7 @@
 .spotcard_container {
     /* height: 360px;
     width: 280px; */
+    font-family: 'Montserrat', sans-serif;
     overflow: hidden;
 }
 
@@ -12,6 +13,26 @@
     border-radius: 10px;
 }
 
-.spotcard_name {
-    
+.spotcard_location {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.4rem;
+    padding-top: 5px;
+    letter-spacing: 0.05em;
+}
+
+.spotcard_name, .spotcard_date {
+    color: rgb(113,113,113);
+    font-size: 13px;
+    padding: 1px 0px;
+}
+
+.spotcard_price_bold {
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+}
+
+.spotcard_price {
+    padding-top: 7px;
 }
