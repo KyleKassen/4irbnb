@@ -21,6 +21,7 @@ function LoginFormPage() {
     return dispatch(sessionActions.login({ credential, password }))
       .catch(async (res) => {
         const data = await res.json();
+        // console.log('Error Caught when logging in with response of: ', data);
         if (data && data.errors) setErrors(data.errors);
       });
   }

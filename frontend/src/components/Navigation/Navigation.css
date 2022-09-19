@@ -1,0 +1,12 @@
+.user_icon {
+    font-size: 20px;
+}
+
+.nav_dropdown {
+    border-radius: 10px;
+    width: 75px;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

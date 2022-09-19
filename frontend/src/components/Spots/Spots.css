@@ -1,4 +1,6 @@
 .spots_container {
     display: grid;
     grid-template-columns: repeat(5, 20%);
+    gap: 40px 24px;
+    width: 100%;
 }
