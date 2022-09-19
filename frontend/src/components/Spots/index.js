@@ -17,7 +17,7 @@ function Spots() {
 
     console.log('allSpots.order is : ',allSpots.order)
     return (
-        <div>
+        <div className="spots_container">
             {allSpots.order.map(spotId => {
                 console.log('allSpots[spotId] : ',allSpots[spotId])
                 return <SpotCard spot={allSpots[spotId]} />
