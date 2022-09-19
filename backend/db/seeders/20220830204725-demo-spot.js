@@ -72,7 +72,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     await queryInterface.bulkDelete('Spots', {
-      address: { [Op.in]: ['1744 Lone Star Blvd', '6517 Renewal Rd', '130 Ridge Crest'] }
+      address: { [Op.in]: ['1744 Lone Star Blvd', '6517 Renewal Rd', '130 Ridge Crest', "130 asdfRidge Crest"] }
     }, {});
   }
 };

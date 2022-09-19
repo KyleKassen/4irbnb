@@ -1,0 +1,10 @@
+.spotcard_container {
+    height: 360px;
+    width: 280px;
+}
+
+.spotcard_container>img {
+    object-fit: contain;
+    width: 100%;
+    border-radius: 10px;;
+}
