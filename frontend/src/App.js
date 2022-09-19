@@ -6,6 +6,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import Header from "./components/Header";
 
 function App() {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
+      <Header isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
           <Route exact path="/">
