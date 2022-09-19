@@ -1,12 +1,20 @@
 .user_icon {
     font-size: 20px;
+    color: rgb(113,113,113);
+}
+.hamburger_icon {
+    font-size: 17px;
+    color: rgb(34,34,34);
 }
 
 .nav_dropdown_button {
-    border-radius: 10px;
+    border-radius: 20px;
     width: 75px;
+    height: 40px;
     background-color: white;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    border: 1px solid rgb(235,235,235);
+    padding: 0px 7px;
 }
