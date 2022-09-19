@@ -59,6 +59,18 @@ module.exports = {
         name: 'Trailer sdfPark Shenanigans',
         description: 'Beutasdfiful Mansion',
         price: 1540
+      },
+      {
+        ownerId: 4,
+        address: "130 Bridge Crest",
+        city: 'College asdfStation',
+        state: 'TX',
+        country: 'Uniasdfted States',
+        lat: 30.562280,
+        lng: -96.316510,
+        name: 'The House Number cuatro',
+        description: 'Beutasdfiful Mansion',
+        price: 1540
       }
     ], {})
   },
@@ -72,7 +84,7 @@ module.exports = {
      * await queryInterface.bulkDelete('People', null, {});
      */
     await queryInterface.bulkDelete('Spots', {
-      address: { [Op.in]: ['1744 Lone Star Blvd', '6517 Renewal Rd', '130 Ridge Crest', "130 asdfRidge Crest"] }
+      address: { [Op.in]: ['1744 Lone Star Blvd', '6517 Renewal Rd', '130 Ridge Crest', "130 asdfRidge Crest", "130 Bridge Crest"] }
     }, {});
   }
 };

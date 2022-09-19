@@ -52,7 +52,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
-      <button onClick={openMenu} className="nav_dropdown">
+      <button onClick={openMenu} className="nav_dropdown_button">
         <i className="fa-solid fa-bars hamburger_icon"></i>
         <i className="fa-solid fa-user user_icon"></i>
       </button>
