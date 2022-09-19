@@ -23,7 +23,7 @@ function Navigation({ isLoaded }) {
 
   let navLinks = (
     <ul>
-      <li>
+      <li className="navlink_list">
         <NavLink exact to="/">
           Home
         </NavLink>
@@ -52,11 +52,13 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
+    <div className="dropdown_menu_wrapper">
       <button onClick={openMenu} className="nav_dropdown_button">
         <i className="fa-solid fa-bars hamburger_icon"></i>
         <i className="fa-solid fa-user user_icon"></i>
       </button>
       {showMenu && navLinks}
+    </div>
     </>
   );
 }
