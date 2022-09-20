@@ -5,6 +5,7 @@ const LOAD_SPOTS = "spot/loadSpots";
 const ADD_SPOT = "spot/addSpot";
 const UPDATE_SPOT = "spot/updateSpot";
 const LOAD_SPOT = "spot/loadSpot";
+const DELETE_SPOT = "spot/deleteSpot";
 
 export const loadSpots = (spots) => {
   console.log("Loading All Spots");
@@ -21,6 +22,12 @@ export const loadSpot = (spot) => {
     payload: spot,
   };
 };
+
+export const deleteSpot = () => {
+  return {
+    type: DELETE_SPOT
+  }
+}
 
 export const addSpot = (spot) => {
   console.log("addSpot Action Creator Invoked");
@@ -162,11 +169,16 @@ export const spotReducer = (state = initialState, action) => {
       updateObj.allSpots[action.payload.id] = action.payload;
 
       return updateObj;
-
     case LOAD_SPOT:
       const loadSpotObj = {...state};
       loadSpotObj.singleSpot = action.payload;
       return loadSpotObj;
+
+    case DELETE_SPOT:
+      const deleteSpotObj = {...state};
+      deleteSpotObj.singleSpot = null;
+      return deleteSpotObj;
+
     default:
       return state;
   }

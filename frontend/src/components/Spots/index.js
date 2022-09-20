@@ -19,7 +19,7 @@ function Spots() {
     <div className="spots_container_flex_wrapper">
       <div className="spots_container">
         {allSpots.order.map((spotId) => {
-          console.log("allSpots[spotId] : ", allSpots[spotId]);
+          // console.log("allSpots[spotId] : ", allSpots[spotId]);
           return <SpotCard spot={allSpots[spotId]} />;
         })}
       </div>
