@@ -13,13 +13,9 @@ function LoginForm({setShowModal}) {
   const [errors, setErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-//   if (sessionUser) return (
-//     <Redirect to="/" />
-//   );
-
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setErrors([]);
+    setErrors([]);
     setHasSubmitted(true);
     console.log('LoginForm.js: handleSubmit RUNNING')
     return dispatch(sessionActions.login({ credential, password }))
