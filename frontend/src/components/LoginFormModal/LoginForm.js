@@ -57,7 +57,7 @@ function LoginForm({ setShowModal }) {
             />
             {/* Password */}
             <input
-            className="login_form_second_input"
+             className="login_form_last_input"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
