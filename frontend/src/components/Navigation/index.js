@@ -24,10 +24,8 @@ function Navigation({ isLoaded }) {
   } else {
     sessionLinks = (
       <>
-        {/* <NavLink to="/login">Log In</NavLink> */}
-        <LoginFormModal showModal={showModal} setShowModal={setShowModal} />
-        <SignupFormModal showSignupModal={showSignupModal} setShowSignupModal={setShowSignupModal} />
-        {/* <NavLink to="/signup">Sign Up</NavLink> */}
+        <LoginFormModal setShowModal={setShowModal} />
+        <SignupFormModal setShowSignupModal={setShowSignupModal} />
       </>
     );
   }
@@ -44,9 +42,6 @@ function Navigation({ isLoaded }) {
     </ul>
   );
 
-  // useEffect(() => {
-  //   return;
-  // }, [showModal]);
 
   useEffect(() => {
     if (!showMenu) return;

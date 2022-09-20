@@ -1,6 +1,6 @@
 import React from 'react';
 
-function SignupFormModal({showSignupModal, setShowSignupModal}) {
+function SignupFormModal({setShowSignupModal}) {
 
   return (
     <>

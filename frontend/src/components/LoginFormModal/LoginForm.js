@@ -13,10 +13,6 @@ function LoginForm({setShowModal}) {
   const [errors, setErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-//   if (sessionUser) return (
-//     <Redirect to="/" />
-//   );
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);

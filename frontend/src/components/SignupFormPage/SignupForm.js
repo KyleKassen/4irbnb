@@ -16,8 +16,6 @@ function SignupForm({setShowSignupModal}) {
   const [errors, setErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-//   if (sessionUser) return <Redirect to="/" />;
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -27,10 +25,9 @@ function SignupForm({setShowSignupModal}) {
         .catch(async (res) => {
           const data = await res.json();
           setHasSubmitted(false);
-          // console.log('Error occured from db with: ', data);
-          // console.log('Data.errors is the following: ', data.errors);
+
           if (data && data.errors) setErrors(Object.values(data.errors));
-          // console.log('The errors array is the following: ,', errors)
+
         });
     }
     return setErrors(['Confirm Password field must be the same as the Password field']);

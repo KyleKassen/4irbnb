@@ -1,6 +1,6 @@
 import React from 'react';
 
-function LoginFormModal({showModal, setShowModal}) {
+function LoginFormModal({setShowModal}) {
 
   return (
     <>
