@@ -1,0 +1,89 @@
+.login_form_outer_wrapper {
+    width: 570px;
+    height: 680px;
+    border-radius: 10px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.login_form_outer_wrapper * {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.login_form_wrapper {
+    margin-right: 25px;
+    margin-left: 25px;
+}
+
+.login_form_login_text {
+    text-align: center;
+    line-height: 3;
+    font-weight: 600;
+    border-bottom: 1px solid rgb(235,235,235);
+}
+
+.login_form_welcome_text {
+    font-size: 22px;
+    line-height: 3;
+    padding-top: 10px;
+    font-weight: 500;
+}
+
+.login_form_input_div {
+    width: 100%;
+    height: 114px;
+    border-radius: 10px;
+    /* padding: -5px;
+    border: 1.5px solid rgb(220,220,220) */
+}
+
+.login_form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.login_form input {
+    display: block;
+    width: 100%;
+    height: 50%;
+    /* border: none; */
+}
+
+.login_form input::placeholder {
+    font-size: 15px;
+    font-weight: 100;
+    padding-left: 15px;
+}
+
+.login_form_first_input {
+    border: 1.5px solid rgb(220,220,220);
+    border-radius: 10px 10px 0px 0px;
+}
+
+
+.login_form_second_input {
+    border: 1.5px solid rgb(220,220,220);
+    border-radius: 0px 0px 10px 10px;
+    border-top: none;
+}
+
+#login_form_button {
+    width: 100%;
+    margin-top: 50px;
+    background-image: linear-gradient(to right, rgb(228,33,77), rgb(215,8,103));
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 17px;
+    font-weight: 500;
+    color: white;
+    transition: background-image 2s ease-in-out;
+    -webkit-transition: background-image 2s ease-out;
+    -moz-transition: background-image 2s ease-out;
+    -o-transition: background-image 2s ease-out;
+}
+
+#login_form_button:hover {
+    cursor: pointer;
+    background-image: linear-gradient(to right, rgb(233, 77, 113), rgb(247, 34, 134));
+}
