@@ -1,0 +1,11 @@
+.spot_page_flex_container {
+    display: flex;
+    justify-content: center;
+    margin-right: 80px;
+    margin-left: 80px;
+}
+
+.spot_page_container {
+    width: 100%;
+    max-width: 1600px;
+}

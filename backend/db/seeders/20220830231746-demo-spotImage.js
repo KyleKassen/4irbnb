@@ -7,6 +7,21 @@ const spotImageData = [
     preview: true,
   },
   {
+    spotId: 1,
+    url: 'https://photos.zillowstatic.com/fp/215043cd24694028846fd38676d1c56f-uncropped_scaled_within_1536_1152.webp',
+    preview: false,
+  },
+  {
+    spotId: 1,
+    url: 'https://photos.zillowstatic.com/fp/f582b8c8c74bb466d5b75444f31059d8-uncropped_scaled_within_1536_1152.webp',
+    preview: false,
+  },
+  {
+    spotId: 1,
+    url: 'https://photos.zillowstatic.com/fp/119c50b685f9fa4a2a3c4a94660d2251-uncropped_scaled_within_1536_1152.webp',
+    preview: false,
+  },
+  {
     spotId: 2,
     url: 'https://photos.zillowstatic.com/fp/9e804679edff0876405d76baea5a32af-uncropped_scaled_within_1536_1152.webp',
     preview: true,

@@ -17,11 +17,17 @@ function SpotPage() {
   return (
     <div>
       {spot && (
-        <div className="spot_page_wrapper">
-          <p>{spot.description}</p>
-          <p><i class="fa-sharp fa-solid fa-star"></i>{spot.avgRating} · {spot.numReviews} reviews · Superhost · {spot.city}, {spot.state}, {spot.country}</p>
-          <div className="spot_image_gallery_wrapper">
-
+        <div className="spot_page_flex_container">
+          <div className="spot_page_container">
+            <p>{spot.description}</p>
+            <p>
+              <i class="fa-sharp fa-solid fa-star"></i>
+              {spot.avgRating} · {spot.numReviews} reviews · Superhost ·{" "}
+              {spot.city}, {spot.state}, {spot.country}
+            </p>
+            <div className="spot_image_gallery_wrapper">
+                
+            </div>
           </div>
         </div>
       )}
