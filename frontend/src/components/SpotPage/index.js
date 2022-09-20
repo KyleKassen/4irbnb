@@ -53,7 +53,7 @@ function SpotPage() {
                   <img className="spot_page_gallery_image" src={spotObj.url} />
                 );
               })}
-              {blankImg.length && blankImg.map((img) => img)}
+              {(blankImg.length > 0) && blankImg.map((img) => img)}
             </div>
           </div>
         </div>
