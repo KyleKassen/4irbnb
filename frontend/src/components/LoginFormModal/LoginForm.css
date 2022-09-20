@@ -1,34 +1,34 @@
-.signup_form_outer_wrapper {
+.login_form_outer_wrapper {
     width: 570px;
     height: 680px;
     border-radius: 10px;
     font-family: 'Montserrat', sans-serif;
 }
 
-.signup_form_outer_wrapper * {
+.login_form_outer_wrapper * {
     font-family: 'Montserrat', sans-serif;
 }
 
-.signup_form_wrapper {
+.login_form_wrapper {
     margin-right: 25px;
     margin-left: 25px;
 }
 
-.signup_form_signup_text {
+.login_form_login_text {
     text-align: center;
     line-height: 3;
     font-weight: 600;
     border-bottom: 1px solid rgb(235,235,235);
 }
 
-.signup_form_welcome_text {
+.login_form_welcome_text {
     font-size: 22px;
     line-height: 3;
     padding-top: 10px;
     font-weight: 500;
 }
 
-.signup_form_input_div {
+.login_form_input_div {
     width: 100%;
     height: 114px;
     border-radius: 10px;
@@ -36,43 +36,38 @@
     border: 1.5px solid rgb(220,220,220) */
 }
 
-.signup_form {
+.login_form {
     display: flex;
     align-items: center;
     flex-direction: column;
 }
 
-.signup_form input {
+.login_form input {
     display: block;
     width: 100%;
-    height: 50px;
+    height: 50%;
     /* border: none; */
 }
 
-.signup_form input::placeholder {
+.login_form input::placeholder {
     font-size: 15px;
     font-weight: 100;
     padding-left: 15px;
 }
 
-.signup_form_first_input {
+.login_form_first_input {
     border: 1.5px solid rgb(220,220,220);
     border-radius: 10px 10px 0px 0px;
-    border-bottom: none;
 }
 
-.signup_form_middle_input {
-    border: 1.5px solid rgb(220,220,220);
-    /* border-radius: 0px 0px 10px 10px; */
-    border-bottom: none;
-}
 
-.signup_form_last_input {
+.login_form_last_input {
     border: 1.5px solid rgb(220,220,220);
     border-radius: 0px 0px 10px 10px;
+    border-top: none;
 }
 
-#signup_form_button {
+#login_form_button {
     width: 100%;
     margin-top: 50px;
     background-image: linear-gradient(to right, rgb(228,33,77), rgb(215,8,103));
@@ -88,7 +83,7 @@
     -o-transition: background-image 2s ease-out;
 }
 
-#signup_form_button:hover {
+#login_form_button:hover {
     cursor: pointer;
     background-image: linear-gradient(to right, rgb(233, 77, 113), rgb(247, 34, 134));
 }

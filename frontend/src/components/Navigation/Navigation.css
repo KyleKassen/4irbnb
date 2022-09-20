@@ -1,0 +1,60 @@
+.user_icon {
+    font-size: 20px;
+    color: rgb(113,113,113);
+}
+.hamburger_icon {
+    font-size: 17px;
+    color: rgb(34,34,34);
+}
+
+.dropdown_menu_wrapper {
+    position: relative;
+}
+
+.nav_dropdown_button {
+    border-radius: 20px;
+    width: 75px;
+    height: 40px;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 1px solid rgb(235,235,235);
+    padding: 0px 7px;
+}
+
+.nav_dropdown_button:hover {
+    cursor: pointer;
+}
+
+.navlink_list {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    width: 240px;
+    background-color: white;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px 0px;
+}
+
+.navlink_list a, .navlink_list button {
+    line-height: 40px;
+    text-decoration: none;
+    padding-left: 10px;
+    color: black;
+    font-size: 15px;
+}
+
+.navlink_list button {
+    border: none;
+    text-align: left;
+    background-color: white;
+}
+
+
+.navlink_list a:hover, .navlink_list button:hover {
+    background-color: rgb(240,240,240);
+}
