@@ -42,7 +42,6 @@ function Navigation({ isLoaded }) {
     </ul>
   );
 
-
   useEffect(() => {
     if (!showMenu) return;
 
