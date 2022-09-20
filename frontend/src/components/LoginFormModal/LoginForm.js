@@ -19,7 +19,7 @@ function LoginForm({setShowModal}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setErrors([]);
+    setErrors([]);
     setHasSubmitted(true);
     console.log('LoginForm.js: handleSubmit RUNNING')
     return dispatch(sessionActions.login({ credential, password }))

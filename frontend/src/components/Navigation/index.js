@@ -3,10 +3,12 @@ import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import LoginFormModal from "../LoginFormModal";
+import SignupFormModal from '../SignupFormPage';
 import "./Navigation.css";
 
 import { Modal } from "../../context/Modal";
 import LoginForm from "../LoginFormModal/LoginForm";
+import SignupForm from "../SignupFormPage/SignupForm";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -14,6 +16,7 @@ function Navigation({ isLoaded }) {
   console.log("This is the sessionUser ", sessionUser);
 
   const [showModal, setShowModal] = useState(false);
+  const [showSignupModal, setShowSignupModal] = useState(false);
 
   let sessionLinks;
   if (sessionUser) {
@@ -23,7 +26,8 @@ function Navigation({ isLoaded }) {
       <>
         {/* <NavLink to="/login">Log In</NavLink> */}
         <LoginFormModal showModal={showModal} setShowModal={setShowModal} />
-        <NavLink to="/signup">Sign Up</NavLink>
+        <SignupFormModal showSignupModal={showSignupModal} setShowSignupModal={setShowSignupModal} />
+        {/* <NavLink to="/signup">Sign Up</NavLink> */}
       </>
     );
   }
@@ -40,9 +44,9 @@ function Navigation({ isLoaded }) {
     </ul>
   );
 
-  useEffect(() => {
-    return;
-  }, [showModal]);
+  // useEffect(() => {
+  //   return;
+  // }, [showModal]);
 
   useEffect(() => {
     if (!showMenu) return;
@@ -60,7 +64,7 @@ function Navigation({ isLoaded }) {
     if (showMenu) return;
     setShowMenu(true);
   };
-  
+
   return (
     <>
       <div className="dropdown_menu_wrapper">
@@ -72,6 +76,11 @@ function Navigation({ isLoaded }) {
         {showModal && (
           <Modal onClose={() => setShowModal(false)}>
             <LoginForm setShowModal={setShowModal}/>
+          </Modal>
+        )}
+        {showSignupModal && (
+          <Modal onClose={() => setShowSignupModal(false)}>
+            <SignupForm setShowSignupModal={setShowSignupModal}/>
           </Modal>
         )}
       </div>
