@@ -25,7 +25,7 @@ function App() {
           <Route exact path="/">
             <HomePage />
           </Route>
-          <Route path="/place">
+          <Route path="/place/:id">
             <SpotPage />
           </Route>
           {/* <Route path="/login">

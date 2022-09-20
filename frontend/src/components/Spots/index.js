@@ -14,7 +14,7 @@ function Spots() {
     dispatch(getAllSpots());
   }, [dispatch]);
 
-  console.log("allSpots.order is : ", allSpots.order);
+  // console.log("allSpots.order is : ", allSpots.order);
   return (
     <div className="spots_container_flex_wrapper">
       <div className="spots_container">

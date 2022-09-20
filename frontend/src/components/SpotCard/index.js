@@ -4,10 +4,9 @@ import "./SpotCard.css";
 
 function SpotCard({ spot }) {
   // console.log(props)
-  // console.log('Spot card is running', props)
   return (
     <div className="spotcard_container">
-      <Link to="/place">
+      <Link to={`/place/${spot.id}`}>
         <div className="spotcard_image_container">
           <img src={spot.previewImage} />
         </div>
