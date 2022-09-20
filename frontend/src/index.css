@@ -8,13 +8,14 @@ html {
     /* margin: 0; */
     width: 100vw;
     /* height: 100vh; */
-    display: flex;
-    justify-content: center;
+    /* display: flex;
+    justify-content: center; */
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
-    max-width: 1600px;
-    width: 100%;
+    /* max-width: 1600px;
+    width: 100%; */
 }
 
 #root {

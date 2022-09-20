@@ -1,6 +1,15 @@
 .spots_container {
     display: grid;
-    grid-template-columns: repeat(5, 20%);
+    grid-template-columns: repeat(5, 1fr);
     gap: 40px 24px;
     width: 100%;
+    max-width: 1600px;
+    margin-right: 80px;
+    margin-left: 80px;
+    margin-top: 20px;
+}
+
+.spots_container_flex_wrapper {
+    display: flex;
+    justify-content: center;
 }
