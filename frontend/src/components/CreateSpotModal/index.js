@@ -25,7 +25,7 @@ function CreateSpotModal({showLoginModal, setShowLoginModal}) {
         <button onClick={() => handleClick()}>Become a Host</button>
         {loggedIn && showSpotModal && (
             <Modal onClose={() => setShowSpotModal(false)}>
-                <CreateSpotForm showSpotModal={showSpotModal} setShowSpotModal={setShowSpotModal}/>
+                <CreateSpotForm setShowSpotModal={setShowSpotModal}/>
             </Modal>
         )}
         {!loggedIn && showLoginModal && (

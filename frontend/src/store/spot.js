@@ -92,7 +92,7 @@ export const createSpot = (spot) => async (dispatch) => {
     console.log("RESPONSE FROM SERVER IS OK DURING SPOT CREATION");
     const returnedSpot = await response.json();
 
-    const imgResponse = await csrfFetch(`/api/spots/${returnedSpot.id}`, {
+    const imgResponse = await csrfFetch(`/api/spots/${returnedSpot.id}/images`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -103,6 +103,7 @@ export const createSpot = (spot) => async (dispatch) => {
 
     if (imgResponse.ok) {
       dispatch(addSpot(returnedSpot));
+      console.log('spot.js: returnedSpot is: ', returnedSpot)
       return returnedSpot;
     }
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { createSpot } from "../../store/spot";
-import "./CreateSpotModal.css"
+import "./CreateSpotModal.css";
 
-function CreateSpotForm({showSpotModal, setShowSpotModal}) {
+function CreateSpotForm({ setShowSpotModal }) {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -15,21 +16,21 @@ function CreateSpotForm({showSpotModal, setShowSpotModal}) {
   const [price, setPrice] = useState("");
   const [previewImg, setPreviewImg] = useState("");
   const [errors, setErrors] = useState([]);
-  const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
-  console.log('CreateSpotForm.js is running')
+  console.log("CreateSpotForm.js is running");
+//   console.log("CreateSpotForm.js: errors.length is", errors.length);
 
-  const handleSubmit = (e) => {
-    console.log('CreateSpotForm.js: HandleSubmit')
+  const handleSubmit = async (e) => {
+    console.log("CreateSpotForm.js: HandleSubmit");
     e.preventDefault();
 
     // setErrors([]);
-    setHasSubmitted(true);
     let newLat = !lat ? 31.7683 : lat;
     let newLng = !lng ? 35.2137 : lng;
-    return dispatch(
+    const res = await dispatch(
       createSpot({
         address,
         city,
@@ -40,23 +41,23 @@ function CreateSpotForm({showSpotModal, setShowSpotModal}) {
         price,
         lat: newLat,
         lng: newLng,
-        imgurl: previewImg
+        imgurl: previewImg,
       })
     ).catch(async (res) => {
       const data = await res.json();
-      setHasSubmitted(false);
-      console.log('CreateSpotForm.js: errors caught')
-      if (data && data.errors) setErrors(Object.values(data.errors));
-      if (errors.length == 0) setShowSpotModal(false);
+      console.log("CreateSpotForm.js: errors caught");
+      console.log("CreateSpotForm.js: data.errors, ", data.errors);
+      if (data.errors) {
+        setErrors(Object.values(data.errors));
+    }
     });
-  };
 
-//   useEffect(() => {
-//     console.log('CreateSpotForm.js: errors.length is: ', errors.length)
-//     if (hasSubmitted && errors.length == 0) {
-//         setShowSpotModal(false);
-//     }
-//   }, [hasSubmitted])
+    if (res) {
+        history.push(`/place/${res.id}`);
+        setShowSpotModal(false);
+        console.log('Data is :', res)
+    }
+  };
 
   return (
     <div className="createspot_form_outer_wrapper">
