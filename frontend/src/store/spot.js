@@ -4,6 +4,8 @@ import { csrfFetch } from "./csrf";
 const LOAD_SPOTS = "spot/loadSpots";
 const ADD_SPOT = "spot/addSpot";
 const UPDATE_SPOT = "spot/updateSpot";
+const LOAD_SPOT = "spot/loadSpot";
+const DELETE_SPOT = "spot/deleteSpot";
 
 export const loadSpots = (spots) => {
   console.log("Loading All Spots");
@@ -12,6 +14,20 @@ export const loadSpots = (spots) => {
     payload: spots,
   };
 };
+
+export const loadSpot = (spot) => {
+  console.log("Loading Spot");
+  return {
+    type: LOAD_SPOT,
+    payload: spot,
+  };
+};
+
+export const deleteSpot = () => {
+  return {
+    type: DELETE_SPOT
+  }
+}
 
 export const addSpot = (spot) => {
   console.log("addSpot Action Creator Invoked");
@@ -39,6 +55,19 @@ export const getAllSpots = () => async (dispatch) => {
     const spots = await response.json();
     dispatch(loadSpots(spots));
     return spots;
+  }
+};
+
+// Thunk Action Creator for Getting One Spot
+export const getOneSpot = (spotId) => async (dispatch) => {
+  console.log("GETTING ONE SPOT FROM THE SERVER");
+  const response = await csrfFetch(`/api/spots/${spotId}`);
+
+  if (response.ok) {
+    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO loadSpot");
+    const spot = await response.json();
+    dispatch(loadSpot(spot));
+    return spot;
   }
 };
 
@@ -140,6 +169,16 @@ export const spotReducer = (state = initialState, action) => {
       updateObj.allSpots[action.payload.id] = action.payload;
 
       return updateObj;
+    case LOAD_SPOT:
+      const loadSpotObj = {...state};
+      loadSpotObj.singleSpot = action.payload;
+      return loadSpotObj;
+
+    case DELETE_SPOT:
+      const deleteSpotObj = {...state};
+      deleteSpotObj.singleSpot = null;
+      return deleteSpotObj;
+
     default:
       return state;
   }
