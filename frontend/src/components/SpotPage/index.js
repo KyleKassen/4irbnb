@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneSpot } from "../../store/spot";
+import UpdateSpotModal from "../UpdateSpotModal";
 import "./SpotPage.css";
 
 function SpotPage() {
@@ -62,7 +63,9 @@ function SpotPage() {
                   <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"/>
                 </div>
               </div>
-              <div className="spot_page_reserve_container"></div>
+              <div className="spot_page_reserve_container">
+                <UpdateSpotModal spotId={id}/>
+              </div>
             </div>
           </div>
         </div>
