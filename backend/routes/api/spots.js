@@ -53,8 +53,8 @@ const validateGetAllSpot = [
         .isInt({ max: 10 })
         .withMessage('Page must be less than or equal to 10'),
     check('size')
-        .default(20)
-        .isInt({ min: 0, max: 20 })
+        .default(30)
+        .isInt({ min: 0, max: 30 })
         .withMessage('Size must be greater than or equal to 0'),
     check('maxLat')
         .optional({ checkFalsy: true })
@@ -114,7 +114,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
     const { maxLat, minLat, maxLng, minLng, maxPrice, minPrice } = req.query;
 
     const page = req.query.page === undefined ? 0 : parseInt(req.query.page);
-    const size = req.query.size === undefined ? 20 : parseInt(req.query.size);
+    const size = req.query.size === undefined ? 30 : parseInt(req.query.size);
 
     let queryParams = {};
 
