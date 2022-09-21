@@ -44,3 +44,27 @@
     width: 100%;
     height: 100%;
 }
+
+.spot_page_info_reserve_container {
+    margin-top: 50px;
+}
+
+.spot_page_info_name_host_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 60%;
+    border-bottom: 1.5px solid rgb(221,221,221);
+    padding-bottom: 25px;
+}
+
+.spot_page_info_name_host_container p {
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.spot_page_info_name_host_container img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50px;
+}

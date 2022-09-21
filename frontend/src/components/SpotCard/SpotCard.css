@@ -5,6 +5,15 @@
     overflow: hidden;
 }
 
+.spotcard_location_rating_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.spotcard_location_rating_container p {
+    font-size: 15px;
+}
+
 .spotcard_container a {
     /* height: 360px;
     width: 280px; */

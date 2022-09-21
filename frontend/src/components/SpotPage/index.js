@@ -35,7 +35,7 @@ function SpotPage() {
           <div className="spot_page_container">
             <p className="spot_page_description">{spot.description}</p>
             <p className="spot_page_under_desc">
-              <i class="fa-sharp fa-solid fa-star"></i>
+              <i className="fa-sharp fa-solid fa-star"></i>
               {spot.avgRating} · {spot.numReviews} reviews · Superhost ·{" "}
               {spot.city}, {spot.state}, {spot.country}
             </p>
@@ -54,6 +54,15 @@ function SpotPage() {
                 );
               })}
               {(blankImg.length > 0) && blankImg.map((img) => img)}
+            </div>
+            <div className="spot_page_info_reserve_container">
+              <div className="spot_page_info_container">
+                <div className="spot_page_info_name_host_container">
+                  <p>{spot.name} hosted by {spot.Owner.firstName}</p>
+                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"/>
+                </div>
+              </div>
+              <div className="spot_page_reserve_container"></div>
             </div>
           </div>
         </div>
