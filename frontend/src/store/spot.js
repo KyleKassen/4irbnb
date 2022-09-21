@@ -3,6 +3,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_SPOTS = "spot/loadSpots";
 const ADD_SPOT = "spot/addSpot";
+// const ADD_IMAGE_SPOT = "spot/addImageSpot";
 const UPDATE_SPOT = "spot/updateSpot";
 const LOAD_SPOT = "spot/loadSpot";
 const DELETE_SPOT = "spot/deleteSpot";
@@ -25,9 +26,9 @@ export const loadSpot = (spot) => {
 
 export const deleteSpot = () => {
   return {
-    type: DELETE_SPOT
-  }
-}
+    type: DELETE_SPOT,
+  };
+};
 
 export const addSpot = (spot) => {
   console.log("addSpot Action Creator Invoked");
@@ -36,6 +37,13 @@ export const addSpot = (spot) => {
     payload: spot,
   };
 };
+
+// export const addImageSpot = (spotImgObj) => {
+//   return {
+//     type: ADD_IMAGE_SPOT,
+//     payload: spotImgObj,
+//   };
+// };
 
 export const updateSpot = (spot) => {
   console.log("updateSpot Action Creator Invoked");
@@ -83,25 +91,41 @@ export const createSpot = (spot) => async (dispatch) => {
   if (response.ok) {
     console.log("RESPONSE FROM SERVER IS OK DURING SPOT CREATION");
     const returnedSpot = await response.json();
-    dispatch(addSpot(returnedSpot));
-    return returnedSpot;
-  }
 
-  // Test with the following fetch in browser
-  // window.store.dispatch(
-  //   window.spotActions.createSpot({
-  //     address: "123 Disney Lane",
-  //     city: "San Francisco",
-  //     state: "California",
-  //     country: "United States of America",
-  //     lat: 37.7645358,
-  //     lng: -122.4730327,
-  //     name: "App Academy",
-  //     description: "Place where web developers are created",
-  //     price: 123,
-  //   })
-  // );
+    const imgResponse = await csrfFetch(`/api/spots/${returnedSpot.id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        url: spot.imgurl,
+        preview: true,
+      }),
+    });
+
+    if (imgResponse.ok) {
+      dispatch(addSpot(returnedSpot));
+      return returnedSpot;
+    }
+
+  }
 };
+
+// // Thunk Action Creator for Adding an Image to a Spot based on id
+// export const addPreviewImage = (spotId, imageurl) => async (dispatch) => {
+//   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       url: imageurl,
+//       preview: true,
+//     }),
+//   });
+
+//   if (response.ok) {
+//     const spotImage = await response.json();
+//     dispatch(addImageSpot(spotImage));
+//     return spotImage;
+//   }
+// };
 
 export const updateOneSpot = (spot) => async (dispatch) => {
   console.log("PUT/UPDATING SPOT IN DATABASE");
@@ -156,9 +180,9 @@ export const spotReducer = (state = initialState, action) => {
       const addObj = { ...state };
 
       addObj.allSpots = { ...state.allSpots };
-      addObj.order = [...state.allSpots.order];
+      addObj.allSpots.order = [...state.allSpots.order];
       addObj.allSpots[action.payload.id] = action.payload;
-      addObj.order.push(action.payload.id);
+      addObj.allSpots.order.push(action.payload.id);
 
       return addObj;
 
@@ -170,12 +194,12 @@ export const spotReducer = (state = initialState, action) => {
 
       return updateObj;
     case LOAD_SPOT:
-      const loadSpotObj = {...state};
+      const loadSpotObj = { ...state };
       loadSpotObj.singleSpot = action.payload;
       return loadSpotObj;
 
     case DELETE_SPOT:
-      const deleteSpotObj = {...state};
+      const deleteSpotObj = { ...state };
       deleteSpotObj.singleSpot = null;
       return deleteSpotObj;
 
