@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { updateOneSpot } from "../../store/spot";
-import "../CreateSpotModal/CreateSpotModal.css";
+import "../CreateSpotModal/CreateSpotForm.css";
 
 function UpdateSpotForm({setShowModal, spotId}) {
   const [address, setAddress] = useState("");
