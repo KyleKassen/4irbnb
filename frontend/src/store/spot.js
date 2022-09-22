@@ -178,7 +178,7 @@ const initialState = { allSpots: { order: [] }, singleSpot: null };
 export const spotReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
-      console.log(`LOAD_SPOTS action.payload is: ${action.payload}`)
+      console.log(`LOAD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`);
       const loadObj = { ...state };
       const spotsArray = action.payload.Spots;
       const spots = {};
@@ -186,6 +186,7 @@ export const spotReducer = (state = initialState, action) => {
       // Normalize data and add to order array
       state.allSpots.order = [];
       spotsArray.forEach((spot) => {
+        // console.log(`LOAD_SPOTS action.payload.Spots.spot is: ${JSON.stringify(spot)}}`)
         spots[spot.id] = spot;
         state.allSpots.order.push(spot.id);
       });
@@ -195,7 +196,7 @@ export const spotReducer = (state = initialState, action) => {
 
     case ADD_SPOT:
       const addObj = { ...state };
-      console.log(`ADD_SPOTS action.payload is: ${action.payload}`)
+      console.log(`ADD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
       addObj.allSpots = { ...state.allSpots };
       addObj.allSpots.order = [...state.allSpots.order];
       addObj.allSpots[action.payload.id] = action.payload;
@@ -205,7 +206,7 @@ export const spotReducer = (state = initialState, action) => {
 
     case UPDATE_SPOT:
       const updateObj = { ...state };
-      console.log(`UPDATE_SPOTS action.payload is: ${action.payload}`)
+      console.log(`UPDATE_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
       const updatedSingleSpot = {...updateObj.singleSpot, ...action.payload}
       updateObj.singleSpot = updatedSingleSpot
       return updateObj;
