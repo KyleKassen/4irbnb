@@ -120,6 +120,7 @@ export const removeReview = (reviewId) => async dispatch => {
 
     if (response.ok) {
         const resObj = response.json();
+        console.log('review.js: removeReview: The resObjReview is: ', resObj);
         dispatch(deleteReview(reviewId));
         return resObj;
     }
@@ -164,7 +165,7 @@ export const reviewReducer = (state = initialState, action) => {
         delete deleteReviewObj.user[action.payload];
 
         return deleteReviewObj;
-        
+
     default:
         return state;
   }

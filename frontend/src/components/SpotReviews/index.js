@@ -1,36 +1,42 @@
-import React, {useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {createReview, removeReview} from "../../store/review";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createReview, removeReview } from "../../store/review";
 import AddReviewModal from "../AddReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal";
-import './SpotReviews.css';
+import "./SpotReviews.css";
 
+function SpotReviews({ spot }) {
+  const spotReviews = useSelector((state) => Object.values(state.reviews.spot));
+  const sessionUser = useSelector((state) => state.session.user);
 
-function SpotReviews({spot}) {
-    const spotReviews = useSelector(state => Object.values(state.reviews.spot));
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch();
+  console.log(spotReviews);
 
-    console.log(spotReviews)
+  const handleDelete = (reviewId) => {
+    dispatch(removeReview(reviewId));
+  };
 
-    const handleDelete = (reviewId) => {
-        dispatch()
-    }
-
-    return (
-        <>
-        <AddReviewModal />
-        {spotReviews.map(review => {
-            return (
-                <div className="spot_reviews_review_container">
-                    <p>{review.review}</p>
-                    <UpdateReviewModal reviewId={review.id} />
-                    <button onClick={() => handleDelete(review.id)}>Delete Review</button>
-                </div>
-            )
-        })}
-        </>
-    );
+  return (
+    <>
+      <AddReviewModal />
+      {spotReviews.map((review) => {
+        return (
+          <div className="spot_reviews_review_container">
+            <p>{review.review}</p>
+            {review.userId === sessionUser.id && (
+              <div className="spot_reviews_modify_buttons">
+                <UpdateReviewModal reviewId={review.id} />
+                <button onClick={() => handleDelete(review.id)}>
+                  Delete Review
+                </button>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </>
+  );
 }
 
 export default SpotReviews;
