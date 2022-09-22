@@ -1,51 +1,26 @@
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {createReview} from "../../store/review";
+import AddReviewModal from "../AddReviewModal"
 import './SpotReviews.css';
 
 
 function SpotReviews({spot}) {
-    const [review, setReview] = useState("");
-    const [stars, setStars] = useState("");
+    const spotReviews = useSelector(state => Object.values(state.reviews.spot));
 
-    const sessionUser = useSelector(state => state.session.user);
-    const dispatch = useDispatch();
-
-    const addReviewClick = () => {
-        const previewImage = spot.SpotImages.filter(imgObj => imgObj.preview);
-        const {id, ownerId, address, city, state, country, lat, lng, name, price} = spot;
-        const User = {
-            id: sessionUser.id,
-            firstName: sessionUser.firstName,
-            lastName: sessionUser.lastName
-        };
-        const Spot = {
-            id,
-            ownerId,
-            address,
-            city,
-            state,
-            country,
-            lat,
-            lng,
-            name,
-            price,
-            previewImage
-        }
-        const dispatchReview = {
-            review,
-            stars
-        }
-        dispatch(createReview({
-            review: dispatchReview,
-            spot: Spot,
-            user: User
-        }))
-    }
+    console.log(spotReviews)
 
     return (
         <>
-        <button onClick={() => addReviewClick()}>Add Review</button>
+        <AddReviewModal />
+        {spotReviews.map(review => {
+            return (
+                <div className="spot_reviews_review_container">
+                    <p>{review.review}</p>
+                    
+                </div>
+            )
+        })}
         </>
     );
 }
