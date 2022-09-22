@@ -3,7 +3,7 @@ import { useParams, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneSpot, deleteOneSpot } from "../../store/spot";
 import UpdateSpotModal from "../UpdateSpotModal";
-import {getUserReviews, getSpotReviews} from "../../store/review";
+import { getUserReviews, getSpotReviews } from "../../store/review";
 import SpotReviews from "../SpotReviews";
 import "./SpotPage.css";
 
@@ -11,6 +11,7 @@ function SpotPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
+  const sessionUser = useSelector((state) => state.session.user);
 
   const spot = useSelector((state) => state.spots.singleSpot);
   const blankImg = [];
@@ -30,8 +31,8 @@ function SpotPage() {
 
   const deleteSpotClick = () => {
     dispatch(deleteOneSpot(spot.id));
-    history.replace('/');
-  }
+    history.replace("/");
+  };
 
   useEffect(() => {
     dispatch(getOneSpot(id));
@@ -63,22 +64,28 @@ function SpotPage() {
                   <img className="spot_page_gallery_image" src={spotObj.url} />
                 );
               })}
-              {(blankImg.length > 0) && blankImg.map((img) => img)}
+              {blankImg.length > 0 && blankImg.map((img) => img)}
             </div>
             <div className="spot_page_info_reserve_container">
               <div className="spot_page_info_container">
                 <div className="spot_page_info_name_host_container">
-                  <p>{spot.name} hosted by {spot.Owner.firstName}</p>
-                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png"/>
+                  <p>
+                    {spot.name} hosted by {spot.Owner.firstName}
+                  </p>
+                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" />
                 </div>
               </div>
               <div className="spot_page_reserve_container">
-                <UpdateSpotModal spotId={id}/>
-                <button onClick={() => deleteSpotClick()}>DELETE</button>
+                {sessionUser && (
+                  <>
+                    <UpdateSpotModal spotId={id} />
+                    <button onClick={() => deleteSpotClick()}>DELETE</button>
+                  </>
+                )}
               </div>
             </div>
             <div className="spot_page_reviews_container">
-              <SpotReviews spot={spot}/>
+              <SpotReviews spot={spot} />
             </div>
           </div>
         </div>

@@ -24,7 +24,7 @@ function SpotReviews({ spot }) {
         return (
           <div className="spot_reviews_review_container">
             <p>{review.review}</p>
-            {review.userId === sessionUser.id && (
+            {sessionUser && review.userId === sessionUser.id && (
               <div className="spot_reviews_modify_buttons">
                 <UpdateReviewModal reviewId={review.id} />
                 <button onClick={() => handleDelete(review.id)}>
