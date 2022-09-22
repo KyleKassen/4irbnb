@@ -18,7 +18,7 @@ function SpotReviews({spot}) {
             return (
                 <div className="spot_reviews_review_container">
                     <p>{review.review}</p>
-
+                    <UpdateReviewModal reviewId={review.id} />
                 </div>
             )
         })}

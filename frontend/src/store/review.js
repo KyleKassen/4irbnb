@@ -97,6 +97,7 @@ export const createReview = ({review, spot, user}) => async dispatch => {
 
     if (response.ok) {
         const createdReview = await response.json();
+        console.log('The createdReview is: ', createdReview)
         dispatch(addReview({createdReview, spot, user}));
         return createdReview;
     }

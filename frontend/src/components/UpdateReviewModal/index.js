@@ -14,11 +14,13 @@ function UpdateReviewModal({ reviewId }) {
   const handleClick = () => {
     setShowModal(true);
   };
-
+  const showIt = showModal && (ownerId === sessionUser.id);
+  console.log(`ownerId is : ${ownerId}`)
+  console.log( `current user id is : ${sessionUser.id}`)
   return (
     <>
       <button onClick={() => handleClick()}>Update Review</button>
-      {showModal && ownerId === sessionUser.id  (
+      {showIt &&  (
         <Modal onClose={() => setShowModal(false)}>
           <UpdateReviewForm setShowModal={setShowModal} reviewId={reviewId} />
         </Modal>

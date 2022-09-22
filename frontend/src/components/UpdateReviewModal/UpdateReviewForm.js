@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getUserReviews } from "../../store/review";
 import { updateSpotReview } from "../../store/review";
 import { Redirect } from "react-router-dom";
-import "./AddReviewForm.css";
+import "../AddReviewModal/AddReviewForm.css";
 
 function UpdateReviewForm({ setShowModal, reviewId }) {
   console.log("AddReviewForm running");
@@ -40,9 +40,9 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
 
   return (
     <div className="addreview_form_outer_wrapper">
-      <p className="addreview_form_login_text">Log In</p>
+      <p className="addreview_form_login_text">Update Review</p>
       <div className="addreview_form_wrapper">
-        <p className="addreview_form_welcome_text">Welcome to 4irbnb</p>
+        {/* <p className="addreview_form_welcome_text">Welcome to 4irbnb</p> */}
         <form onSubmit={handleSubmit} className="addreview_form">
           <ul>
             {errors.map((error, idx) => (
@@ -70,7 +70,7 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
             />
           </div>
           <button id="addreview_form_button" type="submit">
-            Add Review
+            Submit
           </button>
         </form>
       </div>
