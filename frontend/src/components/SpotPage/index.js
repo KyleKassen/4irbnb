@@ -78,7 +78,7 @@ function SpotPage() {
               </div>
             </div>
             <div className="spot_page_reviews_container">
-              <SpotReviews />
+              <SpotReviews spot={spot}/>
             </div>
           </div>
         </div>

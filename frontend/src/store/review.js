@@ -29,6 +29,14 @@ export const updateReview = (review) => {
     }
 }
 
+export const addReview = (review_spot_user) => {
+    console.log("Adding Review");
+    return {
+        type: ADD_REVIEW,
+        payload: review_spot_user
+    }
+}
+
 
 // Thunk Action Creator for Loading User Reviews
 export const getUserReviews = () => async dispatch => {
@@ -76,6 +84,24 @@ export const updateSpotReview = ({reviewId, review, stars}) => async dispatch =>
     }
 }
 
+// Thunk Action Creator for Adding Review
+export const createReview = ({review, spot, user}) => async dispatch => {
+    console.log("reviews.js: createReview running");
+    const response = await csrfFetch(`/api/spots/${spot.id}/reviews`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(review)
+    })
+
+    if (response.ok) {
+        const createdReview = await response.json();
+        dispatch(addReview({createdReview, spot, user}));
+        return createdReview;
+    }
+}
+
 const initialState = { spot: {}, user: {} };
 
 export const reviewReducer = (state = initialState, action) => {
@@ -97,6 +123,17 @@ export const reviewReducer = (state = initialState, action) => {
         updateReviewsObj.user[action.payload.id].review = action.payload.review;
         updateReviewsObj.user[action.payload.id].stars = action.payload.stars;
         return updateReviewsObj;
+
+    case ADD_REVIEW:
+        const addReviewsObj = { spot: {...state.spot}, user: {...state.user}};
+        const addReview = action.payload.createdReview;
+        const addReviewSpot = action.payload.spot;
+        const addReviewUser = action.payload.user;
+
+        addReviewsObj.user[addReview.id] = {...addReview, User:addReviewUser, Spot:addReviewSpot, ReviewImages: []};
+        addReviewsObj.spot[addReview.id] = {...addReview, User:addReviewUser, ReviewImages: []};
+
+        return addReviewsObj;
     default:
         return state;
   }
