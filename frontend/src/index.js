@@ -12,7 +12,7 @@ import * as spotActions from "./store/spot";
 
 const store = configureStore();
 
-if (process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "test") {
   restoreCSRF();
 
   window.csrfFetch = csrfFetch;
