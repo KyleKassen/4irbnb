@@ -47,7 +47,7 @@ function UpdateSpotForm({setShowModal, spotId}) {
     ).catch(async (res) => {
       const data = await res.json();
       console.log("UpdateSpotForm.js: errors caught");
-      console.log("UpdateSpotForm.js: data.errors, ", data.errors);
+      console.log("UpdateSpotForm.js: data.errors ", data.errors);
       if (data.errors) {
         setErrors(Object.values(data.errors));
     }

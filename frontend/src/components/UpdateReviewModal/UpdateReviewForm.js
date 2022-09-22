@@ -26,8 +26,8 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
       })
     ).catch(async (res) => {
       const data = await res.json();
-      console.log("UpdateSpotForm.js: errors caught");
-      console.log("UpdateSpotForm.js: data.errors, ", data);
+      console.log("UpdateReviewForm.js: errors caught");
+      console.log("UpdateReviewForm.js: data, ", data);
       if (data.errors) {
         setErrors(Object.values(data.errors));
       }

@@ -48,11 +48,11 @@ function AddReviewForm({ setShowModal, spot }) {
         user: User
     })).catch(async (res) => {
         const data = await res.json();
-        console.log("UpdateSpotForm.js: errors caught");
-        console.log("UpdateSpotForm.js: data.errors, ", data);
-        if (data.errors) {
-            setErrors(Object.values(data.errors));
-        }
+        console.log("AddReviewForm.js: errors caught");
+        console.log("AddReviewForm.js: data.message, ", data);
+        if (data.message && data.message[0] !== "V") {
+            setErrors(Object.values([data.message]));
+        } else if (data.errors) setErrors(Object.values(data.errors));
     });
 
     if (res) {
