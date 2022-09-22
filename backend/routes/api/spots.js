@@ -432,9 +432,8 @@ router.post('/:spotId/reviews', requireAuth, validateReview, async (req, res, ne
         })
     }
 
-
     const newReview = await currSpot.createReview({
-        userId: currSpot.ownerId,
+        userId: req.user.toJSON().id,
         review,
         stars
     })
