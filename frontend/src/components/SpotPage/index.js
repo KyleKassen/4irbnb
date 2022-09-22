@@ -14,6 +14,7 @@ function SpotPage() {
   const sessionUser = useSelector((state) => state.session.user);
 
   const spot = useSelector((state) => state.spots.singleSpot);
+  const ownerId = spot.Owner.id;
   const blankImg = [];
   if (spot) {
     if (spot.SpotImages.length < 5) {
@@ -76,7 +77,7 @@ function SpotPage() {
                 </div>
               </div>
               <div className="spot_page_reserve_container">
-                {sessionUser && (
+                {sessionUser && sessionUser.id === ownerId (
                   <>
                     <UpdateSpotModal spotId={id} />
                     <button onClick={() => deleteSpotClick()}>DELETE</button>
