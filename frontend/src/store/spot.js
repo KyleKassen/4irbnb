@@ -3,13 +3,31 @@ import { csrfFetch } from "./csrf";
 
 const LOAD_SPOTS = "spot/loadSpots";
 const ADD_SPOT = "spot/addSpot";
+// const ADD_IMAGE_SPOT = "spot/addImageSpot";
 const UPDATE_SPOT = "spot/updateSpot";
+const LOAD_SPOT = "spot/loadSpot";
+const DELETE_SPOT = "spot/deleteSpot";
 
 export const loadSpots = (spots) => {
   console.log("Loading All Spots");
   return {
     type: LOAD_SPOTS,
     payload: spots,
+  };
+};
+
+export const loadSpot = (spot) => {
+  console.log("Loading Spot");
+  return {
+    type: LOAD_SPOT,
+    payload: spot,
+  };
+};
+
+export const deleteSpot = (spotId) => {
+  return {
+    type: DELETE_SPOT,
+    payload: spotId
   };
 };
 
@@ -20,6 +38,13 @@ export const addSpot = (spot) => {
     payload: spot,
   };
 };
+
+// export const addImageSpot = (spotImgObj) => {
+//   return {
+//     type: ADD_IMAGE_SPOT,
+//     payload: spotImgObj,
+//   };
+// };
 
 export const updateSpot = (spot) => {
   console.log("updateSpot Action Creator Invoked");
@@ -42,6 +67,19 @@ export const getAllSpots = () => async (dispatch) => {
   }
 };
 
+// Thunk Action Creator for Getting One Spot
+export const getOneSpot = (spotId) => async (dispatch) => {
+  console.log("GETTING ONE SPOT FROM THE SERVER");
+  const response = await csrfFetch(`/api/spots/${spotId}`);
+
+  if (response.ok) {
+    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO loadSpot");
+    const spot = await response.json();
+    dispatch(loadSpot(spot));
+    return spot;
+  }
+};
+
 // Thunk Action Creator for Adding a Spot
 export const createSpot = (spot) => async (dispatch) => {
   console.log("POSTING/CREATING SPOT TO DATABASE");
@@ -54,26 +92,28 @@ export const createSpot = (spot) => async (dispatch) => {
   if (response.ok) {
     console.log("RESPONSE FROM SERVER IS OK DURING SPOT CREATION");
     const returnedSpot = await response.json();
-    dispatch(addSpot(returnedSpot));
-    return returnedSpot;
-  }
 
-  // Test with the following fetch in browser
-  // window.store.dispatch(
-  //   window.spotActions.createSpot({
-  //     address: "123 Disney Lane",
-  //     city: "San Francisco",
-  //     state: "California",
-  //     country: "United States of America",
-  //     lat: 37.7645358,
-  //     lng: -122.4730327,
-  //     name: "App Academy",
-  //     description: "Place where web developers are created",
-  //     price: 123,
-  //   })
-  // );
+    const imgResponse = await csrfFetch(
+      `/api/spots/${returnedSpot.id}/images`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: spot.imgurl,
+          preview: true,
+        }),
+      }
+    );
+
+    if (imgResponse.ok) {
+      dispatch(addSpot(returnedSpot));
+      console.log("spot.js: returnedSpot is: ", returnedSpot);
+      return returnedSpot;
+    }
+  }
 };
 
+// Thunk Action Creator for Updating a Spot
 export const updateOneSpot = (spot) => async (dispatch) => {
   console.log("PUT/UPDATING SPOT IN DATABASE");
   const { address, city, state, country, lat, lng, name, description, price } =
@@ -92,17 +132,46 @@ export const updateOneSpot = (spot) => async (dispatch) => {
       lng,
       name,
       description,
-      price,
+      price
     }),
   });
-
   if (response.ok) {
-    console.log("RESPONSE FROM SERVER IS OK WHEN UPDATING SPOT");
     const updatedSpot = await response.json();
     dispatch(updateSpot(updatedSpot));
     return updatedSpot;
   }
+
 };
+
+// Thunk Action Creator for Deleting a Spot
+export const deleteOneSpot = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    dispatch(deleteSpot(spotId));
+    return await response.json();
+  }
+}
+
+// // Thunk Action Creator for Adding an Image to a Spot based on id
+// export const addPreviewImage = (spotId, imageurl) => async (dispatch) => {
+//   const response = await csrfFetch(`/api/spots/${spotId}/images`, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       url: imageurl,
+//       preview: true,
+//     }),
+//   });
+
+//   if (response.ok) {
+//     const spotImage = await response.json();
+//     dispatch(addImageSpot(spotImage));
+//     return spotImage;
+//   }
+// };
 
 const initialState = { allSpots: { order: [] }, singleSpot: null };
 
@@ -127,19 +196,32 @@ export const spotReducer = (state = initialState, action) => {
       const addObj = { ...state };
 
       addObj.allSpots = { ...state.allSpots };
-      addObj.order = [...state.allSpots.order];
+      addObj.allSpots.order = [...state.allSpots.order];
       addObj.allSpots[action.payload.id] = action.payload;
-      addObj.order.push(action.payload.id);
+      addObj.allSpots.order.push(action.payload.id);
 
       return addObj;
 
     case UPDATE_SPOT:
       const updateObj = { ...state };
-
-      updateObj.allSpots = { ...state.allSpots };
-      updateObj.allSpots[action.payload.id] = action.payload;
-
+      const updatedSingleSpot = {...updateObj.singleSpot, ...action.payload}
+      updateObj.singleSpot = updatedSingleSpot
       return updateObj;
+    case LOAD_SPOT:
+      const loadSpotObj = { ...state };
+      // loadSpotObj.allSpots = {...state.allSpots};
+      loadSpotObj.singleSpot = action.payload;
+      return loadSpotObj;
+
+    case DELETE_SPOT:
+      const deleteSpotObj = { ...state };
+      const spotId = action.payload;
+      const idIndex = state.allSpots.order.indexOf(spotId);
+
+      deleteSpotObj.allSpots = { ...state.allSpots };
+      deleteSpotObj.allSpots.order.splice(idIndex);
+      delete deleteSpotObj.allSpots[spotId];
+      return deleteSpotObj;
     default:
       return state;
   }

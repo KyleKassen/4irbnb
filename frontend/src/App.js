@@ -7,6 +7,7 @@ import HomePage from "./components/HomePage";
 import * as sessionActions from "./store/session";
 // import Navigation from "./components/Navigation";
 import Header from "./components/Header";
+import SpotPage from "./components/SpotPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,9 @@ function App() {
         <Switch>
           <Route exact path="/">
             <HomePage />
+          </Route>
+          <Route path="/place/:id">
+            <SpotPage />
           </Route>
           {/* <Route path="/login">
             <LoginFormPage />

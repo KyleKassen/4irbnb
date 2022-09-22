@@ -10,12 +10,12 @@ import { Modal } from "../../context/Modal";
 import LoginForm from "../LoginFormModal/LoginForm";
 import SignupForm from "../SignupFormPage/SignupForm";
 
-function Navigation({ isLoaded }) {
+function Navigation({ isLoaded, showModal, setShowModal }) {
   const sessionUser = useSelector((state) => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
   console.log("This is the sessionUser ", sessionUser);
 
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
 
   let sessionLinks;
