@@ -212,7 +212,7 @@ export const spotReducer = (state = initialState, action) => {
       return updateObj;
     case LOAD_SPOT:
       const loadSpotObj = { ...state };
-      // loadSpotObj.allSpots = {...state.allSpots};
+      loadSpotObj.allSpots = {...state.allSpots};
       loadSpotObj.singleSpot = action.payload;
       return loadSpotObj;
 
