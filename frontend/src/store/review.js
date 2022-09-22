@@ -28,8 +28,19 @@ export const getUserReviews = () => async dispatch => {
     const response = await csrfFetch('/api/reviews/current');
 
     if (response.ok) {
-        const reviews = response.json();
+        const reviews = await response.json();
         dispatch(loadUserReviews(reviews));
+        return reviews;
+    }
+}
+
+export const getSpotReviews = (spotId) => async dispatch => {
+    console.log("review.js: getSpotReviews Running")
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
+
+    if (response.ok) {
+        const reviews = await response.json();
+        dispatch(loadSpotReviews(reviews));
         return reviews;
     }
 }
@@ -39,9 +50,10 @@ const initialState = { spot: {}, user: {} };
 export const reviewReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_USER_REVIEWS:
-      const loadUserObj = { spot: { ...state.spot }, user: action.payload };
+      return { spot: { ...state.spot }, user: action.payload };
 
-      return loadUserObj;
+    case LOAD_SPOT_REVIEWS:
+        return { spot: action.payload, user: {...state.user}}
     default:
         return state;
   }
