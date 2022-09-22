@@ -24,9 +24,10 @@ export const loadSpot = (spot) => {
   };
 };
 
-export const deleteSpot = () => {
+export const deleteSpot = (spotId) => {
   return {
     type: DELETE_SPOT,
+    payload: spotId
   };
 };
 
@@ -112,18 +113,9 @@ export const createSpot = (spot) => async (dispatch) => {
   }
 };
 
-// Thunk Action Creator for Deleting a Spot
+// Thunk Action Creator for Updating a Spot
 export const updateOneSpot = (spot) => async (dispatch) => {
   console.log("PUT/UPDATING SPOT IN DATABASE");
-  console.log(`updatedoneSpot address is ${spot.address}`)
-  console.log(`updatedoneSpot address is ${spot.lat}`)
-  console.log(`updatedoneSpot address is ${spot.lng}`)
-  console.log(`updatedoneSpot address is ${spot.price}`)
-  console.log(`updatedoneSpot address is ${spot.city}`)
-  console.log(`updatedoneSpot address is ${spot.state}`)
-  console.log(`updatedoneSpot address is ${spot.address}`)
-  console.log(`updatedoneSpot address is ${spot.description}`)
-  console.log(`updatedoneSpot address is ${spot.name}`)
   const { address, city, state, country, lat, lng, name, description, price } =
     spot;
   const response = await csrfFetch(`/api/spots/${spot.id}`, {
@@ -144,14 +136,24 @@ export const updateOneSpot = (spot) => async (dispatch) => {
     }),
   });
   if (response.ok) {
-    console.log('UPDATEONESPOT IS OK')
     const updatedSpot = await response.json();
     dispatch(updateSpot(updatedSpot));
-    console.log("spot.js: returnedSpot is: ", updatedSpot);
     return updatedSpot;
   }
 
 };
+
+// Thunk Action Creator for Deleting a Spot
+export const deleteOneSpot = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'DELETE'
+  });
+
+  if (response.ok) {
+    dispatch(deleteSpot(spotId));
+    return await response.json();
+  }
+}
 
 // // Thunk Action Creator for Adding an Image to a Spot based on id
 // export const addPreviewImage = (spotId, imageurl) => async (dispatch) => {
@@ -207,14 +209,19 @@ export const spotReducer = (state = initialState, action) => {
       return updateObj;
     case LOAD_SPOT:
       const loadSpotObj = { ...state };
+      // loadSpotObj.allSpots = {...state.allSpots};
       loadSpotObj.singleSpot = action.payload;
       return loadSpotObj;
 
     case DELETE_SPOT:
       const deleteSpotObj = { ...state };
-      deleteSpotObj.singleSpot = null;
-      return deleteSpotObj;
+      const spotId = action.payload;
+      const idIndex = state.allSpots.order.indexOf(spotId);
 
+      deleteSpotObj.allSpots = { ...state.allSpots };
+      deleteSpotObj.allSpots.order.splice(idIndex);
+      delete deleteSpotObj.allSpots[spotId];
+      return deleteSpotObj;
     default:
       return state;
   }
