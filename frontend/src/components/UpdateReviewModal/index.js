@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "../../context/Modal";
-import AddReviewForm from "./AddReviewForm";
+import UpdateReviewForm from "./UpdateReviewForm";
 
-function AddReviewModal({ spotId }) {
+function UpdateReviewModal({ reviewId }) {
   const sessionUser = useSelector((state) => state.session.user);
   const [loggedIn, setLoggedIn] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  const spot = useSelector((state) => state.spots.singleSpot);
-  const ownerId = spot.Owner.id;
+  const review = useSelector((state) => state.reviews.spot[reviewId]);
+  const ownerId = review.userId;
 
   const handleClick = () => {
     setShowModal(true);
@@ -17,14 +17,14 @@ function AddReviewModal({ spotId }) {
 
   return (
     <>
-      <button onClick={() => handleClick()}>Add Review</button>
-      {showModal && (
+      <button onClick={() => handleClick()}>Update Review</button>
+      {showModal && ownerId === sessionUser.id  (
         <Modal onClose={() => setShowModal(false)}>
-          <AddReviewForm setShowModal={setShowModal} spot={spot} />
+          <UpdateReviewForm setShowModal={setShowModal} reviewId={reviewId} />
         </Modal>
       )}
     </>
   );
 }
 
-export default AddReviewModal;
+export default UpdateReviewModal;

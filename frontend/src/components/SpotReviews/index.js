@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {createReview} from "../../store/review";
-import AddReviewModal from "../AddReviewModal"
+import AddReviewModal from "../AddReviewModal";
+import UpdateReviewModal from "../UpdateReviewModal";
 import './SpotReviews.css';
 
 
@@ -17,7 +18,7 @@ function SpotReviews({spot}) {
             return (
                 <div className="spot_reviews_review_container">
                     <p>{review.review}</p>
-                    
+
                 </div>
             )
         })}
