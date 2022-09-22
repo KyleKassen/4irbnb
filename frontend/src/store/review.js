@@ -4,6 +4,7 @@ const LOAD_USER_REVIEWS = "review/loadUserReviews";
 const LOAD_SPOT_REVIEWS = "review/loadSpot/Reviews";
 const UPDATE_REVIEW = "review/updateReview";
 const ADD_REVIEW = "review/addReview";
+const DELETE_REVIEW = "review/deleteReview";
 
 export const loadUserReviews = (reviews) => {
   console.log("Loading User Reviews");
@@ -34,6 +35,14 @@ export const addReview = (review_spot_user) => {
     return {
         type: ADD_REVIEW,
         payload: review_spot_user
+    }
+}
+
+export const deleteReview = (reviewId) => {
+    console.log("Deleting Review")
+    return {
+        type: DELETE_REVIEW,
+        payload: reviewId
     }
 }
 
@@ -103,6 +112,19 @@ export const createReview = ({review, spot, user}) => async dispatch => {
     }
 }
 
+// Thunk Action Creator for Deleting Review
+export const removeReview = (reviewId) => async dispatch => {
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'DELETE'
+    });
+
+    if (response.ok) {
+        const resObj = response.json();
+        dispatch(deleteReview(reviewId));
+        return resObj;
+    }
+}
+
 const initialState = { spot: {}, user: {} };
 
 export const reviewReducer = (state = initialState, action) => {
@@ -135,6 +157,14 @@ export const reviewReducer = (state = initialState, action) => {
         addReviewsObj.spot[addReview.id] = {...addReview, User:addReviewUser, ReviewImages: []};
 
         return addReviewsObj;
+
+    case DELETE_REVIEW:
+        const deleteReviewObj = { spot: {...state.spot}, user: {...state.user}};
+        delete deleteReviewObj.spot[action.payload];
+        delete deleteReviewObj.user[action.payload];
+
+        return deleteReviewObj;
+        
     default:
         return state;
   }
