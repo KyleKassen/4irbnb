@@ -58,7 +58,16 @@ export const getSpotReviews = (spotId) => async dispatch => {
 // Thunk Action Creator for Updating Review
 export const updateSpotReview = ({reviewId, review, stars}) => async dispatch => {
     console.log("review.js: updateSpotReview running");
-    const response = await csrfFetch(`/api/reviews/${reviewId}`);
+    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            review,
+            stars
+        })
+    });
 
     if (response.ok) {
         const updatedReview = await response.json();
