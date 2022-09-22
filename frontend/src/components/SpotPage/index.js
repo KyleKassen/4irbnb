@@ -3,13 +3,14 @@ import { useParams, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneSpot, deleteOneSpot } from "../../store/spot";
 import UpdateSpotModal from "../UpdateSpotModal";
+import {getUserReviews, getSpotReviews} from "../../store/review";
+import SpotReviews from "../SpotReviews";
 import "./SpotPage.css";
 
 function SpotPage() {
   const { id } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
-  // const [spotGone, setSpotGone] = useState(false);
 
   const spot = useSelector((state) => state.spots.singleSpot);
   const blankImg = [];
@@ -27,7 +28,6 @@ function SpotPage() {
     }
   }
 
-  let spotGone = false
   const deleteSpotClick = () => {
     dispatch(deleteOneSpot(spot.id));
     history.replace('/');
@@ -35,6 +35,7 @@ function SpotPage() {
 
   useEffect(() => {
     dispatch(getOneSpot(id));
+    dispatch(getSpotReviews(id));
   }, [dispatch]);
 
   return (
@@ -75,6 +76,9 @@ function SpotPage() {
                 <UpdateSpotModal spotId={id}/>
                 <button onClick={() => deleteSpotClick()}>DELETE</button>
               </div>
+            </div>
+            <div className="spot_page_reviews_container">
+              <SpotReviews spot={spot}/>
             </div>
           </div>
         </div>
