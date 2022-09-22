@@ -16,12 +16,14 @@ function UpdateSpotModal({ spotId }) {
 
   return (
     <>
-      {sessionUser && ownerId === sessionUser.id && showModal && (
+      {sessionUser && ownerId === sessionUser.id && (
         <>
-          <button onClick={() => handleClick()}>UPDATE</button>
-          <Modal onClose={() => setShowModal(false)}>
-            <UpdateSpotForm setShowModal={setShowModal} spotId={spotId} />
-          </Modal>
+          <button className="spot_page_update_button" onClick={() => handleClick()}>UPDATE</button>
+          {showModal && (
+            <Modal onClose={() => setShowModal(false)}>
+              <UpdateSpotForm setShowModal={setShowModal} spotId={spotId} />
+            </Modal>
+          )}
         </>
       )}
     </>

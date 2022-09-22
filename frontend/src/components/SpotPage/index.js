@@ -77,12 +77,29 @@ function SpotPage() {
                 </div>
               </div>
               <div className="spot_page_reserve_container">
+                <div className="spot_page_reserve_price_reviews">
+                  <p>
+                    <span className="spot_page_price">{`$${spot.price}`}</span> night
+                  </p>
+                  <p>
+                    <i className="fa-sharp fa-solid fa-star"></i>{" "}
+                    {spot.avgRating}
+                    <span>{` · ${spot.numReviews} reviews`}</span>
+                  </p>
+                </div>
                 {sessionUser && sessionUser.id === ownerId && (
-                  <>
+                  <div className="spot_page_updel_button_container">
                     <UpdateSpotModal spotId={id} />
-                    <button onClick={() => deleteSpotClick()}>DELETE</button>
-                  </>
+                    <button className="spot_page_delete_button" onClick={() => deleteSpotClick()}>DELETE</button>
+                  </div>
                 )}
+                <div className="spot_page_charges_container">
+                  <div className="spot_page_xprice"><p></p><p></p></div>
+                  <div className="spot_page_discount"><p></p><p></p></div>
+                  <div className="spot_page_cleaning"><p></p><p></p></div>
+                  <div className="spot_page_service"><p></p><p></p></div>
+                  <div className="spot_page_total"><p></p><p></p></div>
+                </div>
               </div>
             </div>
             <div className="spot_page_reviews_container">
