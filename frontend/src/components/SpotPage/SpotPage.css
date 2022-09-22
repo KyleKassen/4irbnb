@@ -75,6 +75,14 @@
     border-radius: 50px;
 }
 
+.spot_page_pro1_container, .spot_page_pro2_container, .spot_page_pro3_container {
+    display: flex;
+}
+
+.spot_page_pro1_icon, .spot_page_pro2_icon, .spot_page_pro3_icon {
+    font-size: 30px;
+}
+
 .spot_page_reserve_container {
     border: 1px solid rgb(221,221,221);
     border-radius: 10px;
@@ -121,4 +129,24 @@
 .spot_page_update_button:hover, .spot_page_delete_button:hover {
     cursor: pointer;
     background-image: linear-gradient(to right, rgb(233, 77, 113), rgb(247, 34, 134));
+}
+
+.spot_page_xprice , .spot_page_discount, .spot_page_cleaning, .spot_page_service, .spot_page_total {
+    display: flex;
+    justify-content: space-between;
+    text-decoration: underline;
+    color: rgb(34,34,34);
+    padding-top: 16px;
+}
+
+.spot_page_disamount {
+    color: green;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.spot_page_total {
+    border-top: 1px solid rgb(221,221,221);
+    padding-top: 24px;
+    margin-top: 24px;
 }
