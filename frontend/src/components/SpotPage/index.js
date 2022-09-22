@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOneSpot, deleteOneSpot } from "../../store/spot";
 import UpdateSpotModal from "../UpdateSpotModal";
 import {getUserReviews, getSpotReviews} from "../../store/review";
+import SpotReviews from "../SpotReviews";
 import "./SpotPage.css";
 
 function SpotPage() {
@@ -77,7 +78,7 @@ function SpotPage() {
               </div>
             </div>
             <div className="spot_page_reviews_container">
-              
+              <SpotReviews />
             </div>
           </div>
         </div>
