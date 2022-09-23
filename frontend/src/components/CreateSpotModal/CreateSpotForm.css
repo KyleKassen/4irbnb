@@ -2,11 +2,11 @@
     width: 570px;
     height: 680px;
     border-radius: 10px;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .createspot_form_outer_wrapper * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .createspot_form_wrapper {
@@ -75,7 +75,7 @@
 .createspot_become_host_button {
     background-color: white;
     border: none;
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin-right: 30px;
     padding: 0px 10px;
     font-size: 14px;
