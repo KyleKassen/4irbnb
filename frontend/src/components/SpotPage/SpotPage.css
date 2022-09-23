@@ -79,18 +79,50 @@
     padding: 32px 0px;
     border-bottom: 1px solid rgb(221,221,221);
     font-family: 'Roboto', sans-serif;
+    color: rgb(34,34,34);
 }
 
 .spot_page_icon_headings h3 {
     font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 8px;
+}
+
+.spot_page_icon_headings p {
+    font-size: 14px;
+    color: rgb(113, 113, 113);
+    line-height: 20px;
 }
 
 .spot_page_pro1_container, .spot_page_pro2_container, .spot_page_pro3_container {
     display: flex;
+    margin-bottom: 24px;
+}
+
+.spot_page_pro3_container {
+    margin-bottom: 0px !important;
+}
+
+.spot_page_pro1_text, .spot_page_pro2_text, .spot_page_pro3_text {
+    margin-left: 16px;
 }
 
 .spot_page_pro1_icon, .spot_page_pro2_icon, .spot_page_pro3_icon {
-    font-size: 30px;
+    font-size: 25px;
+    min-width: 29px;
+}
+
+.spot_page_aircover_container {
+    padding: 32px 0px;
+    color: rgb(34, 34, 34);
+    border-bottom: 1px solid rgb(221,221,221);
+}
+
+.spot_page_aircover_container img {
+    height: 26px;
+    margin-bottom: 16px;
 }
 
 .spot_page_reserve_container {

@@ -43,18 +43,18 @@ function SpotPage() {
 
   const objToday = new Date();
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
     "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
   const month = months[objToday.getMonth()]
   const day = objToday.getDate()
@@ -125,6 +125,10 @@ function SpotPage() {
                       <h3>{`Free cancellation before ${month} ${day+1}`}</h3>
                     </div>
                   </div>
+                </div>
+                <div className="spot_page_aircover_container">
+                  <img src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg" />
+                  <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
                 </div>
               </div>
               <div className="spot_page_reserve_container">
