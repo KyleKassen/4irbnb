@@ -139,10 +139,10 @@
     padding-top: 16px;
 }
 
-.spot_page_disamount {
+#spot_page_disamount {
     color: green;
     font-weight: 500;
-    text-decoration: none;
+    text-decoration: none !important;
 }
 
 .spot_page_total {

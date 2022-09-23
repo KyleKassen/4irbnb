@@ -157,7 +157,7 @@ function SpotPage() {
                   </div>
                   <div className="spot_page_discount">
                     <p>Long stay discount</p>
-                    <p className="spot_page_disamount">{`-$${discount}`}</p>
+                    <p id="spot_page_disamount">{`-$${discount}`}</p>
                   </div>
                   <div className="spot_page_cleaning">
                     <p>Cleaning fee</p>
