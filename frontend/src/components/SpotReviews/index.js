@@ -17,6 +17,21 @@ function SpotReviews({ spot }) {
     dispatch(removeReview(reviewId));
   };
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
   return (
     <>
       <div className="spot_reviews_total_add_container">
@@ -29,10 +44,14 @@ function SpotReviews({ spot }) {
         </p>
         <AddReviewModal />
       </div>
+      <div className="spot_reviews_all_reviews_container">
       {spotReviews.map((review) => {
         return (
           <div className="spot_reviews_review_container">
-            <p>{review.review}</p>
+            <div className="spot_reviews_review_data_container">
+            <p>{review.User.firstName}{review.review}{months[parseInt(review.updatedAt.substr(5,2))]}</p>
+
+            </div>
             {sessionUser && review.userId === sessionUser.id && (
               <div className="spot_reviews_modify_buttons">
                 <UpdateReviewModal reviewId={review.id} />
@@ -44,6 +63,7 @@ function SpotReviews({ spot }) {
           </div>
         );
       })}
+      </div>
     </>
   );
 }

@@ -15,9 +15,10 @@
 
 .spot_reviews_addreview_button {
     background-color: white;
-    border: none;
+    border: 1px solid rgb(34,34,34);
+    border-radius: 8px;
     font-family: 'Roboto', sans-serif;
-    margin-right: 100px;
+    /* margin-right: 100px; */
     padding: 10px 20px;
     font-size: 25px;
     font-weight: 400;
@@ -26,5 +27,15 @@
 
 .spot_reviews_addreview_button:hover {
     background-color: rgb(240, 240, 240);
-    border-radius: 20px;
+    border-radius: 8px;
+}
+
+.spot_reviews_all_reviews_container {
+    display: flex;
+    width: 100%;
+}
+
+.spot_reviews_review_container {
+    margin-bottom: 40px;
+    width: 40%
 }

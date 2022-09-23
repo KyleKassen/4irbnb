@@ -62,9 +62,9 @@ function AddReviewForm({ setShowModal, spot }) {
 
   return (
     <div className="addreview_form_outer_wrapper">
-      <p className="addreview_form_login_text">Log In</p>
+      <p className="addreview_form_login_text">Add Review</p>
       <div className="addreview_form_wrapper">
-      <p className="addreview_form_welcome_text">Welcome to 4irbnb</p>
+      {/* <p className="addreview_form_welcome_text">Welcome to 4irbnb</p> */}
         <form onSubmit={handleSubmit} className="addreview_form">
           <ul>
             {errors.map((error, idx) => (
