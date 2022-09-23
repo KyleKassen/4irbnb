@@ -1,0 +1,30 @@
+.spot_reviews_total_add_container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+}
+
+.spot_reviews_total_add_container  p {
+    font-size: 25px;
+}
+.spot_reviews_total_add_container i {
+    font-size: 18px;
+    line-height: 25px;
+}
+
+.spot_reviews_addreview_button {
+    background-color: white;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    margin-right: 100px;
+    padding: 10px 20px;
+    font-size: 25px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
+.spot_reviews_addreview_button:hover {
+    background-color: rgb(240, 240, 240);
+    border-radius: 20px;
+}

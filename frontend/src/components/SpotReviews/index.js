@@ -19,7 +19,16 @@ function SpotReviews({ spot }) {
 
   return (
     <>
-      <AddReviewModal />
+      <div className="spot_reviews_total_add_container">
+        {/* <div className="spot_reviews_star_reviews_container">
+
+        </div> */}
+        <p>
+          <i className="fa-sharp fa-solid fa-star"></i> {spot.avgRating}
+          <span>{` · ${spot.numReviews} reviews`}</span>
+        </p>
+        <AddReviewModal />
+      </div>
       {spotReviews.map((review) => {
         return (
           <div className="spot_reviews_review_container">
