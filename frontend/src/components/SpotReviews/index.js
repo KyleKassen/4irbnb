@@ -45,24 +45,37 @@ function SpotReviews({ spot }) {
         <AddReviewModal />
       </div>
       <div className="spot_reviews_all_reviews_container">
-      {spotReviews.map((review) => {
-        return (
-          <div className="spot_reviews_review_container">
-            <div className="spot_reviews_review_data_container">
-            <p>{review.User.firstName}{review.review}{months[parseInt(review.updatedAt.substr(5,2))]}</p>
-
-            </div>
-            {sessionUser && review.userId === sessionUser.id && (
-              <div className="spot_reviews_modify_buttons">
-                <UpdateReviewModal reviewId={review.id} />
-                <button onClick={() => handleDelete(review.id)}>
-                  Delete Review
-                </button>
+        {spotReviews.map((review) => {
+          return (
+            <div className="spot_reviews_review_container">
+              <div className="spot_reviews_review_data_container">
+                <div className="spot_reviews_review_user">
+                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" />
+                  <div className="spot_reviews_review_user_time">
+                    <p className="spot_reviews_review_data_name">
+                      {review.User.firstName}
+                    </p>
+                    <p className="spot_reviews_review_data_date">
+                      {months[parseInt(review.updatedAt.substr(5, 2))]}{" "}
+                      {review.updatedAt.substr(0, 4)}
+                    </p>
+                  </div>
+                </div>
+                <p className="spot_reviews_review_data_review">
+                  {review.review}
+                </p>
               </div>
-            )}
-          </div>
-        );
-      })}
+              {sessionUser && review.userId === sessionUser.id && (
+                <div className="spot_reviews_modify_buttons">
+                  <UpdateReviewModal reviewId={review.id} />
+                  <button onClick={() => handleDelete(review.id)}>
+                    Delete Review
+                  </button>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </>
   );
