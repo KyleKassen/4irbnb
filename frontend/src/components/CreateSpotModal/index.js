@@ -20,6 +20,8 @@ function CreateSpotModal({showLoginModal, setShowLoginModal}) {
         } else setLoggedIn(true)
     }
 
+    console.log('loggedIn is the following: ',loggedIn)
+
     return (
         <>
         <button className="createspot_become_host_button" onClick={() => handleClick()}>Become a Host</button>
