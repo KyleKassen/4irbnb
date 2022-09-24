@@ -5,7 +5,15 @@ import "./SpotCard.css";
 function SpotCard({ spot }) {
   // console.log(props)
   let avgRating = "N/A"
-  if (spot.avgRating) avgRating = spot.avgRating
+  if (spot.avgRating) {
+    avgRating = spot.avgRating;
+    avgRating = String(avgRating);
+    if(avgRating.includes('.')) {
+      let length = avgRating.split('.')[1].length;
+      if (length > 2) avgRating = parseFloat(avgRating).toFixed(2);
+    }
+  };
+
   return (
     <div className="spotcard_container">
       <Link to={`/place/${spot.id}`}>
