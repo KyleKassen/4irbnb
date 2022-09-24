@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, removeReview } from "../../store/review";
+import { getOneSpot } from "../../store/spot";
 import AddReviewModal from "../AddReviewModal";
 import UpdateReviewModal from "../UpdateReviewModal";
 import "./SpotReviews.css";
@@ -13,8 +14,9 @@ function SpotReviews({ spot }) {
 
   console.log(spotReviews);
 
-  const handleDelete = (reviewId) => {
-    dispatch(removeReview(reviewId));
+  const handleDelete = async (reviewId) => {
+    await dispatch(removeReview(reviewId));
+    dispatch(getOneSpot(spot.id));
   };
 
   const months = [

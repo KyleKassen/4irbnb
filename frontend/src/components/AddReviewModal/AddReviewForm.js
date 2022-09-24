@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import {getUserReviews} from "../../store/review";
 import {createReview} from "../../store/review";
+import { getOneSpot } from "../../store/spot";
 import { Redirect } from "react-router-dom";
 import "./AddReviewForm.css";
 
@@ -57,6 +58,7 @@ function AddReviewForm({ setShowModal, spot }) {
 
     if (res) {
         setShowModal(false);
+        dispatch(getOneSpot(spot.id));
     }
 }
 

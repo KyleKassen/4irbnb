@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserReviews } from "../../store/review";
 import { updateSpotReview } from "../../store/review";
+import { getOneSpot } from "../../store/spot";
 import { Redirect } from "react-router-dom";
 import "../AddReviewModal/AddReviewForm.css";
 
@@ -10,7 +11,7 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
   console.log("AddReviewForm running");
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
-  // const spotId = useSelector((state) => state.spots.singleSpot.id);
+  const spotId = useSelector((state) => state.spots.singleSpot.id);
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
   const [errors, setErrors] = useState([]);
@@ -38,7 +39,7 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
 
     if (res) {
       setShowModal(false);
-
+      dispatch(getOneSpot(spotId));
     }
   };
 

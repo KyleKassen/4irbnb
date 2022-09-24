@@ -13,6 +13,7 @@ function SpotPage() {
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
 
+
   const spot = useSelector((state) => state.spots.singleSpot);
   const ownerId = spot ? spot.Owner.id : null;
   const blankImg = [];
@@ -68,6 +69,10 @@ function SpotPage() {
     dispatch(getOneSpot(id));
     dispatch(getSpotReviews(id));
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   dispatch(getSpotReviews(id))
+  // }, [spotReviews])
 
   return (
     <div>
