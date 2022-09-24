@@ -1,0 +1,10 @@
+.updatespot_form_outer_wrapper {
+    width: 570px;
+    height: 605px;
+    border-radius: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.updatespot_form_outer_wrapper * {
+    font-family: 'Roboto', sans-serif;
+}
