@@ -10,6 +10,7 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
   console.log("AddReviewForm running");
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  // const spotId = useSelector((state) => state.spots.singleSpot.id);
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
   const [errors, setErrors] = useState([]);
@@ -33,8 +34,11 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
       }
     });
 
+    console.log(`UpdateReviewForm.js: res is: ${res}`)
+
     if (res) {
       setShowModal(false);
+
     }
   };
 
