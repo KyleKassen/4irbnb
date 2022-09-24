@@ -17,7 +17,7 @@ function AddReviewModal({ spotId }) {
 
   return (
     <div>
-      {sessionUser.id !== ownerId &&
+      {sessionUser && sessionUser.id !== ownerId &&
       <button className="spot_reviews_addreview_button" onClick={() => handleClick()}>Add Review</button>
       }
       {showModal && (
