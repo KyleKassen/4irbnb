@@ -165,7 +165,7 @@ function SpotPage() {
                     <p>{`$${multiPrice}`}</p>
                   </div>
                   <div className="spot_page_discount">
-                    <p>Long stay discount</p>
+                    <p className="spot_page_discount_underline">Long stay discount</p>
                     <p id="spot_page_disamount">{`-$${discount}`}</p>
                   </div>
                   <div className="spot_page_cleaning">
@@ -177,7 +177,7 @@ function SpotPage() {
                     <p>$84</p>
                   </div>
                   <div className="spot_page_total">
-                    <p>{`$${spot.price} x 5 nights`}</p>
+                    <p>{`Total before taxes`}</p>
                     <p>{`$${totalPrice}`}</p>
                   </div>
                 </div>
