@@ -49,30 +49,32 @@ function SpotReviews({ spot }) {
           return (
             <div className="spot_reviews_review_container">
               <div className="spot_reviews_review_data_container">
-                <div className="spot_reviews_review_user">
-                  <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__480.png" />
-                  <div className="spot_reviews_review_user_time">
-                    <p className="spot_reviews_review_data_name">
-                      {review.User.firstName}
-                    </p>
-                    <p className="spot_reviews_review_data_date">
-                      {months[parseInt(review.updatedAt.substr(5, 2))]}{" "}
-                      {review.updatedAt.substr(0, 4)}
-                    </p>
+                <div className="spot_reviews_ru_modify_container">
+                  <div className="spot_reviews_review_user">
+                    <img src="https://a0.muscache.com/defaults/user_pic-225x225.png?im_w=240" />
+                    <div className="spot_reviews_review_user_time">
+                      <p className="spot_reviews_review_data_name">
+                        {review.User.firstName}
+                      </p>
+                      <p className="spot_reviews_review_data_date">
+                        {months[parseInt(review.updatedAt.substr(5, 2))]}{" "}
+                        {review.updatedAt.substr(0, 4)}
+                      </p>
+                    </div>
                   </div>
+                    {sessionUser && review.userId === sessionUser.id && (
+                      <div className="spot_reviews_modify_buttons">
+                        <UpdateReviewModal reviewId={review.id} />
+                        <button onClick={() => handleDelete(review.id)}>
+                          Delete
+                        </button>
+                      </div>
+                    )}
                 </div>
                 <p className="spot_reviews_review_data_review">
                   {review.review}
                 </p>
               </div>
-              {sessionUser && review.userId === sessionUser.id && (
-                <div className="spot_reviews_modify_buttons">
-                  <UpdateReviewModal reviewId={review.id} />
-                  <button onClick={() => handleDelete(review.id)}>
-                    Delete Review
-                  </button>
-                </div>
-              )}
             </div>
           );
         })}

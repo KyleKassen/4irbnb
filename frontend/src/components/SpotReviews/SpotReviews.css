@@ -49,6 +49,11 @@
 
 }
 
+.spot_reviews_ru_modify_container {
+    display: flex;
+    justify-content: space-between;
+}
+
 .spot_reviews_review_user {
     margin-bottom: 16px;
 }
@@ -63,6 +68,11 @@
     margin-top: 5px;
 }
 
+.spot_reviews_review_data_review {
+    line-height: 24px;
+    font-weight: 300;
+}
+
 .spot_reviews_review_data_container img {
     width: 50px;
     height: 50px;
@@ -71,4 +81,27 @@
 
 .spot_reviews_review_user {
     display: flex;
+}
+
+.spot_reviews_modify_buttons {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.spot_reviews_modify_buttons button {
+    background-color: white;
+    border: 1px solid rgb(34,34,34);
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    /* margin-right: 100px; */
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+}
+
+.spot_reviews_modify_buttons button:hover {
+    background-color: rgb(240, 240, 240);
+    border-radius: 8px;
 }
