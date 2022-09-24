@@ -69,7 +69,7 @@ export const getSpotReviews = (spotId) => async dispatch => {
         const reviews = await response.json();
         dispatch(loadSpotReviews(reviews));
         return reviews;
-    }
+    } else return {};
 }
 
 // Thunk Action Creator for Updating Review
@@ -136,6 +136,8 @@ export const reviewReducer = (state = initialState, action) => {
       return { spot: { ...state.spot }, user: userReviewsObj };
 
     case LOAD_SPOT_REVIEWS:
+        // console.log("action.payload.Reviews.length is, ", action.payload.Reviews.length)
+        // if (action.payload.Reviews.length === 0) return { spot: {}, user: {...state.user}}
         const spotReviewsObj = {}
         action.payload.Reviews.forEach(review => spotReviewsObj[review.id] = review);
         return { spot: spotReviewsObj, user: {...state.user}};
