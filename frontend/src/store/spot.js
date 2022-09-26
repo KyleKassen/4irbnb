@@ -145,11 +145,13 @@ export const updateOneSpot = (spot) => async (dispatch) => {
 
 // Thunk Action Creator for Deleting a Spot
 export const deleteOneSpot = (spotId) => async (dispatch) => {
+  console.log("DELETING SPOT IN DATABASE");
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'DELETE'
   });
 
   if (response.ok) {
+    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO deleteSpot");
     dispatch(deleteSpot(spotId));
     return await response.json();
   }
@@ -178,7 +180,7 @@ const initialState = { allSpots: { order: [] }, singleSpot: null };
 export const spotReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
-      console.log(`LOAD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`);
+      // console.log(`LOAD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`);
       const loadObj = { ...state };
       const spotsArray = action.payload.Spots;
       const spots = {};
@@ -191,12 +193,13 @@ export const spotReducer = (state = initialState, action) => {
         state.allSpots.order.push(spot.id);
       });
       loadObj.allSpots = { ...state.allSpots, ...spots };
+      loadObj.singleSpot = null;
 
       return loadObj;
 
     case ADD_SPOT:
       const addObj = { ...state };
-      console.log(`ADD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
+      // console.log(`ADD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
       addObj.allSpots = { ...state.allSpots };
       addObj.allSpots.order = [...state.allSpots.order];
       addObj.allSpots[action.payload.id] = action.payload;
@@ -206,7 +209,7 @@ export const spotReducer = (state = initialState, action) => {
 
     case UPDATE_SPOT:
       const updateObj = { ...state };
-      console.log(`UPDATE_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
+      // console.log(`UPDATE_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
       const updatedSingleSpot = {...updateObj.singleSpot, ...action.payload}
       updateObj.singleSpot = updatedSingleSpot
       return updateObj;

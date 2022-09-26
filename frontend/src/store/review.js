@@ -63,7 +63,14 @@ export const getUserReviews = () => async dispatch => {
 // Thunk Action Creator for Loading Spot Reviews
 export const getSpotReviews = (spotId) => async dispatch => {
     console.log("review.js: getSpotReviews Running")
-    const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
+    const response = await csrfFetch(`/api/spots/${spotId}/reviews`).catch(async res => {
+        const error = await res.json();
+        console.log("review.js: getSpotReviews Running error res", error);
+        if (error.message === "Spot couldn't be found") {
+            dispatch(loadSpotReviews({}));
+            return {}
+        }
+    });
 
     if (response.ok) {
         const reviews = await response.json();
@@ -136,6 +143,8 @@ export const reviewReducer = (state = initialState, action) => {
       return { spot: { ...state.spot }, user: userReviewsObj };
 
     case LOAD_SPOT_REVIEWS:
+        console.log("Object.values(action.payload).length is, ", Object.values(action.payload).length)
+        if (Object.values(action.payload).length === 0) return { spot: {}, user: {...state.user}}
         const spotReviewsObj = {}
         action.payload.Reviews.forEach(review => spotReviewsObj[review.id] = review);
         return { spot: spotReviewsObj, user: {...state.user}};

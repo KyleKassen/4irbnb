@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createSpot } from "../../store/spot";
-import "./CreateSpotModal.css";
+import "./CreateSpotForm.css";
 
 function CreateSpotForm({ setShowSpotModal }) {
   const [address, setAddress] = useState("");
@@ -21,7 +21,7 @@ function CreateSpotForm({ setShowSpotModal }) {
   const history = useHistory();
 
   console.log("CreateSpotForm.js is running");
-//   console.log("CreateSpotForm.js: errors.length is", errors.length);
+  //   console.log("CreateSpotForm.js: errors.length is", errors.length);
 
   const handleSubmit = async (e) => {
     console.log("CreateSpotForm.js: HandleSubmit");
@@ -49,13 +49,13 @@ function CreateSpotForm({ setShowSpotModal }) {
       console.log("CreateSpotForm.js: data.errors, ", data.errors);
       if (data.errors) {
         setErrors(Object.values(data.errors));
-    }
+      }
     });
 
     if (res) {
-        history.push(`/place/${res.id}`);
-        setShowSpotModal(false);
-        console.log('Data is :', res)
+      history.push(`/place/${res.id}`);
+      setShowSpotModal(false);
+      console.log("Data is :", res);
     }
   };
 
@@ -63,9 +63,9 @@ function CreateSpotForm({ setShowSpotModal }) {
     <div className="createspot_form_outer_wrapper">
       <p className="createspot_form_createspot_text">Become a Host</p>
       <div className="createspot_form_wrapper">
-        <p className="createspot_form_welcome_text">
+        {/* <p className="createspot_form_welcome_text">
           We Need Some Info About Your Place
-        </p>
+        </p> */}
         <form onSubmit={handleSubmit} className="createspot_form">
           <ul>
             {errors.map((error, idx) => (
@@ -74,6 +74,14 @@ function CreateSpotForm({ setShowSpotModal }) {
           </ul>
           <input
             className="createspot_form_first_input"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name"
+            required
+          />
+          <input
+            className="createspot_form_middle_input"
             type="text"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
@@ -107,10 +115,25 @@ function CreateSpotForm({ setShowSpotModal }) {
           <input
             className="createspot_form_middle_input"
             type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Description"
             required
+          />
+            <input
+              className="createspot_form_middle_input"
+              type="text"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Price per night"
+              required
+            />
+          <input
+            className="createspot_form_middle_input"
+            type="text"
+            value={previewImg}
+            onChange={(e) => setPreviewImg(e.target.value)}
+            placeholder="Preview Image Url"
           />
           <input
             className="createspot_form_middle_input"
@@ -120,34 +143,11 @@ function CreateSpotForm({ setShowSpotModal }) {
             placeholder="Latitude: Not Required"
           />
           <input
-            className="createspot_form_middle_input"
+            className="createspot_form_last_input"
             type="text"
             value={lng}
             onChange={(e) => setLng(e.target.value)}
             placeholder="Longitude: Not Required"
-          />
-          <input
-            className="createspot_form_middle_input"
-            type="text"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description"
-            required
-          />
-          <input
-            className="createspot_form_middle_input"
-            type="text"
-            value={previewImg}
-            onChange={(e) => setPreviewImg(e.target.value)}
-            placeholder="Preview Image Url"
-          />
-          <input
-            className="createspot_form_last_input"
-            type="text"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Price per night"
-            required
           />
           <button type="submit" id="createspot_form_button">
             Add your place

@@ -2,11 +2,10 @@
     width: 570px;
     height: 680px;
     border-radius: 10px;
-    font-family: 'Montserrat', sans-serif;
 }
 
 .login_form_outer_wrapper * {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 .login_form_wrapper {

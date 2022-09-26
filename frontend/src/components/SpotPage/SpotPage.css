@@ -47,13 +47,19 @@
 
 .spot_page_info_reserve_container {
     margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.spot_page_info_container {
+    width: 60%;
 }
 
 .spot_page_info_name_host_container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 60%;
     border-bottom: 1.5px solid rgb(221,221,221);
     padding-bottom: 25px;
 }
@@ -67,4 +73,140 @@
     width: 55px;
     height: 55px;
     border-radius: 50px;
+}
+
+.spot_page_icon_headings {
+    padding: 32px 0px;
+    border-bottom: 1px solid rgb(221,221,221);
+    font-family: 'Roboto', sans-serif;
+    color: rgb(34,34,34);
+}
+
+.spot_page_icon_headings h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 20px;
+    margin-bottom: 8px;
+}
+
+.spot_page_icon_headings p {
+    font-size: 14px;
+    color: rgb(113, 113, 113);
+    line-height: 20px;
+}
+
+.spot_page_pro1_container, .spot_page_pro2_container, .spot_page_pro3_container {
+    display: flex;
+    margin-bottom: 24px;
+}
+
+.spot_page_pro3_container {
+    margin-bottom: 0px !important;
+}
+
+.spot_page_pro1_text, .spot_page_pro2_text, .spot_page_pro3_text {
+    margin-left: 16px;
+}
+
+.spot_page_pro1_icon, .spot_page_pro2_icon, .spot_page_pro3_icon {
+    font-size: 25px;
+    min-width: 29px;
+}
+
+.spot_page_aircover_container {
+    padding: 32px 0px;
+    color: rgb(34, 34, 34);
+    border-bottom: 1px solid rgb(221,221,221);
+}
+
+.spot_page_aircover_container img {
+    height: 26px;
+    margin-bottom: 16px;
+}
+
+.spot_page_reserve_container {
+    border: 1px solid rgb(221,221,221);
+    border-radius: 10px;
+    width: 30%;
+    padding: 20px;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+}
+
+.spot_page_reserve_price_reviews {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spot_page_reserve_price_reviews .spot_page_price{
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.spot_page_updel_button_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.spot_page_update_button {
+    background-color: blue;
+}
+
+.spot_page_update_button, .spot_page_delete_button {
+    width: 100%;
+    margin-top: 20px;
+    background-image: linear-gradient(to right, rgb(228,33,77), rgb(215,8,103));
+    border: none;
+    border-radius: 10px;
+    height: 50px;
+    font-size: 17px;
+    font-weight: 500;
+    color: white;
+    transition: background-image 2s ease-in-out;
+    -webkit-transition: background-image 2s ease-out;
+    -moz-transition: background-image 2s ease-out;
+    -o-transition: background-image 2s ease-out;
+}
+
+.spot_page_update_button:hover, .spot_page_delete_button:hover {
+    cursor: pointer;
+    background-image: linear-gradient(to right, rgb(233, 77, 113), rgb(247, 34, 134));
+}
+
+.spot_page_xprice , .spot_page_cleaning, .spot_page_service, .spot_page_total {
+    display: flex;
+    justify-content: space-between;
+    text-decoration: underline;
+    color: rgb(34,34,34);
+    padding-top: 16px;
+}
+
+.spot_page_discount {
+    display: flex;
+    justify-content: space-between;
+    color: rgb(34,34,34);
+    padding-top: 16px;
+}
+
+.spot_page_discount_underline {
+    text-decoration: underline;
+}
+
+#spot_page_disamount {
+    color: green;
+    font-weight: 500;
+}
+
+.spot_page_total {
+    border-top: 1px solid rgb(221,221,221);
+    padding-top: 24px;
+    margin-top: 24px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.spot_page_reviews_container {
+    padding-top: 48px;
+    width: 100%;
 }

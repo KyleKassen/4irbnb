@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { updateOneSpot } from "../../store/spot";
-import "../CreateSpotModal/CreateSpotModal.css";
+import "../CreateSpotModal/CreateSpotForm.css";
+import "./UpdateSpotForm.css";
 
 function UpdateSpotForm({setShowModal, spotId}) {
   const [address, setAddress] = useState("");
@@ -60,12 +61,12 @@ function UpdateSpotForm({setShowModal, spotId}) {
     }
   };
   return (
-    <div className="createspot_form_outer_wrapper">
+    <div className="updatespot_form_outer_wrapper">
       <p className="createspot_form_createspot_text">Update Listing</p>
       <div className="createspot_form_wrapper">
-        <p className="createspot_form_welcome_text">
+        {/* <p className="createspot_form_welcome_text">
           We Need Some Info About Your Place
-        </p>
+        </p> */}
         <form onSubmit={handleSubmit} className="createspot_form">
           <ul>
             {errors.map((error, idx) => (
