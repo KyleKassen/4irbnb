@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import {getUserReviews} from "../../store/review";
 import {createReview} from "../../store/review";
+import { getOneSpot } from "../../store/spot";
 import { Redirect } from "react-router-dom";
 import "./AddReviewForm.css";
 
@@ -57,14 +58,15 @@ function AddReviewForm({ setShowModal, spot }) {
 
     if (res) {
         setShowModal(false);
+        dispatch(getOneSpot(spot.id));
     }
 }
 
   return (
     <div className="addreview_form_outer_wrapper">
-      <p className="addreview_form_login_text">Log In</p>
+      <p className="addreview_form_login_text">Add Review</p>
       <div className="addreview_form_wrapper">
-      <p className="addreview_form_welcome_text">Welcome to 4irbnb</p>
+      {/* <p className="addreview_form_welcome_text">Welcome to 4irbnb</p> */}
         <form onSubmit={handleSubmit} className="addreview_form">
           <ul>
             {errors.map((error, idx) => (

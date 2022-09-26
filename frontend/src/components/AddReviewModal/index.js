@@ -16,14 +16,16 @@ function AddReviewModal({ spotId }) {
   };
 
   return (
-    <>
-      <button onClick={() => handleClick()}>Add Review</button>
+    <div>
+      {sessionUser && sessionUser.id !== ownerId &&
+      <button className="spot_reviews_addreview_button" onClick={() => handleClick()}>Add Review</button>
+      }
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <AddReviewForm setShowModal={setShowModal} spot={spot} />
         </Modal>
       )}
-    </>
+    </div>
   );
 }
 

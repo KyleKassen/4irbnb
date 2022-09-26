@@ -19,7 +19,7 @@ function UpdateReviewModal({ reviewId }) {
   console.log( `current user id is : ${sessionUser.id}`)
   return (
     <>
-      <button onClick={() => handleClick()}>Update Review</button>
+      <button onClick={() => handleClick()}>Modify</button>
       {showIt &&  (
         <Modal onClose={() => setShowModal(false)}>
           <UpdateReviewForm setShowModal={setShowModal} reviewId={reviewId} />

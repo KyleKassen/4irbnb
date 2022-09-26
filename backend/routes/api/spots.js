@@ -41,7 +41,9 @@ const validateSpot = [
         .withMessage('Description is required'),
     check('price')
         .exists({ checkFalsy: true })
-        .withMessage('Price per day is required'),
+        .withMessage('Price per day is required')
+        .matches(/^[0-9\.\-]+$/)
+        .withMessage('Price must be a number'),
     handleValidationErrors
 ];
 
@@ -104,6 +106,18 @@ const validateBooking = [
             return true;
         })
         .withMessage('endDate cannot be on or before startDate'),
+    handleValidationErrors
+]
+
+const validateImage = [
+    check('url')
+        .custom((value, {req}) => {
+            if (!url.match(/\.(jpeg|jpg|gif|png)$/)) {
+                throw new Error()
+            }
+            return true;
+        })
+        .withMessage('Image URL invalid: .jpeg .jpg .gif .png accepted'),
     handleValidationErrors
 ]
 
@@ -224,7 +238,7 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 })
 
 // Add Image to Spot based on Spot id
-router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+router.post('/:spotId/images', validateImage, requireAuth, async (req, res, next) => {
 
     let { url, preview } = req.body;
 
@@ -246,6 +260,14 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
             statusCode: res.statusCode
         })
     }
+
+    // if (!url.match(/\.(jpeg|jpg|gif|png)$/)) {
+    //     res.status(404);
+    //     return res.json({
+    //         message: "Preview Image Url is invalid",
+    //         statusCode: res.statusCode
+    //     })
+    // }
 
     let itsId = 0;
     // if preview is true we need to set preview to false for the old one
