@@ -112,7 +112,7 @@ const validateBooking = [
 const validateImage = [
     check('url')
         .custom((value, {req}) => {
-            if (!url.match(/\.(jpeg|jpg|gif|png)$/)) {
+            if (!value.match(/\.(jpeg|jpg|gif|png)$/)) {
                 throw new Error()
             }
             return true;
