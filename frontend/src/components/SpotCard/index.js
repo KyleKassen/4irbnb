@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./SpotCard.css";
 
 function SpotCard({ spot }) {
-  // console.log(props)
+
   let avgRating = "N/A"
   if (spot.avgRating) {
     avgRating = spot.avgRating;
