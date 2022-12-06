@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Redirect, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getOneSpot, deleteOneSpot } from "../../store/spot";
@@ -9,10 +9,11 @@ import "./SpotPage.css";
 
 function SpotPage() {
   const { id } = useParams();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const dispatch = useDispatch();
   const history = useHistory();
   const sessionUser = useSelector((state) => state.session.user);
-
 
   const spot = useSelector((state) => state.spots.singleSpot);
   const ownerId = spot ? spot.Owner.id : null;
@@ -57,8 +58,8 @@ function SpotPage() {
     "Nov",
     "Dec",
   ];
-  const month = months[objToday.getMonth()]
-  const day = objToday.getDate()
+  const month = months[objToday.getMonth()];
+  const day = objToday.getDate();
 
   const deleteSpotClick = () => {
     dispatch(deleteOneSpot(spot.id));
@@ -111,29 +112,39 @@ function SpotPage() {
                 </div>
                 <div className="spot_page_icon_headings">
                   <div className="spot_page_pro1_container">
-                    <div className="spot_page_pro1_icon"><i class="fa-solid fa-door-open"></i></div>
+                    <div className="spot_page_pro1_icon">
+                      <i class="fa-solid fa-door-open"></i>
+                    </div>
                     <div className="spot_page_pro1_text">
                       <h3>Self check-in</h3>
                       <p>Check yourself in with the lockbox</p>
                     </div>
                   </div>
                   <div className="spot_page_pro2_container">
-                    <div className="spot_page_pro2_icon"><i class="fa-solid fa-location-dot"></i></div>
+                    <div className="spot_page_pro2_icon">
+                      <i class="fa-solid fa-location-dot"></i>
+                    </div>
                     <div className="spot_page_pro2_text">
                       <h3>Great location</h3>
                       <p>100% of guests love the location 20% of the time</p>
                     </div>
                   </div>
                   <div className="spot_page_pro3_container">
-                    <div className="spot_page_pro3_icon"><i class="fa-solid fa-calendar"></i></div>
+                    <div className="spot_page_pro3_icon">
+                      <i class="fa-solid fa-calendar"></i>
+                    </div>
                     <div className="spot_page_pro3_text">
-                      <h3>{`Free cancellation before ${month} ${day+1}`}</h3>
+                      <h3>{`Free cancellation before ${month} ${day + 1}`}</h3>
                     </div>
                   </div>
                 </div>
                 <div className="spot_page_aircover_container">
                   <img src="https://a0.muscache.com/im/pictures/54e427bb-9cb7-4a81-94cf-78f19156faad.jpg" />
-                  <p>Every booking includes free protection from Host cancellations, listing inaccuracies, and other issues like trouble checking in.</p>
+                  <p>
+                    Every booking includes free protection from Host
+                    cancellations, listing inaccuracies, and other issues like
+                    trouble checking in.
+                  </p>
                 </div>
               </div>
               <div className="spot_page_reserve_container">
@@ -159,13 +170,36 @@ function SpotPage() {
                     </button>
                   </div>
                 )}
+                {sessionUser?.id !== ownerId && (
+                  <div className="spot_page_booking_container">
+                    <form>
+                      <input
+                        className="booking-start"
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                      />
+                      <input
+                        className="booking-end"
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                      />
+                      <button type="submit" id="booking-button">
+                        Reserve
+                      </button>
+                    </form>
+                  </div>
+                )}
                 <div className="spot_page_charges_container">
                   <div className="spot_page_xprice">
                     <p>{`$${spot.price} x 5 nights`}</p>
                     <p>{`$${multiPrice}`}</p>
                   </div>
                   <div className="spot_page_discount">
-                    <p className="spot_page_discount_underline">Long stay discount</p>
+                    <p className="spot_page_discount_underline">
+                      Long stay discount
+                    </p>
                     <p id="spot_page_disamount">{`-$${discount}`}</p>
                   </div>
                   <div className="spot_page_cleaning">
