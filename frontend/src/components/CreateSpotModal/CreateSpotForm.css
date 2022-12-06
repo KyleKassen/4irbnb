@@ -88,6 +88,7 @@
 .createspot_become_host_button:hover {
     background-color: rgb(240,240,240);
     border-radius: 20px;
+    cursor: pointer;
 }
 
 #createspot_form_button {
