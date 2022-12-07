@@ -35,6 +35,10 @@
     transition: box-shadow 0.2s ease;
 }
 
+.header-search-container:hover {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+}
+
 .search-input-container {
 
 }
@@ -61,6 +65,10 @@
     height: 32px;
     margin: 7px 7px 7px 0px;
     background-color: #FE395C;
+}
+
+.header-search-container button:hover {
+    cursor: pointer;
 }
 
 .header-search-container i {
