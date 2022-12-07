@@ -1,0 +1,14 @@
+.search-page-outer-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-left: 24px;
+}
+
+.search-page-container {
+    max-width: 1600px;
+}
+
+.search-page-spots-container {
+    
+}
