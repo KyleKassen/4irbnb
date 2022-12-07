@@ -170,7 +170,7 @@ function SpotPage() {
                     </button>
                   </div>
                 )}
-                {sessionUser?.id !== ownerId && (
+                {/* {sessionUser?.id !== ownerId && (
                   <div className="spot_page_booking_container">
                     <form>
                       <input
@@ -190,7 +190,7 @@ function SpotPage() {
                       </button>
                     </form>
                   </div>
-                )}
+                )} */}
                 <div className="spot_page_charges_container">
                   <div className="spot_page_xprice">
                     <p>{`$${spot.price} x 5 nights`}</p>

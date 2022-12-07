@@ -173,6 +173,8 @@
     background-image: linear-gradient(to right, rgb(233, 77, 113), rgb(247, 34, 134));
 }
 
+
+
 .spot_page_xprice , .spot_page_cleaning, .spot_page_service, .spot_page_total {
     display: flex;
     justify-content: space-between;
