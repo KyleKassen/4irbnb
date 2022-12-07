@@ -23,8 +23,8 @@ function Header({ isLoaded }) {
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Start your search"
           />
-          <button><i></i></button>
           </div>
+          <button><i></i></button>
         </div>
         <div className="main_header_right_side">
           <CreateSpotModal

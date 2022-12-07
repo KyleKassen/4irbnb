@@ -28,17 +28,47 @@
     height: 46px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
+    border: 1px solid #DDDDDD;
+    border-radius: 40px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
+    transition: box-shadow 0.2s ease;
+}
+
+.search-input-container {
+
 }
 
 .header-search-container input {
     border: none;
+    padding: 0px 16px;
+    margin-left: 8px;
+}
+
+.header-search-container input:focus {
+    outline: none;
+}
+
+.header-search-container input::placeholder {
+    color: #222222;
+    font-weight: 500;
 }
 
 .header-search-container button {
     padding: 10px;
+    border: none;
+    border-radius: 20px;
+    height: 32px;
+    margin: 7px 7px 7px 0px;
+    background-color: #FE395C;
 }
 
 .header-search-container i {
     width: 12px;
     height: 12px;
+    display: inline-block;
+    background-image: url(./../../media/mag_white.png);
+    background-size: 12px 12px;;
+    position: relative;
+    z-index: 10;
 }
