@@ -10,5 +10,26 @@
 }
 
 .search-page-spots-container {
-    
+    width: 672px;
+    margin-right: 24px;
+}
+
+.search-spot-outer-container {
+    min-width: 246px;
+    width: 48%;
+    max-width: 324px;
+}
+
+.search-spot-container {
+    width: 100%;
+}
+
+.search-spot-image-container {
+    width: 100%;
+}
+
+.search-spot-image-container img {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio : 16/15;
 }

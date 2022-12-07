@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import './SearchResults.css';
 
 function SearchResults() {
   const spots = useSelector((state) => state.spots.allSpots);
@@ -35,11 +36,11 @@ function SearchResults() {
                   <div className="search-spot-outer-container">
                     <div className="search-spot-container">
                       <Link to={`/place/${spot.id}`}>
-                        <div className="spotcard_image_container">
+                        <div className="search-spot-image-container">
                           <img src={spot.previewImage} />
                         </div>
-                        <div className="spotcard_location_rating_container">
-                          <p className="spotcard_location">
+                        <div className="search-spot-location-rating-container">
+                          <p className="search-spot-location">
                             {spot.city}, {spot.state}
                           </p>
                           <p>
@@ -47,10 +48,10 @@ function SearchResults() {
                             {avgRating}
                           </p>
                         </div>
-                        <p className="spotcard_name">{spot.name}</p>
-                        <p className="spotcard_date">Date Coming Soon</p>
-                        <p className="spotcard_price">
-                          <span className="spotcard_price_bold">{`$${spot.price} `}</span>
+                        <p className="search-spot-name">{spot.name}</p>
+                        <p className="search-spot-date">Date Coming Soon</p>
+                        <p className="search-spot-price">
+                          <span className="search-spot-price-bold">{`$${spot.price} `}</span>
                           night
                         </p>
                       </Link>
