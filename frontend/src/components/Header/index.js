@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Navigation from "../Navigation";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getAllSpots } from "../../store/spot";
 import CreateSpotModal from "../CreateSpotModal";
@@ -11,14 +11,13 @@ function Header({ isLoaded }) {
   const [searchInput, setSearchInput] = useState("");
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSearch = async (e) => {
-    console.log(`The e event is ${e}`)
-    if (e.key === 'Enter' || e === undefined) {
-      const response = await dispatch(getAllSpots(searchInput))
+    const response = await dispatch(getAllSpots(searchInput));
 
-    }
-  }
+    history.push(`/searchresults?input=${searchInput}`)
+  };
 
   return (
     <div className="main_header_flex_wrapper">
@@ -28,16 +27,20 @@ function Header({ isLoaded }) {
         </Link>
         <div className="header-search-container">
           <div className="search-input-container">
-          <input
-            className="search-input"
-            type="text"
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder="Start your search"
-            onKeyPress={(e) => handleSearch(e)}
-          />
+            <input
+              className="search-input"
+              type="text"
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder="Start your search"
+              onKeyPress={(e) => {
+                if (e.key === "Enter") handleSearch();
+              }}
+            />
           </div>
-          <button onClick={() => handleSearch()}><i></i></button>
+          <button onClick={() => handleSearch()}>
+            <i></i>
+          </button>
         </div>
         <div className="main_header_right_side">
           <CreateSpotModal
