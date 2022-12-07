@@ -12,8 +12,12 @@ function Header({ isLoaded }) {
 
   const dispatch = useDispatch();
 
-  const handleSearch = async () => {
-    const response = await dispatch(getAllSpots(searchInput))
+  const handleSearch = async (e) => {
+    console.log(`The e event is ${e}`)
+    if (e.key === 'Enter' || e === undefined) {
+      const response = await dispatch(getAllSpots(searchInput))
+
+    }
   }
 
   return (
@@ -30,6 +34,7 @@ function Header({ isLoaded }) {
             value={searchInput}
             onChange={(e) => setSearchInput(e.target.value)}
             placeholder="Start your search"
+            onKeyPress={(e) => handleSearch(e)}
           />
           </div>
           <button onClick={() => handleSearch()}><i></i></button>

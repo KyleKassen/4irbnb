@@ -15,6 +15,10 @@
     margin-left: 80px;
 }
 
+.main_header a {
+    margin-right: 125px;
+}
+
 .main_header_right_side {
     display: flex;
 }
@@ -59,10 +63,10 @@
 }
 
 .header-search-container button {
-    padding: 10px;
+    padding: 6px;
     border: none;
     border-radius: 20px;
-    height: 32px;
+    height: 28px;
     margin: 7px 7px 7px 0px;
     background-color: #FE395C;
 }
@@ -72,11 +76,11 @@
 }
 
 .header-search-container i {
-    width: 12px;
-    height: 12px;
+    width: 16px;
+    height: 16px;
     display: inline-block;
     background-image: url(./../../media/mag_white.png);
-    background-size: 12px 12px;;
+    background-size: 16px 16px;;
     position: relative;
     z-index: 10;
 }
