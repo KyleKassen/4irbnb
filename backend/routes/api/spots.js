@@ -156,6 +156,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
     let spots
 
     if (search) {
+        const lowerSearch = search.toLowerCase()
         const nameSpots = await Spot.findAll({
             include: [
                 {
@@ -172,14 +173,34 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
                     required: false,
                 }
             ],
-            // attributes: {
-            //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
-            // },
             group: ['Spot.id'],
             where: {
-                name: { [Op.substring]: search.toLowerCase()}
+                name: { [Op.substring]: lowerSearch}
             }
         });
+
+        const citySpots = await Spot.findAll({
+            include: [
+                {
+                    model: Review,
+                    attributes: []
+                },
+                {
+                    model: SpotImage,
+                    as: 'previewImage',
+                    attributes: ['url'],
+                    where: {
+                        preview: true
+                    },
+                    required: false,
+                }
+            ],
+            group: ['Spot.id'],
+            where: {
+                city: { [Op.substring]: lowerSearch}
+            }
+        });
+        spots = citySpots > nameSpots ? citySpots : nameSpots;
     } else {
         spots = await Spot.findAll({
             include: [
