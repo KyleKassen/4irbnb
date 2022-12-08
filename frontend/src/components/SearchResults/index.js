@@ -17,7 +17,7 @@ function SearchResults() {
         let length = avgRating.split(".")[1].length;
         if (length > 2) avgRating = parseFloat(avgRating).toFixed(2);
       }
-    }
+    } else avgRating = "N/A"
   };
   return (
     <>

@@ -54,6 +54,11 @@
     filter: brightness(80%);
 } */
 
+.search-spot-location-rating-container {
+    display: flex;
+    justify-content: space-between;
+}
+
 
 .search-page-maps-container {
     width: calc(100% - 672px);

@@ -258,6 +258,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
         } else newSpot.previewImage = null;
 
         newSpot.avgRating = avgRating;
+        newSpot.reviewCount = avg.length;
         spots[i] = newSpot
     }
 
