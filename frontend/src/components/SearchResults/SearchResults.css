@@ -63,3 +63,15 @@
 .search-page-maps-container {
     width: calc(100% - 672px);
 }
+
+.search-spot-rating-info {
+    font-size: 15px;
+}
+
+.search-spot-star {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    fill: currentcolor;
+    margin-right: 5px;
+}
