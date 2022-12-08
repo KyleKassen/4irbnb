@@ -24,6 +24,9 @@ function SearchResults() {
       <div className="search-page-outer-container">
         <div className="search-page-container">
           <div className="search-page-spots-container">
+            <div className="search-page-spots-header">
+                <p>{spots.order.length} homes</p>
+            </div>
             {spots.order.length > 0 &&
               spots.order.map((spotId) => {
                 {
