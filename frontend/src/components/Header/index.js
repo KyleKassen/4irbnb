@@ -13,8 +13,8 @@ function Header({ isLoaded }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSearch = async (e) => {
-    const response = await dispatch(getAllSpots(searchInput));
+  const handleSearch = async () => {
+    // const response = await dispatch(getAllSpots(searchInput));
 
     history.push(`/searchresults?input=${searchInput}`)
   };
