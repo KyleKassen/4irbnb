@@ -80,6 +80,7 @@ function SearchResults() {
           </div>
           <div className="search-page-maps-container">
             <p>hello</p>
+            <div id="map"></div>
           </div>
         </div>
       </div>

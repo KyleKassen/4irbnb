@@ -131,10 +131,10 @@ html {
     font-family: 'Circular', 'Roboto', sans-serif;
 }
 
-body {
-    /* max-width: 1600px;
-    width: 100%; */
-}
+/* body {
+    max-width: 1600px;
+    width: 100%;
+} */
 
 #root {
     width: 100%;

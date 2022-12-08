@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Navigation from "../Navigation";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getAllSpots } from "../../store/spot";
 import CreateSpotModal from "../CreateSpotModal";
 import "./Header.css";
 
@@ -10,13 +8,13 @@ function Header({ isLoaded }) {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [searchInput, setSearchInput] = useState("");
 
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const handleSearch = async () => {
     // const response = await dispatch(getAllSpots(searchInput));
 
     history.push(`/searchresults?input=${searchInput}`)
+    // setSearchInput("")
   };
 
   return (
