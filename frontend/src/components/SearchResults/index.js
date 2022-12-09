@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllSpots } from "../../store/spot";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
@@ -14,6 +14,8 @@ function SearchResults() {
 
   const location = useLocation();
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_MAP_API_KEY,
   });
@@ -51,11 +53,13 @@ function SearchResults() {
         const markerData = {
           map: map,
           position: spotLatLng,
+          url: `/place/${index}`
         };
 
         // Set marker on map
         const newMarker = new window.google.maps.Marker(markerData);
         currMarkers.push(newMarker);
+        window.google.maps.event.addListener(newMarker, 'click', () => history.push(newMarker.url))
 
         // Extend boundary to include this spot
         bounds.extend(spotLatLng);
