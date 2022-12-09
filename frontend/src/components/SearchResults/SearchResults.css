@@ -1,5 +1,5 @@
 .search-page-outer-container {
-    width: 100%;
+    width: calc(100% - 24px);
     display: flex;
     justify-content: center;
     padding-left: 24px;

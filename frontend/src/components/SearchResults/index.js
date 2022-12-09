@@ -13,7 +13,6 @@ function SearchResults() {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_MAP_API_KEY,
   });
-  console.log("process is ", process.env.REACT_APP_MAP_API_KEY)
 
   useEffect(() => {
     let url = new URL(window.location.href);
@@ -37,6 +36,21 @@ function SearchResults() {
       }
     } else avgRating = "N/A";
   };
+
+  const onMapLoad = (map) => {
+    let bounds = new window.google.maps.LatLngBounds();
+    spots.order.forEach((index) => {
+      bounds.extend({ lat: spots[index].lat, lng: spots[index].lng });
+      let newMarker = new window.google.maps.Marker({position: {lat: 0, lng: 0}});
+    });
+    map.fitBounds(bounds);
+    console.log(
+      "bounds are ",
+      new window.google.maps.LatLngBounds({ lat: 44, lng: -80 })
+    );
+    console.log("bounds are ", bounds);
+  };
+
   return (
     <>
       <div className="search-page-outer-container">
@@ -101,9 +115,25 @@ function SearchResults() {
               <div>
                 <GoogleMap
                   zoom={10}
-                  center={{ lat: 44, lng: -80 }}
+                  center={{ lat: 0, lng: 0 }}
                   mapContainerClassName="map-container"
-                ></GoogleMap>
+                  onLoad={onMapLoad}
+                >
+                  {spots.order.map((index, idx) => (
+                    <Marker
+                      position={{
+                        lat: spots[index].lat,
+                        lng: spots[index].lng,
+                      }}
+                    />
+                  ))}
+                  {/* <Marker
+                      position={{
+                        lat: 0,
+                        lng: 0,
+                      }}
+                    /> */}
+                </GoogleMap>
               </div>
             )}
           </div>
