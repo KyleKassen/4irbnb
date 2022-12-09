@@ -32,10 +32,10 @@ function SearchResults() {
     // Create new marker array
     let currMarkers = [];
 
-    console.log("map useeffect is running");
-
     if (map) {
-      markers.forEach((marker) => (marker.map = null));
+
+
+      markers.forEach((marker) => (marker.setMap(null)));
       setMarkers([]);
 
       // Hold all of the bounds for each point
@@ -61,18 +61,18 @@ function SearchResults() {
         bounds.extend(spotLatLng);
       });
 
+      // Used to remove when another input is entered
       setMarkers([...currMarkers]);
-      console.log(bounds);
 
-      if (spots.order > 0) map.fitBounds(bounds);
-      else {
-        let out = new window.google.maps.LatLngBounds();
-        out.extend(new window.google.maps.LatLng(30.54432, -98.240699));
-        out.extend(new window.google.maps.LatLng(39.382648, -97.98812));
-        map.fitBounds(out);
+      // handles map bounds and zoom amount
+      if (spots.order.length > 1) map.fitBounds(bounds);
+      else if (spots.order.length === 1) {
+        map.setCenter(bounds.getCenter());
+        map.setZoom(10)
       }
+
     }
-  }, [spotsLoaded]);
+  }, [spotsLoaded, map]);
 
   let avgRating = "N/A";
   let spot;
@@ -93,7 +93,7 @@ function SearchResults() {
   };
 
   const onUnmount = (map) => {
-    setMap(null);
+    // setMap(null);
   };
 
   return (
@@ -162,6 +162,7 @@ function SearchResults() {
                   options={{
                     styles: silverStyle,
                   }}
+                  zoom={20}
                   mapContainerClassName="map-container"
                   onLoad={onMapLoad}
                   onUnmount={onUnmount}
