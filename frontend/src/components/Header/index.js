@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navigation from "../Navigation";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import CreateSpotModal from "../CreateSpotModal";
 import "./Header.css";
 
@@ -9,6 +9,15 @@ function Header({ isLoaded }) {
   const [searchInput, setSearchInput] = useState("");
 
   const history = useHistory();
+
+  const location = useLocation()
+
+  console.log('location', location)
+
+  useEffect(() => {
+    const currentLocation = location.pathname
+    if (!currentLocation.startsWith('/searchresults')) setSearchInput("")
+  }, [location])
 
   const handleSearch = async () => {
     // const response = await dispatch(getAllSpots(searchInput));
