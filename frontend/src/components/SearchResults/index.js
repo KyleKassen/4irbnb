@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllSpots } from "../../store/spot";
@@ -7,6 +7,8 @@ import { silverStyle } from "./mapStyle";
 import "./SearchResults.css";
 
 function SearchResults() {
+  const [map, setMap] = useState(null);
+  const [order, setOrder] = useState([]);
   const spots = useSelector((state) => state.spots.allSpots);
 
   const location = useLocation();
@@ -21,8 +23,40 @@ function SearchResults() {
     (async () => {
       const input = searchParams.get("input");
       await dispatch(getAllSpots(input));
+      setOrder([...spots])
     })();
   }, [location]);
+
+  useEffect(() => {
+
+    if (map) {
+      // Hold all of the bounds for each point
+      let bounds = new window.google.maps.LatLngBounds();
+
+      // Iterate over each spot and set map data for that spot
+      spots.order.forEach((index) => {
+        const spotLatLng = new window.google.maps.LatLng(
+          spots[index].lat,
+          spots[index].lng
+        );
+
+        const markerData = {
+          map: map,
+          position: spotLatLng,
+        };
+
+        // Set marker on map
+        new window.google.maps.Marker(markerData);
+        console.log("marker data is ", markerData)
+
+        // Extend boundary to include this spot
+        bounds.extend(spotLatLng);
+      });
+
+      map.fitBounds(bounds);
+    }
+
+  }, [map, order])
 
   let avgRating = "N/A";
   let spot;
@@ -39,8 +73,7 @@ function SearchResults() {
   };
 
   const onMapLoad = (map) => {
-    // Set map type id
-    // map.setMapTypeId('silver_map')
+    setMap(map)
 
     // Hold all of the bounds for each point
     let bounds = new window.google.maps.LatLngBounds();
@@ -59,8 +92,7 @@ function SearchResults() {
 
       // Set marker on map
       new window.google.maps.Marker(markerData);
-
-      // new window.google.maps.StyledMapType(silverStyle, {name: 'silver_map'})
+      console.log("marker data is ", markerData)
 
       // Extend boundary to include this spot
       bounds.extend(spotLatLng);
