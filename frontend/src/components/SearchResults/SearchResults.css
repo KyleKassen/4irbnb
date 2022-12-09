@@ -6,9 +6,7 @@
 }
 
 .search-page-container {
-    max-width: 1600px;
-    width: 1600px;
-    margin-left: 12px;
+    width: 100%;
     display: flex;
     justify-content: center;
 }
