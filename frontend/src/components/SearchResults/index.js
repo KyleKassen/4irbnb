@@ -128,7 +128,7 @@ function SearchResults() {
           </div>
           <div className="search-page-maps-container">
             {isLoaded && (
-              <div>
+              <div className="map-outer-container">
                 <GoogleMap
                   options={{
                     styles: silverStyle,
