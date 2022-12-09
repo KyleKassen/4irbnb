@@ -8,7 +8,8 @@ import "./SearchResults.css";
 
 function SearchResults() {
   const [map, setMap] = useState(null);
-  const [order, setOrder] = useState([]);
+  const [markers, setMarkers] = useState([]);
+  const [spotsLoaded, setSpotsLoaded] = useState(false);
   const spots = useSelector((state) => state.spots.allSpots);
 
   const location = useLocation();
@@ -23,13 +24,20 @@ function SearchResults() {
     (async () => {
       const input = searchParams.get("input");
       await dispatch(getAllSpots(input));
-      setOrder([...spots])
+      setSpotsLoaded(!spotsLoaded);
     })();
   }, [location]);
 
   useEffect(() => {
+    // Create new marker array
+    let currMarkers = [];
+
+    console.log("map useeffect is running");
 
     if (map) {
+      markers.forEach((marker) => (marker.map = null));
+      setMarkers([]);
+
       // Hold all of the bounds for each point
       let bounds = new window.google.maps.LatLngBounds();
 
@@ -46,17 +54,25 @@ function SearchResults() {
         };
 
         // Set marker on map
-        new window.google.maps.Marker(markerData);
-        console.log("marker data is ", markerData)
+        const newMarker = new window.google.maps.Marker(markerData);
+        currMarkers.push(newMarker);
 
         // Extend boundary to include this spot
         bounds.extend(spotLatLng);
       });
 
-      map.fitBounds(bounds);
-    }
+      setMarkers([...currMarkers]);
+      console.log(bounds);
 
-  }, [map, order])
+      if (spots.order > 0) map.fitBounds(bounds);
+      else {
+        let out = new window.google.maps.LatLngBounds();
+        out.extend(new window.google.maps.LatLng(30.54432, -98.240699));
+        out.extend(new window.google.maps.LatLng(39.382648, -97.98812));
+        map.fitBounds(out);
+      }
+    }
+  }, [spotsLoaded]);
 
   let avgRating = "N/A";
   let spot;
@@ -73,90 +89,71 @@ function SearchResults() {
   };
 
   const onMapLoad = (map) => {
-    setMap(map)
+    setMap(map);
+  };
 
-    // Hold all of the bounds for each point
-    let bounds = new window.google.maps.LatLngBounds();
-
-    // Iterate over each spot and set map data for that spot
-    spots.order.forEach((index) => {
-      const spotLatLng = new window.google.maps.LatLng(
-        spots[index].lat,
-        spots[index].lng
-      );
-
-      const markerData = {
-        map: map,
-        position: spotLatLng,
-      };
-
-      // Set marker on map
-      new window.google.maps.Marker(markerData);
-      console.log("marker data is ", markerData)
-
-      // Extend boundary to include this spot
-      bounds.extend(spotLatLng);
-    });
-
-    map.fitBounds(bounds);
+  const onUnmount = (map) => {
+    setMap(null);
   };
 
   return (
     <>
       <div className="search-page-outer-container">
         <div className="search-page-container">
-          <div className="search-page-spots-container">
+          <div>
             <div className="search-page-spots-header">
               <p>{spots.order.length} homes</p>
             </div>
-            {spots.order.length > 0 &&
-              spots.order.map((spotId, idx) => {
-                {
-                  spot = spots[spotId];
-                }
-                {
-                  calcRating(spot);
-                }
-                return (
-                  <div key={idx} className="search-spot-outer-container">
-                    <div className="search-spot-container">
-                      <Link to={`/place/${spot.id}`}>
-                        <div className="search-spot-image-container">
-                          <img src={spot.previewImage} />
-                        </div>
-                        <div className="search-spot-location-rating-container">
-                          <p className="search-spot-location">
-                            {spot.city}, {spot.state}
+            <div className="search-page-spots-container">
+              {spots.order.length > 0 &&
+                spots.order.map((spotId, idx) => {
+                  {
+                    spot = spots[spotId];
+                  }
+                  {
+                    calcRating(spot);
+                  }
+                  return (
+                    <div key={idx} className="search-spot-outer-container">
+                      <div className="search-spot-container">
+                        <Link to={`/place/${spot.id}`}>
+                          <div className="search-spot-image-container">
+                            <img src={spot.previewImage} />
+                          </div>
+                          <div className="search-spot-location-rating-container">
+                            <p className="search-spot-location">
+                              {spot.city}, {spot.state}
+                            </p>
+                            <p className="search-spot-rating-info">
+                              {/* <i class="fa-sharp fa-solid fa-star"></i>{" "} */}
+                              <svg
+                                className="search-spot-star"
+                                viewBox="0 0 32 32"
+                                xmlns="http://www.w3.org/2000/svg"
+                                aria-hidden="true"
+                                role="presentation"
+                                focusable="false"
+                              >
+                                <path
+                                  d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z"
+                                  fillRule="evenodd"
+                                ></path>
+                              </svg>
+                              {avgRating} ({spot.reviewCount})
+                            </p>
+                          </div>
+                          <p className="search-spot-name">{spot.name}</p>
+                          <p className="search-spot-date">Date Coming Soon</p>
+                          <p className="search-spot-price">
+                            <span className="search-spot-price-bold">{`$${spot.price} `}</span>
+                            night
                           </p>
-                          <p className="search-spot-rating-info">
-                            {/* <i class="fa-sharp fa-solid fa-star"></i>{" "} */}
-                            <svg
-                              className="search-spot-star"
-                              viewBox="0 0 32 32"
-                              xmlns="http://www.w3.org/2000/svg"
-                              aria-hidden="true"
-                              role="presentation"
-                              focusable="false"
-                            >
-                              <path
-                                d="M15.094 1.579l-4.124 8.885-9.86 1.27a1 1 0 0 0-.542 1.736l7.293 6.565-1.965 9.852a1 1 0 0 0 1.483 1.061L16 25.951l8.625 4.997a1 1 0 0 0 1.482-1.06l-1.965-9.853 7.293-6.565a1 1 0 0 0-.541-1.735l-9.86-1.271-4.127-8.885a1 1 0 0 0-1.814 0z"
-                                fillRule="evenodd"
-                              ></path>
-                            </svg>
-                            {avgRating} ({spot.reviewCount})
-                          </p>
-                        </div>
-                        <p className="search-spot-name">{spot.name}</p>
-                        <p className="search-spot-date">Date Coming Soon</p>
-                        <p className="search-spot-price">
-                          <span className="search-spot-price-bold">{`$${spot.price} `}</span>
-                          night
-                        </p>
-                      </Link>
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+            </div>
           </div>
           <div className="search-page-maps-container">
             {isLoaded && (
@@ -167,7 +164,7 @@ function SearchResults() {
                   }}
                   mapContainerClassName="map-container"
                   onLoad={onMapLoad}
-                  // mapTypeControlOption={{mapTypeIds: ['roadmap', 'silver_map']}}
+                  onUnmount={onUnmount}
                 ></GoogleMap>
               </div>
             )}
