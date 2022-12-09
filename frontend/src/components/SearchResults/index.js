@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllSpots } from "../../store/spot";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import { silverStyle } from "./mapStyle";
 import "./SearchResults.css";
 
 function SearchResults() {
@@ -38,17 +39,34 @@ function SearchResults() {
   };
 
   const onMapLoad = (map) => {
+    // Set map type id
+    // map.setMapTypeId('silver_map')
+
+    // Hold all of the bounds for each point
     let bounds = new window.google.maps.LatLngBounds();
+
+    // Iterate over each spot and set map data for that spot
     spots.order.forEach((index) => {
-      bounds.extend({ lat: spots[index].lat, lng: spots[index].lng });
-      let newMarker = new window.google.maps.Marker({position: {lat: 0, lng: 0}});
+      const spotLatLng = new window.google.maps.LatLng(
+        spots[index].lat,
+        spots[index].lng
+      );
+
+      const markerData = {
+        map: map,
+        position: spotLatLng,
+      };
+
+      // Set marker on map
+      new window.google.maps.Marker(markerData);
+
+      // new window.google.maps.StyledMapType(silverStyle, {name: 'silver_map'})
+
+      // Extend boundary to include this spot
+      bounds.extend(spotLatLng);
     });
+
     map.fitBounds(bounds);
-    console.log(
-      "bounds are ",
-      new window.google.maps.LatLngBounds({ lat: 44, lng: -80 })
-    );
-    console.log("bounds are ", bounds);
   };
 
   return (
@@ -109,31 +127,16 @@ function SearchResults() {
               })}
           </div>
           <div className="search-page-maps-container">
-            <p>hello</p>
-            {console.log("isloaded is ", isLoaded)}
             {isLoaded && (
               <div>
                 <GoogleMap
-                  zoom={10}
-                  center={{ lat: 0, lng: 0 }}
+                  options={{
+                    styles: silverStyle,
+                  }}
                   mapContainerClassName="map-container"
                   onLoad={onMapLoad}
-                >
-                  {spots.order.map((index, idx) => (
-                    <Marker
-                      position={{
-                        lat: spots[index].lat,
-                        lng: spots[index].lng,
-                      }}
-                    />
-                  ))}
-                  {/* <Marker
-                      position={{
-                        lat: 0,
-                        lng: 0,
-                      }}
-                    /> */}
-                </GoogleMap>
+                  // mapTypeControlOption={{mapTypeIds: ['roadmap', 'silver_map']}}
+                ></GoogleMap>
               </div>
             )}
           </div>
