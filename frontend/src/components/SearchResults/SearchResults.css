@@ -110,11 +110,11 @@
 
 
 
-
-
-
-
-
 .search-page-maps-container {
     width: calc(100% - 672px);
+}
+
+.map-container {
+    width: 100%;
+    height: 500px;
 }
