@@ -168,9 +168,13 @@
     -o-transition: background-image 2s ease-out;
 }
 
-.spot_page_update_button:hover, .spot_page_delete_button:hover {
+/* .spot_page_update_button:hover, .spot_page_delete_button:hover {
     cursor: pointer;
     background-image: linear-gradient(to right, rgb(233, 77, 113), rgb(247, 34, 134));
+} */
+
+.spot_page_update_button span {
+    
 }
 
 
