@@ -14,11 +14,15 @@ function UpdateSpotModal({ spotId }) {
     setShowModal(true);
   };
 
+  const handleHover = () => {
+    
+  }
+
   return (
     <>
       {sessionUser && ownerId === sessionUser.id && (
         <>
-          <button className="spot_page_update_button" onClick={() => handleClick()}>UPDATE</button>
+          <button className="spot_page_update_button" onClick={() => handleClick()} onHover={() => handleHover()}><span>UPDATE</span></button>
           {showModal && (
             <Modal onClose={() => setShowModal(false)}>
               <UpdateSpotForm setShowModal={setShowModal} spotId={spotId} />

@@ -2,6 +2,11 @@
     display: flex;
     justify-content: center;
     border-bottom: 1px solid rgb(235,235,235);
+    position:sticky;
+    position: -webkit-sticky;
+    top: 0px;
+    z-index: 1;
+    background-color: white;
 }
 
 .main_header {
@@ -15,10 +20,72 @@
     margin-left: 80px;
 }
 
+.main_header a {
+    margin-right: 125px;
+}
+
 .main_header_right_side {
     display: flex;
 }
 
 .logo {
     width: 105px;
+}
+
+.header-search-container {
+    width: 300px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #DDDDDD;
+    border-radius: 40px;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 8%), 0 4px 12px rgb(0 0 0 / 5%);
+    transition: box-shadow 0.2s ease;
+}
+
+.header-search-container:hover {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.18);
+}
+
+.search-input-container {
+
+}
+
+.header-search-container input {
+    border: none;
+    padding: 0px 16px;
+    margin-left: 8px;
+}
+
+.header-search-container input:focus {
+    outline: none;
+}
+
+.header-search-container input::placeholder {
+    color: #222222;
+    font-weight: 500;
+}
+
+.header-search-container button {
+    padding: 6px;
+    border: none;
+    border-radius: 20px;
+    height: 28px;
+    margin: 7px 7px 7px 0px;
+    background-color: #FE395C;
+}
+
+.header-search-container button:hover {
+    cursor: pointer;
+}
+
+.header-search-container i {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-image: url(./../../media/mag_white.png);
+    background-size: 16px 16px;;
+    position: relative;
+    z-index: 10;
 }

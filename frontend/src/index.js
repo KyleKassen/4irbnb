@@ -11,6 +11,7 @@ import * as sessionActions from "./store/session";
 import * as spotActions from "./store/spot";
 
 const store = configureStore();
+// const dotenv = require('dotenv');
 
 if (process.env.NODE_ENV !== "production") {
   restoreCSRF();

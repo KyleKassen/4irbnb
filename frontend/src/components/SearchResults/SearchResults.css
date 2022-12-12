@@ -1,0 +1,124 @@
+.search-page-outer-container {
+    width: calc(100% - 24px);
+    display: flex;
+    justify-content: center;
+    padding-left: 24px;
+}
+
+.search-page-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.search-page-spots-container {
+    width: 672px;
+    margin-right: 24px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.search-page-spots-header {
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    color: #222222;
+    font-size: 16px;
+}
+
+.search-spot-outer-container {
+    min-width: 246px;
+    width: 48%;
+    max-width: 324px;
+}
+
+.search-spot-container {
+    width: 100%;
+}
+
+.search-spot-container p, .search-spot-container span {
+    font-size: 15px;
+    letter-spacing: 0.05em;
+}
+
+.search-spot-container a {
+    color: black;
+    text-decoration: none !important;
+}
+
+.search-spot-image-container {
+    width: 100%;
+    /* background-color: #DDDDDD; */
+}
+
+.search-spot-image-container img {
+    width: 100%;
+    object-fit: cover;
+    aspect-ratio : 20/19;
+    border-radius: 12px;
+    filter: brightness(75%);
+    transition: all 0.5s;
+}
+
+.search-spot-location {
+    font-weight: 600;
+    color: #222222;
+}
+
+.search-spot-location-rating-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-spot-rating-info {
+    font-size: 15px;
+    font-weight: 350;
+    color: rgb(34, 34, 34) !important;
+}
+
+.search-spot-star {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    fill: currentcolor;
+    margin-right: 5px;
+}
+
+.search-spot-date, .search-spot-name {
+    color: #717171;
+    font-weight: 300;
+}
+
+.search-spot-price {
+    color:rgb(34, 34, 34);
+    font-weight: 300;
+    margin-top: 6px;
+    margin-bottom: 40px;
+}
+
+.search-spot-price-bold {
+    font-weight: 600;
+}
+
+
+
+
+
+
+
+
+.search-page-maps-container {
+    width: calc(100% - 672px);
+}
+
+.map-outer-container {
+    position:sticky;
+    position: -webkit-sticky;
+    top: 80px;
+}
+
+.map-container {
+    width: 100%;
+    height: calc(100vh - 80px);
+}

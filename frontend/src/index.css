@@ -1,4 +1,122 @@
 /* TODO Add site wide styles */
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-black-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-black-webfont.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-blackitalic-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-blackitalic-webfont.woff') format('woff');
+    font-weight: 800;
+    font-style: italic;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-bold-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-bold-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-bolditalic-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-bolditalic-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-book-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-book-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-bookitalic-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-bookitalic-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-light_italic-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-light_italic-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-light-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-light-webfont.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-medium-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-medium-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+
+
+
+@font-face {
+    font-family: 'circular';
+    src: url('./fonts/circularstd-mediumitalic-webfont.woff2') format('woff2'),
+         url('./fonts/circularstd-mediumitalic-webfont.woff') format('woff');
+    font-weight: 600;
+    font-style: italic;
+
+}
+
+
 * {
     margin: 0;
     padding: 0;
@@ -10,13 +128,13 @@ html {
     /* height: 100vh; */
     /* display: flex;
     justify-content: center; */
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Circular', 'Roboto', sans-serif;
 }
 
-body {
-    /* max-width: 1600px;
-    width: 100%; */
-}
+/* body {
+    max-width: 1600px;
+    width: 100%;
+} */
 
 #root {
     width: 100%;

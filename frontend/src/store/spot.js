@@ -55,9 +55,9 @@ export const updateSpot = (spot) => {
 };
 
 // Thunk Action Creator for Getting all Spots
-export const getAllSpots = () => async (dispatch) => {
+export const getAllSpots = (search) => async (dispatch) => {
   console.log("GETTING ALL SPOTS FROM SERVER");
-  const response = await csrfFetch("/api/spots");
+  const response = search ? await csrfFetch(`/api/spots?search=${search}`) : await csrfFetch("/api/spots");
 
   if (response.ok) {
     console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO loadSpots");

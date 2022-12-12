@@ -125,7 +125,7 @@ const validateImage = [
 // Get all Spots
 router.get('/', validateGetAllSpot, async (req, res, next) => {
 
-    const { maxLat, minLat, maxLng, minLng, maxPrice, minPrice } = req.query;
+    const { maxLat, minLat, maxLng, minLng, maxPrice, minPrice, search } = req.query;
 
     const page = req.query.page === undefined ? 0 : parseInt(req.query.page);
     const size = req.query.size === undefined ? 30 : parseInt(req.query.size);
@@ -153,28 +153,80 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
 
     // return res.json(queryParams);
 
-    const spots = await Spot.findAll({
-        include: [
-            {
-                model: Review,
-                attributes: []
-            },
-            {
-                model: SpotImage,
-                as: 'previewImage',
-                attributes: ['url'],
-                where: {
-                    preview: true
+    let spots
+
+    if (search) {
+        const lowerSearch = search.toLowerCase()
+        const nameSpots = await Spot.findAll({
+            include: [
+                {
+                    model: Review,
+                    attributes: []
                 },
-                required: false,
+                {
+                    model: SpotImage,
+                    as: 'previewImage',
+                    attributes: ['url'],
+                    where: {
+                        preview: true
+                    },
+                    required: false,
+                }
+            ],
+            group: ['Spot.id'],
+            where: {
+                name: { [Op.substring]: lowerSearch}
             }
-        ],
-        // attributes: {
-        //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
-        // },
-        group: ['Spot.id'],
-        ...queryParams
-    });
+        });
+
+        const citySpots = await Spot.findAll({
+            include: [
+                {
+                    model: Review,
+                    attributes: []
+                },
+                {
+                    model: SpotImage,
+                    as: 'previewImage',
+                    attributes: ['url'],
+                    where: {
+                        preview: true
+                    },
+                    required: false,
+                }
+            ],
+            group: ['Spot.id'],
+            where: {
+                city: { [Op.substring]: lowerSearch}
+            }
+        });
+        spots = citySpots > nameSpots ? citySpots : nameSpots;
+    } else {
+        spots = await Spot.findAll({
+            include: [
+                {
+                    model: Review,
+                    attributes: []
+                },
+                {
+                    model: SpotImage,
+                    as: 'previewImage',
+                    attributes: ['url'],
+                    where: {
+                        preview: true
+                    },
+                    required: false,
+                }
+            ],
+            // attributes: {
+            //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
+            // },
+            group: ['Spot.id'],
+            ...queryParams
+        });
+
+    }
+
 
     for (let i = 0; i < spots.length; i++) {
 
@@ -206,6 +258,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
         } else newSpot.previewImage = null;
 
         newSpot.avgRating = avgRating;
+        newSpot.reviewCount = avg.length;
         spots[i] = newSpot
     }
 
