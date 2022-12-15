@@ -170,17 +170,8 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
           model: Review,
           attributes: [],
         },
-        {
-          model: SpotImage,
-          as: "previewImage",
-          attributes: ["url"],
-          where: {
-            preview: true,
-          },
-          required: false,
-        },
       ],
-      group: ["previewImage.id"],
+      group: ["Spot.id"],
       where: {
         name: { [Op.substring]: lowerSearch },
       },
@@ -192,46 +183,46 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
           model: Review,
           attributes: [],
         },
-        {
-          model: SpotImage,
-          as: "previewImage",
-          attributes: ["url"],
-          where: {
-            preview: true,
-          },
-          required: false,
-        },
       ],
-      group: ["previewImage.id"],
+      group: ["Spot.id"],
       where: {
         city: { [Op.substring]: lowerSearch },
       },
     });
     spots = citySpots > nameSpots ? citySpots : nameSpots;
-  } else {
-    spots = await Spot.findAll({
-      include: [
-        {
-          model: Review,
-          attributes: [],
-        },
-        {
-          model: SpotImage,
-          as: "previewImage",
-          attributes: ["url"],
-          where: {
-            preview: true,
-          },
-          required: false,
-        },
-      ],
-      // attributes: {
-      //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
-      // },
-      group: ["Spot.id"],
-      ...queryParams,
-    });
   }
+
+  const allSpots = await Spot.findAll({
+    include: [
+      {
+        model: Review,
+        attributes: [],
+      },
+      {
+        model: SpotImage,
+        as: "previewImage",
+        attributes: ["url"],
+        where: {
+          preview: true,
+        },
+        required: false,
+      },
+    ],
+    // attributes: {
+    //     include: [[sequelize.fn('ROUND', sequelize.fn("AVG", sequelize.col("Reviews.stars")), 1), "avgRating"]]
+    // },
+    group: ["Spot.id"],
+    ...queryParams,
+  });
+
+  if (search) {
+      const spotIds = spots.map(spot => spot.id)
+
+      spots = allSpots.filter(spot => spotIds.includes(spot.id))
+  } else {
+    spots = allSpots
+  }
+
 
   for (let i = 0; i < spots.length; i++) {
     // Get the average rating for each spot
