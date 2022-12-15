@@ -173,7 +173,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
                     required: false,
                 }
             ],
-            group: ['Spot.id'],
+            group: ['Spot.id', "previewImage.id"],
             where: {
                 name: { [Op.substring]: lowerSearch}
             }
@@ -195,7 +195,7 @@ router.get('/', validateGetAllSpot, async (req, res, next) => {
                     required: false,
                 }
             ],
-            group: ['Spot.id'],
+            group: ['Spot.id', "previewImage.id"],
             where: {
                 city: { [Op.substring]: lowerSearch}
             }
