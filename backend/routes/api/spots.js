@@ -165,12 +165,12 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
   if (search) {
     const lowerSearch = search.toLowerCase();
     const nameSpots = await Spot.findAll({
-      include: [
-        {
-          model: Review,
-          attributes: [],
-        },
-      ],
+    //   include: [
+    //     {
+    //       model: Review,
+    //       attributes: [],
+    //     },
+    //   ],
       group: ["Spot.id"],
       where: {
         name: { [Op.substring]: lowerSearch },
@@ -178,12 +178,12 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
     });
 
     const citySpots = await Spot.findAll({
-      include: [
-        {
-          model: Review,
-          attributes: [],
-        },
-      ],
+    //   include: [
+    //     {
+    //       model: Review,
+    //       attributes: [],
+    //     },
+    //   ],
       group: ["Spot.id"],
       where: {
         city: { [Op.substring]: lowerSearch },
@@ -217,8 +217,9 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
 
   if (search) {
       const spotIds = spots.map(spot => spot.id)
-
+    console.log('spotids are: ',spotIds)
       spots = allSpots.filter(spot => spotIds.includes(spot.id))
+      console.log('spotids are: ',spots)
   } else {
     spots = allSpots
   }
