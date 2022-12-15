@@ -1,6 +1,6 @@
 # 4irbnb
 
-4irbnb is a website clone based on airbnb's actual website. It is a website where you can allow people to live in your house for a set period of time and get paid for it.
+4irbnb is a "replica" of the Airbnb website, featuring some similar functionality and design.
 
 <!-- ![airbnb-dbdiagram]
 
