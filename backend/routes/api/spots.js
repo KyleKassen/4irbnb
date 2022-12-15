@@ -180,7 +180,7 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
           required: false,
         },
       ],
-      group: ["Spot.id", "previewImage.id"],
+      group: ["previewImage.id"],
       where: {
         name: { [Op.substring]: lowerSearch },
       },
@@ -202,7 +202,7 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
           required: false,
         },
       ],
-      group: ["Spot.id", "previewImage.id"],
+      group: ["previewImage.id"],
       where: {
         city: { [Op.substring]: lowerSearch },
       },
