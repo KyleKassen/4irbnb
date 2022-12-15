@@ -39,7 +39,7 @@ function Header({ isLoaded }) {
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Start your search"
+              placeholder="Search by city or name"
               onKeyPress={(e) => {
                 if (e.key === "Enter") handleSearch();
               }}
