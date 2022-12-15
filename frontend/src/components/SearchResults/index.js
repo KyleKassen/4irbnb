@@ -20,6 +20,9 @@ function SearchResults() {
     googleMapsApiKey: process.env.REACT_APP_MAP_API_KEY,
   });
 
+  console.log(`React maps api key is: ${process.env.REACT_APP_MAP_API_KEY}`)
+  console.log(`React maps api key is: ${process.env.MAP_API_KEY}`)
+
   useEffect(() => {
     let url = new URL(window.location.href);
     const searchParams = url.searchParams;
