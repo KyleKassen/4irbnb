@@ -173,7 +173,7 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
     //   ],
       group: ["Spot.id"],
       where: {
-        name: { [Op.substring]: lowerSearch },
+        name: sequelize.where(sequelize.fn('LOWER', sequelize.col('name')), 'LIKE', '%' + lowerSearch + '%')
       },
     });
 
@@ -186,7 +186,7 @@ router.get("/", validateGetAllSpot, async (req, res, next) => {
     //   ],
       group: ["Spot.id"],
       where: {
-        city: { [Op.substring]: lowerSearch },
+        city: sequelize.where(sequelize.fn('LOWER', sequelize.col('city')), 'LIKE', '%' + lowerSearch + '%')
       },
     });
     spots = citySpots > nameSpots ? citySpots : nameSpots;
