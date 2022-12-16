@@ -1,4 +1,8 @@
+<div align="center">
+
 ![4irbnb](https://i.imgur.com/UYbtnku.png)
+  
+ </div>
 
 [4irbnb](https://first-app-kk.herokuapp.com/) is a website clone of the Airbnb platform, incorporating similar features and design elements.
 
