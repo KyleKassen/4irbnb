@@ -8,7 +8,6 @@ import { Redirect } from "react-router-dom";
 import "./AddReviewForm.css";
 
 function AddReviewForm({ setShowModal, spot }) {
-  console.log("AddReviewForm running");
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [review, setReview] = useState("");
@@ -49,8 +48,7 @@ function AddReviewForm({ setShowModal, spot }) {
         user: User
     })).catch(async (res) => {
         const data = await res.json();
-        console.log("AddReviewForm.js: errors caught");
-        console.log("AddReviewForm.js: data.message, ", data);
+
         if (data.message && data.message[0] !== "V") {
             setErrors(Object.values([data.message]));
         } else if (data.errors) setErrors(Object.values(data.errors));

@@ -12,8 +12,6 @@ function Header({ isLoaded }) {
 
   const location = useLocation()
 
-  console.log('location', location)
-
   useEffect(() => {
     const currentLocation = location.pathname
     if (!currentLocation.startsWith('/searchresults')) setSearchInput("")

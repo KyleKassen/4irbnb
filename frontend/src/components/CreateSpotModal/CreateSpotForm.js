@@ -20,11 +20,8 @@ function CreateSpotForm({ setShowSpotModal }) {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  console.log("CreateSpotForm.js is running");
-  //   console.log("CreateSpotForm.js: errors.length is", errors.length);
 
   const handleSubmit = async (e) => {
-    console.log("CreateSpotForm.js: HandleSubmit");
     e.preventDefault();
 
     // setErrors([]);
@@ -45,8 +42,7 @@ function CreateSpotForm({ setShowSpotModal }) {
       })
     ).catch(async (res) => {
       const data = await res.json();
-      console.log("CreateSpotForm.js: errors caught");
-      console.log("CreateSpotForm.js: data.errors, ", data.errors);
+
       if (data.errors) {
         setErrors(Object.values(data.errors));
       }
@@ -55,7 +51,6 @@ function CreateSpotForm({ setShowSpotModal }) {
     if (res) {
       history.push(`/place/${res.id}`);
       setShowSpotModal(false);
-      console.log("Data is :", res);
     }
   };
 

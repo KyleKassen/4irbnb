@@ -23,13 +23,8 @@ function UpdateSpotForm({setShowModal, spotId}) {
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
-    console.log("UpdateSpotForm.js: HandleSubmit");
     e.preventDefault();
-    // setErrors([]);
-    // let newLat = !lat ? 31.7683 : lat;
-    // let newLng = !lng ? 35.2137 : lng;
-    console.log(`address is: ${address} and spot.address is ${spot.address}`)
-    console.log(!address, "!address")
+
     const res = await dispatch(
       updateOneSpot({
         address: !address ? spot.address : address,
@@ -41,14 +36,11 @@ function UpdateSpotForm({setShowModal, spotId}) {
         price: !price ? spot.price : price,
         lat: !lat ? spot.lat : lat,
         lng: !lng ? spot.lng : lng,
-        // imgurl: !imgurl ? spot.imgurl : imgurl,
-        // prevImgId
         id: spot.id
       })
     ).catch(async (res) => {
       const data = await res.json();
-      console.log("UpdateSpotForm.js: errors caught");
-      console.log("UpdateSpotForm.js: data.errors ", data.errors);
+
       if (data.errors) {
         setErrors(Object.values(data.errors));
     }
@@ -57,7 +49,7 @@ function UpdateSpotForm({setShowModal, spotId}) {
     if (res) {
         // history.push(`/place/${res.id}`);
         setShowModal(false);
-        console.log('Data is :', res)
+
     }
   };
   return (

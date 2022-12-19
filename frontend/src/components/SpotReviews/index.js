@@ -12,7 +12,6 @@ function SpotReviews({ spot }) {
 
   const dispatch = useDispatch();
 
-  console.log(spotReviews);
 
   const handleDelete = async (reviewId) => {
     await dispatch(removeReview(reviewId));

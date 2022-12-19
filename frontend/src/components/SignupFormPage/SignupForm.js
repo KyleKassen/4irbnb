@@ -42,7 +42,6 @@ function SignupForm({ setShowSignupModal }) {
   };
 
   useEffect(() => {
-    console.log("LoginForm.js: USEEFFECT RUNNING");
     if (sessionUser) {
       setShowSignupModal(false);
     }

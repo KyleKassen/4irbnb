@@ -9,7 +9,6 @@ const LOAD_SPOT = "spot/loadSpot";
 const DELETE_SPOT = "spot/deleteSpot";
 
 export const loadSpots = (spots) => {
-  console.log("Loading All Spots");
   return {
     type: LOAD_SPOTS,
     payload: spots,
@@ -17,7 +16,6 @@ export const loadSpots = (spots) => {
 };
 
 export const loadSpot = (spot) => {
-  console.log("Loading Spot");
   return {
     type: LOAD_SPOT,
     payload: spot,
@@ -27,12 +25,11 @@ export const loadSpot = (spot) => {
 export const deleteSpot = (spotId) => {
   return {
     type: DELETE_SPOT,
-    payload: spotId
+    payload: spotId,
   };
 };
 
 export const addSpot = (spot) => {
-  console.log("addSpot Action Creator Invoked");
   return {
     type: ADD_SPOT,
     payload: spot,
@@ -47,7 +44,6 @@ export const addSpot = (spot) => {
 // };
 
 export const updateSpot = (spot) => {
-  console.log("updateSpot Action Creator Invoked");
   return {
     type: UPDATE_SPOT,
     payload: spot,
@@ -56,11 +52,11 @@ export const updateSpot = (spot) => {
 
 // Thunk Action Creator for Getting all Spots
 export const getAllSpots = (search) => async (dispatch) => {
-  console.log("GETTING ALL SPOTS FROM SERVER");
-  const response = search ? await csrfFetch(`/api/spots?search=${search}`) : await csrfFetch("/api/spots");
+  const response = search
+    ? await csrfFetch(`/api/spots?search=${search}`)
+    : await csrfFetch("/api/spots");
 
   if (response.ok) {
-    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO loadSpots");
     const spots = await response.json();
     dispatch(loadSpots(spots));
     return spots;
@@ -69,11 +65,9 @@ export const getAllSpots = (search) => async (dispatch) => {
 
 // Thunk Action Creator for Getting One Spot
 export const getOneSpot = (spotId) => async (dispatch) => {
-  console.log("GETTING ONE SPOT FROM THE SERVER");
   const response = await csrfFetch(`/api/spots/${spotId}`);
 
   if (response.ok) {
-    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO loadSpot");
     const spot = await response.json();
     dispatch(loadSpot(spot));
     return spot;
@@ -82,7 +76,6 @@ export const getOneSpot = (spotId) => async (dispatch) => {
 
 // Thunk Action Creator for Adding a Spot
 export const createSpot = (spot) => async (dispatch) => {
-  console.log("POSTING/CREATING SPOT TO DATABASE");
   const response = await csrfFetch("/api/spots", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -90,7 +83,6 @@ export const createSpot = (spot) => async (dispatch) => {
   });
 
   if (response.ok) {
-    console.log("RESPONSE FROM SERVER IS OK DURING SPOT CREATION");
     const returnedSpot = await response.json();
 
     const imgResponse = await csrfFetch(
@@ -107,7 +99,6 @@ export const createSpot = (spot) => async (dispatch) => {
 
     if (imgResponse.ok) {
       dispatch(addSpot(returnedSpot));
-      console.log("spot.js: returnedSpot is: ", returnedSpot);
       return returnedSpot;
     }
   }
@@ -115,7 +106,6 @@ export const createSpot = (spot) => async (dispatch) => {
 
 // Thunk Action Creator for Updating a Spot
 export const updateOneSpot = (spot) => async (dispatch) => {
-  console.log("PUT/UPDATING SPOT IN DATABASE");
   const { address, city, state, country, lat, lng, name, description, price } =
     spot;
   const response = await csrfFetch(`/api/spots/${spot.id}`, {
@@ -132,7 +122,7 @@ export const updateOneSpot = (spot) => async (dispatch) => {
       lng,
       name,
       description,
-      price
+      price,
     }),
   });
   if (response.ok) {
@@ -140,22 +130,19 @@ export const updateOneSpot = (spot) => async (dispatch) => {
     dispatch(updateSpot(updatedSpot));
     return updatedSpot;
   }
-
 };
 
 // Thunk Action Creator for Deleting a Spot
 export const deleteOneSpot = (spotId) => async (dispatch) => {
-  console.log("DELETING SPOT IN DATABASE");
   const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'DELETE'
+    method: "DELETE",
   });
 
   if (response.ok) {
-    console.log("SERVER RESPONDED CORRECTLY, DISPATCHING TO deleteSpot");
     dispatch(deleteSpot(spotId));
     return await response.json();
   }
-}
+};
 
 // // Thunk Action Creator for Adding an Image to a Spot based on id
 // export const addPreviewImage = (spotId, imageurl) => async (dispatch) => {
@@ -180,7 +167,6 @@ const initialState = { allSpots: { order: [] }, singleSpot: null };
 export const spotReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOAD_SPOTS:
-      // console.log(`LOAD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`);
       const loadObj = { ...state };
       const spotsArray = action.payload.Spots;
       const spots = {};
@@ -188,7 +174,6 @@ export const spotReducer = (state = initialState, action) => {
       // Normalize data and add to order array
       state.allSpots.order = [];
       spotsArray.forEach((spot) => {
-        // console.log(`LOAD_SPOTS action.payload.Spots.spot is: ${JSON.stringify(spot)}}`)
         spots[spot.id] = spot;
         state.allSpots.order.push(spot.id);
       });
@@ -199,7 +184,6 @@ export const spotReducer = (state = initialState, action) => {
 
     case ADD_SPOT:
       const addObj = { ...state };
-      // console.log(`ADD_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
       addObj.allSpots = { ...state.allSpots };
       addObj.allSpots.order = [...state.allSpots.order];
       addObj.allSpots[action.payload.id] = action.payload;
@@ -209,13 +193,12 @@ export const spotReducer = (state = initialState, action) => {
 
     case UPDATE_SPOT:
       const updateObj = { ...state };
-      // console.log(`UPDATE_SPOTS action.payload is: ${JSON.stringify(action.payload)}`)
-      const updatedSingleSpot = {...updateObj.singleSpot, ...action.payload}
-      updateObj.singleSpot = updatedSingleSpot
+      const updatedSingleSpot = { ...updateObj.singleSpot, ...action.payload };
+      updateObj.singleSpot = updatedSingleSpot;
       return updateObj;
     case LOAD_SPOT:
       const loadSpotObj = { ...state };
-      loadSpotObj.allSpots = {...state.allSpots};
+      loadSpotObj.allSpots = { ...state.allSpots };
       loadSpotObj.singleSpot = action.payload;
       return loadSpotObj;
 

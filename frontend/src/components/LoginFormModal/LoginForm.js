@@ -6,7 +6,6 @@ import { Redirect } from "react-router-dom";
 import "./LoginForm.css";
 
 function LoginForm({ setShowModal }) {
-  console.log("LoginForm running");
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [credential, setCredential] = useState("");
@@ -18,7 +17,6 @@ function LoginForm({ setShowModal }) {
     e.preventDefault();
     setErrors([]);
     setHasSubmitted(true);
-    console.log("LoginForm.js: handleSubmit RUNNING");
     return dispatch(sessionActions.login({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
@@ -29,7 +27,6 @@ function LoginForm({ setShowModal }) {
   };
 
   useEffect(() => {
-    console.log("LoginForm.js: USEEFFECT RUNNING");
     if (sessionUser) {
       setShowModal(false);
       dispatch(getUserReviews());
