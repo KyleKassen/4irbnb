@@ -35,9 +35,7 @@ function SearchResults() {
     let currMarkers = [];
 
     if (map) {
-
-
-      markers.forEach((marker) => (marker.setMap(null)));
+      markers.forEach((marker) => marker.setMap(null));
       setMarkers([]);
 
       // Hold all of the bounds for each point
@@ -53,13 +51,15 @@ function SearchResults() {
         const markerData = {
           map: map,
           position: spotLatLng,
-          url: `/place/${index}`
+          url: `/place/${index}`,
         };
 
         // Set marker on map
         const newMarker = new window.google.maps.Marker(markerData);
         currMarkers.push(newMarker);
-        window.google.maps.event.addListener(newMarker, 'click', () => history.push(newMarker.url))
+        window.google.maps.event.addListener(newMarker, "click", () =>
+          history.push(newMarker.url)
+        );
 
         // Extend boundary to include this spot
         bounds.extend(spotLatLng);
@@ -72,9 +72,8 @@ function SearchResults() {
       if (spots.order.length > 1) map.fitBounds(bounds);
       else if (spots.order.length === 1) {
         map.setCenter(bounds.getCenter());
-        map.setZoom(10)
+        map.setZoom(10);
       }
-
     }
   }, [spotsLoaded, map]);
 

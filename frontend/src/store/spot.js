@@ -25,7 +25,7 @@ export const loadSpot = (spot) => {
 export const deleteSpot = (spotId) => {
   return {
     type: DELETE_SPOT,
-    payload: spotId
+    payload: spotId,
   };
 };
 
@@ -52,7 +52,9 @@ export const updateSpot = (spot) => {
 
 // Thunk Action Creator for Getting all Spots
 export const getAllSpots = (search) => async (dispatch) => {
-  const response = search ? await csrfFetch(`/api/spots?search=${search}`) : await csrfFetch("/api/spots");
+  const response = search
+    ? await csrfFetch(`/api/spots?search=${search}`)
+    : await csrfFetch("/api/spots");
 
   if (response.ok) {
     const spots = await response.json();
@@ -120,7 +122,7 @@ export const updateOneSpot = (spot) => async (dispatch) => {
       lng,
       name,
       description,
-      price
+      price,
     }),
   });
   if (response.ok) {
@@ -128,20 +130,19 @@ export const updateOneSpot = (spot) => async (dispatch) => {
     dispatch(updateSpot(updatedSpot));
     return updatedSpot;
   }
-
 };
 
 // Thunk Action Creator for Deleting a Spot
 export const deleteOneSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'DELETE'
+    method: "DELETE",
   });
 
   if (response.ok) {
     dispatch(deleteSpot(spotId));
     return await response.json();
   }
-}
+};
 
 // // Thunk Action Creator for Adding an Image to a Spot based on id
 // export const addPreviewImage = (spotId, imageurl) => async (dispatch) => {
@@ -192,12 +193,12 @@ export const spotReducer = (state = initialState, action) => {
 
     case UPDATE_SPOT:
       const updateObj = { ...state };
-      const updatedSingleSpot = {...updateObj.singleSpot, ...action.payload}
-      updateObj.singleSpot = updatedSingleSpot
+      const updatedSingleSpot = { ...updateObj.singleSpot, ...action.payload };
+      updateObj.singleSpot = updatedSingleSpot;
       return updateObj;
     case LOAD_SPOT:
       const loadSpotObj = { ...state };
-      loadSpotObj.allSpots = {...state.allSpots};
+      loadSpotObj.allSpots = { ...state.allSpots };
       loadSpotObj.singleSpot = action.payload;
       return loadSpotObj;
 
