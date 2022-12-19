@@ -8,14 +8,12 @@ import { Redirect } from "react-router-dom";
 import "../AddReviewModal/AddReviewForm.css";
 
 function UpdateReviewForm({ setShowModal, reviewId }) {
-  console.log("AddReviewForm running");
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const spotId = useSelector((state) => state.spots.singleSpot.id);
   const [review, setReview] = useState("");
   const [stars, setStars] = useState("");
   const [errors, setErrors] = useState([]);
-  //   const [hasSubmitted, setHasSubmitted] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,14 +26,12 @@ function UpdateReviewForm({ setShowModal, reviewId }) {
       })
     ).catch(async (res) => {
       const data = await res.json();
-      console.log("UpdateReviewForm.js: errors caught");
-      console.log("UpdateReviewForm.js: data, ", data);
+
       if (data.errors) {
         setErrors(Object.values(data.errors));
       }
     });
 
-    console.log(`UpdateReviewForm.js: res is: ${res}`)
 
     if (res) {
       setShowModal(false);

@@ -13,7 +13,6 @@ import SignupForm from "../SignupFormPage/SignupForm";
 function Navigation({ isLoaded, showModal, setShowModal }) {
   const sessionUser = useSelector((state) => state.session.user);
   const [showMenu, setShowMenu] = useState(false);
-  console.log("This is the sessionUser ", sessionUser);
 
   // const [showModal, setShowModal] = useState(false);
   const [showSignupModal, setShowSignupModal] = useState(false);
@@ -36,7 +35,6 @@ function Navigation({ isLoaded, showModal, setShowModal }) {
         <NavLink exact to="/">
           Home
         </NavLink>
-        {console.log("isLoaded is = ", isLoaded)}
         {isLoaded && sessionLinks}
       </li>
     </ul>

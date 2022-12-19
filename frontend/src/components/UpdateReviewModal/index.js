@@ -15,8 +15,7 @@ function UpdateReviewModal({ reviewId }) {
     setShowModal(true);
   };
   const showIt = showModal && (ownerId === sessionUser.id);
-  console.log(`ownerId is : ${ownerId}`)
-  console.log( `current user id is : ${sessionUser.id}`)
+
   return (
     <>
       <button onClick={() => handleClick()}>Modify</button>

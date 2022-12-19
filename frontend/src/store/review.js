@@ -7,7 +7,6 @@ const ADD_REVIEW = "review/addReview";
 const DELETE_REVIEW = "review/deleteReview";
 
 export const loadUserReviews = (reviews) => {
-  console.log("Loading User Reviews");
   return {
     type: LOAD_USER_REVIEWS,
     payload: reviews,
@@ -15,7 +14,6 @@ export const loadUserReviews = (reviews) => {
 };
 
 export const loadSpotReviews = (reviews) => {
-  console.log("Loading Spot Reviews");
   return {
     type: LOAD_SPOT_REVIEWS,
     payload: reviews,
@@ -23,7 +21,6 @@ export const loadSpotReviews = (reviews) => {
 };
 
 export const updateReview = (review) => {
-    console.log("Updating Review");
     return {
         type: UPDATE_REVIEW,
         payload: review
@@ -31,7 +28,6 @@ export const updateReview = (review) => {
 }
 
 export const addReview = (review_spot_user) => {
-    console.log("Adding Review");
     return {
         type: ADD_REVIEW,
         payload: review_spot_user
@@ -39,7 +35,6 @@ export const addReview = (review_spot_user) => {
 }
 
 export const deleteReview = (reviewId) => {
-    console.log("Deleting Review")
     return {
         type: DELETE_REVIEW,
         payload: reviewId
@@ -49,12 +44,10 @@ export const deleteReview = (reviewId) => {
 
 // Thunk Action Creator for Loading User Reviews
 export const getUserReviews = () => async dispatch => {
-    console.log("review.js: getUserReviews Running")
     const response = await csrfFetch('/api/reviews/current');
 
     if (response.ok) {
         const reviews = await response.json();
-        console.log("review.js: getUserReviews reviewsObj: ", reviews);
         dispatch(loadUserReviews(reviews));
         return reviews;
     }
@@ -62,10 +55,8 @@ export const getUserReviews = () => async dispatch => {
 
 // Thunk Action Creator for Loading Spot Reviews
 export const getSpotReviews = (spotId) => async dispatch => {
-    console.log("review.js: getSpotReviews Running")
     const response = await csrfFetch(`/api/spots/${spotId}/reviews`).catch(async res => {
         const error = await res.json();
-        console.log("review.js: getSpotReviews Running error res", error);
         if (error.message === "Spot couldn't be found") {
             dispatch(loadSpotReviews({}));
             return {}
@@ -81,7 +72,6 @@ export const getSpotReviews = (spotId) => async dispatch => {
 
 // Thunk Action Creator for Updating Review
 export const updateSpotReview = ({reviewId, review, stars}) => async dispatch => {
-    console.log("review.js: updateSpotReview running");
     const response = await csrfFetch(`/api/reviews/${reviewId}`, {
         method: 'PUT',
         headers: {
@@ -102,7 +92,6 @@ export const updateSpotReview = ({reviewId, review, stars}) => async dispatch =>
 
 // Thunk Action Creator for Adding Review
 export const createReview = ({review, spot, user}) => async dispatch => {
-    console.log("reviews.js: createReview running");
     const response = await csrfFetch(`/api/spots/${spot.id}/reviews`, {
         method: 'POST',
         headers: {
@@ -113,7 +102,6 @@ export const createReview = ({review, spot, user}) => async dispatch => {
 
     if (response.ok) {
         const createdReview = await response.json();
-        console.log('The createdReview is: ', createdReview)
         dispatch(addReview({createdReview, spot, user}));
         return createdReview;
     }
@@ -127,7 +115,6 @@ export const removeReview = (reviewId) => async dispatch => {
 
     if (response.ok) {
         const resObj = response.json();
-        console.log('review.js: removeReview: The resObjReview is: ', resObj);
         dispatch(deleteReview(reviewId));
         return resObj;
     }
@@ -143,7 +130,6 @@ export const reviewReducer = (state = initialState, action) => {
       return { spot: { ...state.spot }, user: userReviewsObj };
 
     case LOAD_SPOT_REVIEWS:
-        console.log("Object.values(action.payload).length is, ", Object.values(action.payload).length)
         if (Object.values(action.payload).length === 0) return { spot: {}, user: {...state.user}}
         const spotReviewsObj = {}
         action.payload.Reviews.forEach(review => spotReviewsObj[review.id] = review);

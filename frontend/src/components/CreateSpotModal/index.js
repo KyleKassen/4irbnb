@@ -20,7 +20,6 @@ function CreateSpotModal({showLoginModal, setShowLoginModal}) {
         } else setLoggedIn(true)
     }
 
-    console.log('loggedIn is the following: ',loggedIn)
 
     return (
         <>

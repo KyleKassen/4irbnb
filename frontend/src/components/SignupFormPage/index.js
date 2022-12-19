@@ -3,7 +3,6 @@ import {useDispatch} from "react-redux";
 import * as sessionActions from "../../store/session";
 
 function SignupFormModal({setShowSignupModal}) {
-  console.log('test');
   const dispatch = useDispatch();
 
   const logInDemo = () => {
